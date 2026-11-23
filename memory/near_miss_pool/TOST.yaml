@@ -1,0 +1,29 @@
+ticker: TOST
+company_name: Toast, Inc.
+cik: '0001650164'
+industry_slug: initial_calibration_cohort
+added_at: '2026-11-23'
+updated_at: '2026-11-23'
+near_miss_reason: MARKET_CAP_ABOVE_PASS_RANGE
+market_cap_at_entry_usd_m: 18255.02
+price_at_entry_usd: 31.42
+ev_to_sales_at_entry: 2.29
+targets:
+  target_market_cap_usd_m: 13691.26
+  target_ev_to_sales: 18.0
+monitor_state:
+  status: WATCHING
+  consecutive_days_below_target: 0
+  last_checked_at: '2026-11-23'
+  last_market_cap_usd_m: 18255.02
+  last_price_usd: 31.42
+  last_alert_at: null
+  last_alert_market_cap_usd_m: null
+fundamentals_snapshot:
+  ttm_revenue_usd_m: 7152.0
+  revenue_yoy_growth: 0.2209
+  gross_margin: 0.2697
+  cash_runway_months: null
+  annual_share_dilution: -0.0103
+  track_qualified: operating_leverage_compounder
+  filing_accession: 0001650164-26-000216

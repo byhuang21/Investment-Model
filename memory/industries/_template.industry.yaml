@@ -1,0 +1,45 @@
+# 行业状态机档案模板（复制到 memory/industries/<slug>.yaml 后使用）
+# 所有自动化脚本会自动跳过以下划线 `_` 开头的文件
+
+slug: "example_autonomous_defense"
+name: "自主国防与无人集群系统"
+status: "DORMANT"                    # DORMANT | ACTIVE | ARCHIVED
+created_at: "2026-11-22"
+last_scanned_at: "2026-11-22"
+last_state_change_at: "2026-11-22"
+
+# 第一层三要素初步判定
+thesis_snapshot:
+  profit_pool_description: "瞄准的存量利润池与当前痛点"
+  demand_innovation_hypothesis: "数量级效率提升/成本下降假设"
+  winner_take_all_dynamics: "边际成本递减/网络效应/高转换成本假设"
+
+# 信号源追踪配置（供 1_topic_radar.py 自动扫描）
+signals:
+  sec_keywords:
+    - "autonomous systems"
+    - "unmanned"
+  sic_codes: []
+  naics_codes: []
+  usaspending_keywords:
+    - "autonomous"
+  bellwether_mentions: []
+
+# 状态机唤醒条件（仅 DORMANT 状态关注；覆盖或补充 config/rules.yaml 全局默认值）
+awaken_conditions:
+  min_leaders_aggregate_revenue_usd_m: 1000
+  consecutive_high_growth_quarters: 2
+  min_sector_yoy_revenue_growth: 0.25
+  usaspending_12m_award_usd_m: 250
+  custom_trigger_note: "例如：头部上市标的合计 TTM 营收突破 $1B 或连续 2 季增速 > 25%"
+
+# 赛道 -> 候选股票池映射（供 2_quant_screener.py 拉取并初筛）
+candidate_tickers: []
+
+# 状态流转与信号变更日志（append-only）
+history:
+  - date: "2026-11-22"
+    event: "CREATED"
+    from_status: null
+    to_status: "DORMANT"
+    evidence: "模板示例记录"

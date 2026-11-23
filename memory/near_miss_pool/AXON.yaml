@@ -1,0 +1,29 @@
+ticker: AXON
+company_name: Axon Enterprise, Inc.
+cik: 0001069183
+industry_slug: initial_calibration_cohort
+added_at: '2026-11-23'
+updated_at: '2026-11-23'
+near_miss_reason: MARKET_CAP_ABOVE_PASS_RANGE
+market_cap_at_entry_usd_m: 23708.32
+price_at_entry_usd: 291.14
+ev_to_sales_at_entry: 7.33
+targets:
+  target_market_cap_usd_m: 15000.0
+  target_ev_to_sales: 18.0
+monitor_state:
+  status: WATCHING
+  consecutive_days_below_target: 0
+  last_checked_at: '2026-11-23'
+  last_market_cap_usd_m: 23708.32
+  last_price_usd: 291.14
+  last_alert_at: null
+  last_alert_market_cap_usd_m: null
+fundamentals_snapshot:
+  ttm_revenue_usd_m: 3417.01
+  revenue_yoy_growth: 0.3358
+  gross_margin: 0.5853
+  cash_runway_months: null
+  annual_share_dilution: 0.0335
+  track_qualified: profitable_compounder
+  filing_accession: 0001628280-26-071242

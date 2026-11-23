@@ -1,0 +1,32 @@
+name: Semi-Annual Post-Mortem Calibration
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Jan 15 & Jul 15 at 12:00 UTC
+    - cron: "0 12 15 1,7 *"
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  post-mortem:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -e .
+
+      - name: Run Semi-Annual Post-Mortem
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/5_post_mortem.py

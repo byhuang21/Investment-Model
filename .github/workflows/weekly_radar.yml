@@ -1,0 +1,39 @@
+name: Weekly Topic Radar & Earnings Diff
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Every Sunday 14:00 UTC
+    - cron: "0 14 * * 0"
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  weekly-research-loops:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -e .
+
+      - name: Run Layer 1 Topic Radar
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/1_topic_radar.py
+
+      - name: Run Quarterly Earnings Diff Check
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          ALERT_WEBHOOK_URL: ${{ secrets.ALERT_WEBHOOK_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/4_earnings_diff.py

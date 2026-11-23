@@ -1,0 +1,50 @@
+# 咖啡罐正式持仓档案模板（经人类审阅批准后写入 memory/coffee_can/<TICKER>.yaml）
+# 由 4_earnings_diff.py 在每份新 10-Q/10-K 发布后自动执行证伪线红绿灯体检
+
+ticker: "EXAMPLE"
+company_name: "Example Corp"
+cik: "0000000000"
+industry_slug: "example_industry"
+status: "IN_CAN"                         # IN_CAN | UNDER_REVIEW | EXITED
+
+# 入罐快照
+entry:
+  entered_at: "2026-11-22"
+  entry_price_usd: 50.0
+  entry_market_cap_usd_m: 3500.0
+  spy_price_at_entry: 580.0
+  qqq_price_at_entry: 500.0
+  target_upside_multiple: 10.0
+  management_human_score: 8
+
+# 三句话买入备忘录（长期持有期间对抗市场噪音的锚）
+three_sentence_memo:
+  - "第一句：它用什么需求满足创新瞄准了哪个大存量利润池。"
+  - "第二句：为什么现在（Why Now）是不可逆的拐点，且护城河正在形成。"
+  - "第三句：在当前市值下如何保守看到 10 倍以上赔率，且掌舵人值得托付。"
+
+# 可量化、可机读的逻辑证伪线（击穿任意一条即触发 RED 警报）
+falsification_lines:
+  - id: "FL-1"
+    description: "连续 2 季度营收同比增速低于 15%"
+    metric: "revenue_yoy_growth"
+    operator: "<"                        # < | <= | > | >=
+    threshold: 0.15
+    consecutive_quarters: 2
+    breach_streak: 0
+    severity: "RED"
+  - id: "FL-2"
+    description: "毛利率低于 35%（产品护城河受损或价格战爆发）"
+    metric: "gross_margin"
+    operator: "<"
+    threshold: 0.35
+    consecutive_quarters: 1
+    breach_streak: 0
+    severity: "RED"
+
+# 季度财报体检历史（由 4_earnings_diff.py 自动追加）
+earnings_check_history:
+  last_checked_accession: null
+  last_checked_period_end: null
+  last_traffic_light: null               # GREEN | YELLOW | RED
+  checks: []

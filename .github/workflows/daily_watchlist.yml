@@ -1,0 +1,35 @@
+name: Daily Watchlist Monitor
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Mon-Fri 22:00 UTC (after US market close)
+    - cron: "0 22 * * 1-5"
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  watchlist-monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -e .
+
+      - name: Run Near-Miss Watchlist Monitor
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          ALERT_WEBHOOK_URL: ${{ secrets.ALERT_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/3_watchlist_monitor.py

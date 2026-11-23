@@ -1,0 +1,38 @@
+# 错杀观察池标的模板（由 2_quant_screener.py 写入 memory/near_miss_pool/<TICKER>.yaml）
+# 供 3_watchlist_monitor.py 每日盯盘并在市值跌入目标区间时触发提醒
+
+ticker: "EXAMPLE"
+company_name: "Example Corp"
+cik: "0000000000"
+industry_slug: "example_industry"
+added_at: "2026-11-22"
+
+# 当初未直接 PASS 的唯一原因（基本面与财务均已过关）
+near_miss_reason: "MARKET_CAP_ABOVE_PASS_RANGE"   # MARKET_CAP_ABOVE_PASS_RANGE | EV_TO_SALES_TOO_HIGH
+market_cap_at_entry_usd_m: 20000.0
+price_at_entry_usd: 100.0
+ev_to_sales_at_entry: 22.0
+
+# 盯盘目标触发线
+targets:
+  target_market_cap_usd_m: 14000.0                # 市值跌至 <= $14B 触发
+  target_ev_to_sales: 14.0                        # 可选辅助估值锚
+
+# 监控状态与防抖/冷却记录（由 3_watchlist_monitor.py 自动维护）
+monitor_state:
+  status: "WATCHING"                              # WATCHING | APPROACHING | TRIGGERED | PROMOTED | EXPIRED
+  consecutive_days_below_target: 0
+  last_checked_at: null
+  last_market_cap_usd_m: null
+  last_price_usd: null
+  last_alert_at: null
+  last_alert_market_cap_usd_m: null
+
+# 入池时的核心财务快照（便于复查）
+fundamentals_snapshot:
+  ttm_revenue_usd_m: null
+  revenue_yoy_growth: null
+  gross_margin: null
+  cash_runway_months: null
+  annual_share_dilution: null
+  track_qualified: "profitable_compounder"        # profitable_compounder | high_growth_reinvestment

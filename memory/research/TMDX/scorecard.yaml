@@ -1,0 +1,59 @@
+ticker: TMDX
+company_name: TransMedics Group, Inc.
+cik: '0001756262'
+industry_slug: initial_calibration_cohort
+status: DRAFTING_EVIDENCE
+created_at: '2026-11-23'
+updated_at: '2026-11-23'
+layer2_track_qualified: profitable_compounder
+odds_check:
+  current_market_cap_usd_m: 2961.06
+  conservative_10y_target_market_cap_usd_m: null
+  implied_upside_multiple: null
+  passed_10x_gate: null
+  assumptions_summary: ''
+dimensions:
+  1_demand_fulfilling_innovation:
+    summary: ''
+    incumbent_dilemma: ''
+    evidence_refs: []
+  2_market_formation:
+    why_now_inflection: ''
+    estimated_penetration_pct: null
+    evidence_refs: []
+  3_competitive_landscape:
+    emerging_moat_types: []
+    moat_evidence: ''
+    evidence_refs: []
+  4_financial_floor:
+    veto_passed: true
+    unit_economics_note: ''
+    ttm_revenue_usd_m: 727.65
+    revenue_yoy_growth: 0.2848
+    gross_margin: 0.586
+    ocf_usd_m: 112.36
+    fcf_usd_m: 44.7
+    cash_runway_months: null
+    short_term_debt_to_cash: 0.1072
+    goodwill_to_assets: 0.0119
+    annual_share_dilution: 0.017
+    filing_refs:
+    - 0001193125-26-449827
+  5_management:
+    objective_evidence:
+      guidance_delivery_rate_note: ''
+      capital_allocation_record: ''
+      form4_net_insider_activity_24m: ''
+      founder_led: null
+      insider_ownership_pct: null
+      evidence_refs: []
+    human_subjective_score: null
+    human_notes: ''
+    reviewed_by_human: false
+    reviewed_at: null
+decision:
+  three_sentence_memo:
+  - ''
+  - ''
+  - ''
+  falsification_lines: []

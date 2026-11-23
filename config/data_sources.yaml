@@ -1,0 +1,149 @@
+# =============================================================================
+# Coffee Can 自主投研系统 — 免费数据源与告警通道配置 (data_sources.yaml)
+# =============================================================================
+version: "0.1.0"
+
+# -----------------------------------------------------------------------------
+# 1. SEC EDGAR (免费官方一手财务与公告真相源)
+# 文档: https://www.sec.gov/os/accessing-edgar-data
+# -----------------------------------------------------------------------------
+sec_edgar:
+  enabled: true
+  user_agent_env: "SEC_USER_AGENT"
+  max_requests_per_second: 8               # SEC 上限为 10 req/s，保留安全余量
+  timeout_seconds: 20
+  max_retries: 3
+  cache_dir: ".cache/sec_edgar"
+  cache_ttl_hours: 24
+  endpoints:
+    company_tickers: "https://www.sec.gov/files/company_tickers.json"
+    submissions: "https://data.sec.gov/submissions/CIK{cik}.json"
+    company_facts: "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
+    efts_search: "https://efts.sec.gov/LATEST/search-index"
+
+  # XBRL US-GAAP 字段按优先级回退映射（解决不同公司财报标签口径差异）
+  xbrl_tag_fallbacks:
+    revenue:
+      - "RevenueFromContractWithCustomerExcludingAssessedTax"
+      - "Revenues"
+      - "SalesRevenueNet"
+      - "RevenueFromContractWithCustomerIncludingAssessedTax"
+    gross_profit:
+      - "GrossProfit"
+    cost_of_revenue:
+      - "CostOfGoodsAndServicesSold"
+      - "CostOfRevenue"
+      - "CostOfGoodsSold"
+      - "CostOfGoodsAndServiceExcludingDepreciationDepletionAndAmortization"
+    operating_cash_flow:
+      - "NetCashProvidedByUsedInOperatingActivities"
+    capex:
+      - "PaymentsToAcquirePropertyPlantAndEquipment"
+      - "PaymentsToAcquireProductiveAssets"
+    cash_and_equivalents:
+      - "CashAndCashEquivalentsAtCarryingValue"
+      - "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+    short_term_investments:
+      - "ShortTermInvestments"
+      - "MarketableSecuritiesCurrent"
+    short_term_debt:
+      - "ShortTermBorrowings"
+      - "LongTermDebtCurrent"
+      - "DebtCurrent"
+    long_term_debt:
+      - "LongTermDebtNoncurrent"
+      - "LongTermDebt"
+    goodwill:
+      - "Goodwill"
+    total_assets:
+      - "Assets"
+    diluted_shares:
+      - "WeightedAverageNumberOfSharesOutstandingBasic"
+      - "WeightedAverageNumberOfDilutedSharesOutstanding"
+      - "EntityCommonStockSharesOutstanding"
+    stock_based_compensation:
+      - "ShareBasedCompensation"
+      - "AllocatedShareBasedCompensationExpense"
+
+  # 第一层赛道雷达关注的 SEC 表单与监控主题关键词
+  radar_forms:
+    - "S-1"
+    - "8-K"
+    - "10-K"
+    - "10-Q"
+
+# -----------------------------------------------------------------------------
+# 2. USASpending.gov (免费官方美国联邦政府/国防/能源采购合同源)
+# 文档: https://api.usaspending.gov/
+# -----------------------------------------------------------------------------
+usaspending:
+  enabled: true
+  base_url: "https://api.usaspending.gov/api/v2"
+  timeout_seconds: 30
+  max_retries: 3
+  cache_dir: ".cache/usaspending"
+  cache_ttl_hours: 24
+  default_filters:
+    # 仅追踪合同类奖项（排除纯个人补贴/贷款）
+    award_type_codes: ["A", "B", "C", "D"]
+    min_award_amount_usd: 10000000         # 过滤 >= $10M 的实质性大单
+    lookback_days: 180
+    # 重点关注的高壁垒技术与基建/国防采购部门（可按需扩展）
+    focus_agencies:
+      - "Department of Defense"
+      - "Department of Energy"
+      - "National Aeronautics and Space Administration"
+      - "Department of Homeland Security"
+      - "Department of Health and Human Services"
+
+# -----------------------------------------------------------------------------
+# 3. yfinance (免费行情、市值与基准指数历史收益补充源)
+# -----------------------------------------------------------------------------
+yfinance:
+  enabled: true
+  cache_dir: ".cache/yfinance"
+  cache_ttl_hours: 4
+  benchmark_tickers:
+    - "SPY"
+    - "QQQ"
+  request_delay_seconds: 0.5               # 轻度节流避免 Yahoo Finance 限流
+
+# -----------------------------------------------------------------------------
+# 4. 巨头财报电话会与外部研究输入（免费替代策略）
+# 说明：电话会实录无稳定免费官方 API，初期通过 SEC 10-Q/10-K MD&A + 8-K
+#       叠加本地手动导入目录实现零成本运行
+# -----------------------------------------------------------------------------
+transcripts:
+  mode: "sec_mda_and_manual"
+  manual_input_dir: "memory/inputs/transcripts"
+  # 第一层 CapEx 与战略转向风向标巨头（扫描其 10-Q/10-K 资本开支与词频）
+  bellwether_tickers:
+    - "MSFT"
+    - "AMZN"
+    - "GOOGL"
+    - "META"
+    - "NVDA"
+    - "TSLA"
+    - "LMT"
+    - "UNH"
+
+# -----------------------------------------------------------------------------
+# 5. 告警与报告推送通道（混合模式：GitHub Actions + 本地）
+# -----------------------------------------------------------------------------
+notifications:
+  console:
+    enabled: true
+  markdown_report:
+    enabled: true
+    output_dir: "memory/reports"
+  github_issue:
+    enabled: true                          # 仅在 GitHub Actions 环境且配置 GITHUB_TOKEN 时自动激活
+    labels:
+      - "coffee-can-alert"
+  webhook:
+    enabled: false                         # 设置 ALERT_WEBHOOK_URL 并改为 true 后启用
+    url_env: "ALERT_WEBHOOK_URL"
+  telegram:
+    enabled: false                         # 设置 TELEGRAM_BOT_TOKEN & CHAT_ID 并改为 true 后启用
+    bot_token_env: "TELEGRAM_BOT_TOKEN"
+    chat_id_env: "TELEGRAM_CHAT_ID"

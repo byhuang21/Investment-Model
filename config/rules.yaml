@@ -1,0 +1,141 @@
+# =============================================================================
+# Coffee Can 自主投研系统 — 核心投研规则与阈值配置 (rules.yaml)
+# 警告：任何自动化脚本禁止直接覆盖本文件；调参须由 5_post_mortem.py 提出建议并经人类审核
+# =============================================================================
+version: "0.2.0"
+last_calibrated: "2026-11-22"
+
+# -----------------------------------------------------------------------------
+# 全局市场与赔率区间
+# -----------------------------------------------------------------------------
+universe:
+  primary_market: "US"
+  currency: "USD"
+  exclude_sectors:
+    - "Financial Services"   # 银行/保险资产负债表结构不适用常规自由现金流模型
+    - "Real Estate"          # REITs 分红导向，非 10x 咖啡罐复利主战场
+    - "Utilities"            # 强监管公用事业，缺乏 10x 赔率弹性
+  exclude_adrs_from_non_sec_filers: false
+
+# -----------------------------------------------------------------------------
+# 第一层：行业主动发现与状态机唤醒阈值
+# -----------------------------------------------------------------------------
+layer1_industry_radar:
+  state_machine:
+    # 满足以下任意高置信条件之一（或综合得分达标）可将 DORMANT 唤醒为 ACTIVE
+    awaken_thresholds:
+      # 赛道核心上市代表公司合计 TTM 营收突破该阈值（单位：百万美元）
+      min_leaders_aggregate_revenue_usd_m: 1000
+      # 核心代表公司连续高增长季度数及最低同比增速
+      consecutive_high_growth_quarters: 2
+      min_sector_yoy_revenue_growth: 0.25
+      # 政府/国防合同（USASpending）近 12 个月同比增幅或单赛道新签总额门槛
+      usaspending_12m_award_usd_m: 250
+      usaspending_yoy_growth: 0.40
+      # SEC S-1 / 8-K 新赛道集群信号（近 180 天相关 S-1 或重大合同 8-K 数量）
+      min_sec_cluster_filings_180d: 3
+    # 状态切换冷却期，防止边界反复抖动
+    state_change_cooldown_days: 30
+    # 连续多少个月无新增催化且规模不达标可从 ACTIVE 回退至 DORMANT
+    dormant_inactivity_months: 12
+
+# -----------------------------------------------------------------------------
+# 第二层：量化初筛硬指标（三向分流：PASS / NEAR_MISS / REJECTED）
+# -----------------------------------------------------------------------------
+layer2_quant_screener:
+  # 市值与赔率区间（单位：百万美元）
+  market_cap_usd_m:
+    min_pass: 300              # 过小则流动性差且生存风险极高
+    max_pass: 15000            # $15B 以上 10x 赔率难度显著上升
+    max_near_miss: 35000       # $15B - $35B 且基本面全过关 → 进入 NEAR_MISS 错杀观察池
+
+  # 公共财务底线（两条轨道都必须满足，否则直接 REJECTED）
+  common_floor:
+    min_ttm_revenue_usd_m: 20.0            # 排除纯 PPT / 零营收概念股
+    min_gross_margin: 0.20                 # 毛利率硬底线（20%）
+    allow_improving_gross_margin: true     # 若当前略低于底线但近 4 季毛利率持续改善 >= 5pct 可豁免
+    min_gross_margin_improvement_yoy: 0.05
+    min_cash_runway_months: 24             # 若 FCF < 0，净现金可支撑的烧钱月数 >= 24 个月
+    max_short_term_debt_to_cash: 0.80      # 短期债务 / 现金及等价物 <= 0.8，防近期违约/被迫增发
+    max_goodwill_to_total_assets: 0.35    # 商誉 / 总资产 <= 35%，防范激进并购商誉爆雷
+    max_annual_share_dilution: 0.06        # 稀释股本年化增速 <= 6%，保护长期复利不被 SBC 吞噬
+
+  # 双轨盈利与成长要求（满足轨道 A 或轨道 B 之一即可）
+  tracks:
+    # 轨道 A：盈利稳健复利轨（A1 高毛利复利 / A2 经营杠杆复利）
+    # 实证校准说明 (v0.2.0)：跨行业 GAAP 毛利率结构差异大（工业电气化、支付混合 SaaS、
+    # 直营连锁餐饮 COGS 含材料/流水/门店人工租金，表观 GM 常在 22%-28%，但具备极强
+    # 经营现金流转化与低稀释复利能力），故增设 A2 经营杠杆子轨避免误杀 IESC/CAVA/TOST 类复利股
+    profitable_compounder:
+      require_positive_ocf_or_fcf: true
+      min_revenue_yoy_growth: 0.12         # A1：至少保持 12% 以上内生增长
+      min_gross_margin: 0.30               # A1：高毛利门槛 30%
+      operating_leverage_subtrack:
+        enabled: true
+        min_gross_margin: 0.20             # A2：表观毛利率 >= 20%
+        min_revenue_yoy_growth: 0.20       # A2：要求更高内生增速 >= 20%
+        min_ocf_margin: 0.08               # A2：要求经营现金流利润率 OCF/Rev >= 8%
+    # 轨道 B：高毛利高成长扩张轨（防止误杀早期 10 倍潜力股）
+    high_growth_reinvestment:
+      allow_negative_fcf: true
+      min_revenue_yoy_growth: 0.25         # 高速成长期门槛：YoY >= 25%
+      min_gross_margin: 0.40               # 高毛利证明单位经济模型健康
+      min_cash_runway_months: 24           # 至少 2 年现金跑道
+
+  # 估值过滤（区分 PASS 与 NEAR_MISS；即使市值在 $300M-$15B 内，若极度泡沫也先放入 NEAR_MISS）
+  valuation_gate:
+    max_ev_to_sales_pass: 18.0             # EV/Sales > 18x 归入 NEAR_MISS 等杀估值
+    near_miss_discount_target_pct: 0.25    # 默认建议目标触发市值：当前市值打 75 折或回落至合理倍数
+
+# -----------------------------------------------------------------------------
+# 第三层：五维深度研究与入罐纪律
+# -----------------------------------------------------------------------------
+layer3_deep_dive:
+  min_target_upside_multiple: 10.0         # 一票否决：至少具备 10 倍长期赔率空间
+  min_holding_horizon_years: 5             # 咖啡罐最低持有周期视角（5-10 年）
+  require_human_approval: true             # 强制人类审核掌舵人主观分与证伪线
+  required_falsification_lines_min: 1
+  required_falsification_lines_max: 3
+  management_evidence_lookback_years: 3    # Agent 客观取证回溯过去 2-3 年
+
+# -----------------------------------------------------------------------------
+# 闭环一：错杀观察池盯盘提醒规则 (3_watchlist_monitor.py)
+# -----------------------------------------------------------------------------
+watchlist_monitor:
+  # 防抖机制：连续 N 个交易日收盘市值 <= 目标触发市值才正式告警
+  consecutive_trading_days_below_target: 3
+  # 冷却机制：同一标的触发提醒后 N 天内不再重复轰炸（除非继续暴跌超过额外阈值）
+  alert_cooldown_days: 30
+  extra_drop_override_pct: 0.15            # 冷却期内若再额外下跌 15%，允许破例再次提醒
+  approaching_zone_pct: 0.10               # 距离目标市值 10% 以内标记为 APPROACHING（仅写入日志不打扰）
+
+# -----------------------------------------------------------------------------
+# 闭环二：季度财报 Diff 红绿灯体检规则 (4_earnings_diff.py)
+# -----------------------------------------------------------------------------
+earnings_diff:
+  traffic_light:
+    # 任意 1 条硬证伪线被击穿 → RED（触发卖出复核警报）
+    red_on_any_falsification_breach: true
+    # 财务恶化预警（未击穿核心证伪线但出现结构恶化）→ YELLOW
+    yellow_triggers:
+      gross_margin_drop_yoy_bps: 300       # 毛利率同比下滑 >= 300 bps
+      revenue_growth_deceleration_pct: 0.15 # 营收增速较上一季环比失速 >= 15 个百分点
+      cash_runway_below_months: 18         # 现金跑道跌破 18 个月
+      annual_dilution_above: 0.08          # 年化股本稀释率超过 8%
+
+# -----------------------------------------------------------------------------
+# 闭环三：半年期规则校准与误杀回测 (5_post_mortem.py)
+# -----------------------------------------------------------------------------
+post_mortem:
+  review_cadence_months: 6
+  benchmarks:
+    primary: "SPY"
+    secondary: "QQQ"
+  lookback_windows_days:
+    - 180
+    - 365
+  # 误杀判定标准：被淘汰标的在回测窗口内跑赢 SPY 超过该超额收益阈值，视为潜在误杀样本
+  false_negative_excess_return_threshold: 0.30
+  # 单条规则误杀率超过此比例时，在复盘报告中生成 rules.yaml 放宽建议
+  rule_review_trigger_false_negative_rate: 0.25
+  min_sample_size_for_calibration: 10

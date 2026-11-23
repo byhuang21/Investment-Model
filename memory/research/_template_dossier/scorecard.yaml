@@ -1,0 +1,89 @@
+# 第三层五维深度解剖评分卡模板（由 PASS 标的初始化至 memory/research/<TICKER>/scorecard.yaml）
+# 严禁 Agent 自行填写 management.human_subjective_score 或绕过人类审核修改 status 为 APPROVED_FOR_CAN
+
+ticker: "EXAMPLE"
+company_name: "Example Corp"
+cik: "0000000000"
+industry_slug: "example_industry"
+
+# 工作流状态：
+# DRAFTING_EVIDENCE -> PENDING_HUMAN_REVIEW -> APPROVED_FOR_CAN | MOVED_TO_NEAR_MISS | REJECTED
+status: "PENDING_HUMAN_REVIEW"
+created_at: "2026-11-22"
+updated_at: "2026-11-22"
+
+# 市值赔率门控（一票否决：需 >= 10x）
+odds_check:
+  current_market_cap_usd_m: null
+  conservative_10y_target_market_cap_usd_m: null
+  implied_upside_multiple: null
+  passed_10x_gate: null
+  assumptions_summary: ""
+
+# 五维模型评估
+dimensions:
+  1_demand_fulfilling_innovation:
+    summary: ""
+    incumbent_dilemma: ""
+    evidence_refs: []
+
+  2_market_formation:
+    why_now_inflection: ""
+    estimated_penetration_pct: null
+    evidence_refs: []
+
+  3_competitive_landscape:
+    emerging_moat_types: []          # network_effect | switching_cost | declining_marginal_cost | data_flywheel | regulatory
+    moat_evidence: ""
+    evidence_refs: []
+
+  4_financial_floor:
+    veto_passed: null                # true | false
+    unit_economics_note: ""
+    ttm_revenue_usd_m: null
+    gross_margin: null
+    ocf_usd_m: null
+    fcf_usd_m: null
+    cash_runway_months: null
+    short_term_debt_to_cash: null
+    goodwill_to_assets: null
+    annual_share_dilution: null
+    filing_refs: []
+
+  5_management:
+    # 以下由 Agent 客观取证填写
+    objective_evidence:
+      guidance_delivery_rate_note: ""
+      capital_allocation_record: ""
+      form4_net_insider_activity_24m: ""
+      founder_led: null
+      insider_ownership_pct: null
+      evidence_refs: []
+    # 以下必须留空，等待人类审阅后亲自填写
+    human_subjective_score: null     # 1-10，严禁 Agent 填写
+    human_notes: ""
+    reviewed_by_human: false
+    reviewed_at: null
+
+# 进退纪律（人类最终拍板填写）
+decision:
+  three_sentence_memo:
+    - ""
+    - ""
+    - ""
+  # 可机读的逻辑证伪线（入罐后由 4_earnings_diff.py 每季度自动比对）
+  falsification_lines:
+    - id: "FL-1"
+      description: "示例：连续 2 个季度营收 YoY 增速跌破 15%"
+      metric: "revenue_yoy_growth"
+      operator: "<"
+      threshold: 0.15
+      consecutive_quarters: 2
+      severity: "RED"
+    - id: "FL-2"
+      description: "示例：毛利率同比跌破 35%（说明产品商品化或护城河受损）"
+      metric: "gross_margin"
+      operator: "<"
+      threshold: 0.35
+      consecutive_quarters: 1
+      severity: "RED"
