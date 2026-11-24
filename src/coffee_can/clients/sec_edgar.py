@@ -216,6 +216,28 @@ class SecEdgarClient:
         )
         return self._get_json(tpl.format(cik=cik10), f"submissions_{cik10}")
 
+    def get_latest_periodic_filing(self, cik: str) -> dict[str, Any] | None:
+        """Return newest 10-Q or 10-K metadata from SEC submissions JSON."""
+        subs = self.get_submissions(cik)
+        recent = subs.get("filings", {}).get("recent", {})
+        forms = recent.get("form", [])
+        accessions = recent.get("accessionNumber", [])
+        filing_dates = recent.get("filingDate", [])
+        report_dates = recent.get("reportDate", [])
+        primary_docs = recent.get("primaryDocument", [])
+
+        for idx, form in enumerate(forms):
+            form_u = str(form).upper()
+            if form_u in ALLOWED_FORMS:
+                return {
+                    "form": form_u,
+                    "accession": accessions[idx] if idx < len(accessions) else None,
+                    "filing_date": filing_dates[idx] if idx < len(filing_dates) else None,
+                    "report_date": report_dates[idx] if idx < len(report_dates) else None,
+                    "primary_document": primary_docs[idx] if idx < len(primary_docs) else None,
+                }
+        return None
+
     def search_efts(
         self,
         query: str,
