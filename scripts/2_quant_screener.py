@@ -411,7 +411,13 @@ def main(argv: list[str] | None = None) -> int:
         print("No candidate tickers to screen. Pass --tickers or activate an industry in memory/.")
         return 0
 
-    user_agent = args.sec_user_agent or get_sec_user_agent(data_sources)
+    try:
+        user_agent = args.sec_user_agent or get_sec_user_agent(data_sources)
+    except OSError:
+        if args.dry_run:
+            print("SEC_USER_AGENT not set; skipping live network calls in --dry-run preview.")
+            return 0
+        raise
     sec_cfg = data_sources["sec_edgar"]
     yf_cfg = data_sources["yfinance"]
 

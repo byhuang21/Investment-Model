@@ -1,0 +1,95 @@
+slug: industrial_smr_nuclear
+name: 微型模块化核电 (SMR) 与先进核能
+status: DORMANT
+created_at: '2026-11-24'
+last_scanned_at: '2026-11-24'
+last_state_change_at: '2026-10-01'
+thesis_snapshot:
+  profit_pool_description: AI 数据中心与重工业 24/7 零碳基荷电力长期替代空间
+  demand_innovation_hypothesis: 工厂预制模块化小堆压缩建造周期与资本风险，解决可再生能源间歇性瓶颈
+  winner_take_all_dynamics: NRC 核安全设计认证壁垒极高 + 燃料供应链与运维长约锁定
+signals:
+  sec_keywords:
+  - small modular reactor
+  sic_codes: []
+  naics_codes: []
+  usaspending_keywords:
+  - small modular reactor
+  - microreactor
+  bellwether_mentions:
+  - MSFT
+  - AMZN
+  - GOOGL
+awaken_conditions:
+  min_leaders_aggregate_revenue_usd_m: 1000
+  consecutive_high_growth_quarters: 2
+  min_sector_yoy_revenue_growth: 0.25
+  usaspending_12m_award_usd_m: 250
+  min_sec_cluster_filings_180d: 5
+  custom_trigger_note: 等待纯 SMR 商业化装机营收实质放量后再从 DORMANT 唤醒至 ACTIVE
+candidate_tickers:
+- SMR
+- OKLO
+- NNE
+- NUCL
+- LPBB
+- ONEN
+- AP
+- BHAI
+- D
+- GRDX
+- MIR
+- NEE
+- APTT
+- FISN
+- GFUZ
+- GHM
+- KEYY
+- LEU
+- LIS
+- MESH
+history:
+- date: '2026-10-01'
+  event: SEEDED
+  from_status: null
+  to_status: DORMANT
+  evidence: 商业逻辑宏大但当前纯 SMR 商业化营收规模远未达标，设为 DORMANT 等待唤醒
+leader_tickers:
+- SMR
+- OKLO
+- NNE
+latest_radar_snapshot:
+  slug: industrial_smr_nuclear
+  as_of_date: '2026-11-24'
+  leaders_aggregate_revenue_usd_m: 2.73
+  leaders_median_yoy_growth: -0.9573
+  leaders_sampled: 1
+  usaspending_12m_award_usd_m: 8.07
+  usaspending_yoy_growth: null
+  sec_cluster_filings_180d: 45
+  sec_discovered_tickers:
+  - NUCL
+  - LPBB
+  - ONEN
+  - AP
+  - BHAI
+  - D
+  - GRDX
+  - MIR
+  - NEE
+  - SMR
+  - APTT
+  - FISN
+  - GFUZ
+  - GHM
+  - KEYY
+  - LEU
+  - LIS
+  - MESH
+  - MRCO
+  - NSAI
+  - SEI
+  - TACO
+  - UUUU
+  - XE
+  transcript_mentions: 0

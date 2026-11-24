@@ -1,0 +1,60 @@
+slug: organ_perfusion_medtech
+name: 器官灌注与精准医疗器械
+status: ACTIVE
+created_at: '2026-11-24'
+last_scanned_at: '2026-11-24'
+last_state_change_at: '2026-11-24'
+thesis_snapshot:
+  profit_pool_description: 全球实体器官移植长期受限于冷保存时间短与高弃用率的庞大医疗刚需
+  demand_innovation_hypothesis: 常温机械灌注 + 一体化航空物流网络显著提升器官利用率与移植存活率
+  winner_take_all_dynamics: FDA 临床审批壁垒 + 医院移植中心耗材/物流双边网络锁定
+signals:
+  sec_keywords:
+  - organ care system
+  - organ perfusion
+  sic_codes:
+  - '3841'
+  - '3845'
+  naics_codes: []
+  usaspending_keywords: []
+  bellwether_mentions:
+  - UNH
+awaken_conditions:
+  min_leaders_aggregate_revenue_usd_m: 600
+  consecutive_high_growth_quarters: 2
+  min_sector_yoy_revenue_growth: 0.25
+  usaspending_12m_award_usd_m: 250
+  min_sec_cluster_filings_180d: 3
+  custom_trigger_note: 测试真实 DORMANT -> ACTIVE 唤醒：若核心龙头 TTM 营收 > $600M 且增速 >= 25%，应自动唤醒
+candidate_tickers:
+- TMDX
+- CTSO
+- XBIO
+history:
+- date: '2026-10-01'
+  event: SEEDED
+  from_status: null
+  to_status: DORMANT
+  evidence: 初始医疗创新赛道建档，等待营收规模与增速验证后唤醒
+- date: '2026-11-24'
+  event: AWAKENED
+  from_status: DORMANT
+  to_status: ACTIVE
+  evidence: 'AWAKENED DORMANT -> ACTIVE via: leaders_agg_rev ($728M >= $600M); sector_yoy
+    (28.5% >= 25%); sec_cluster_180d (4 >= 3)'
+leader_tickers:
+- TMDX
+latest_radar_snapshot:
+  slug: organ_perfusion_medtech
+  as_of_date: '2026-11-24'
+  leaders_aggregate_revenue_usd_m: 727.65
+  leaders_median_yoy_growth: 0.2848
+  leaders_sampled: 1
+  usaspending_12m_award_usd_m: 0.0
+  usaspending_yoy_growth: null
+  sec_cluster_filings_180d: 4
+  sec_discovered_tickers:
+  - TMDX
+  - CTSO
+  - XBIO
+  transcript_mentions: 0

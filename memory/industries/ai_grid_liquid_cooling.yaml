@@ -1,0 +1,128 @@
+slug: ai_grid_liquid_cooling
+name: AI 数据中心液冷与高压配电
+status: ACTIVE
+created_at: '2026-11-24'
+last_scanned_at: '2026-11-24'
+last_state_change_at: '2026-10-01'
+thesis_snapshot:
+  profit_pool_description: 北美老旧电网升级与 AI 高密度算力机房供配电/散热改造的千亿级存量基础设施池
+  demand_innovation_hypothesis: 单机柜功耗突破 100kW 物理极限，液冷与定制模块化高压配电从可选变为刚需
+  winner_take_all_dynamics: 与超大规模云厂联合定制认证 + 交付周期与工程可靠性形成高转换成本
+signals:
+  sec_keywords:
+  - liquid cooling
+  - data center electrical
+  sic_codes:
+  - '3612'
+  - '3613'
+  - '1731'
+  naics_codes: []
+  usaspending_keywords:
+  - switchgear
+  - electrical substation
+  bellwether_mentions:
+  - MSFT
+  - AMZN
+  - GOOGL
+  - META
+  - NVDA
+awaken_conditions:
+  min_leaders_aggregate_revenue_usd_m: 1000
+  consecutive_high_growth_quarters: 2
+  min_sector_yoy_revenue_growth: 0.25
+  usaspending_12m_award_usd_m: 150
+  min_sec_cluster_filings_180d: 3
+candidate_tickers:
+- POWL
+- IESC
+- MOD
+- VRT
+- FIX
+- NNBR
+- WOR
+- INV
+- XLAB
+- AAON
+- HIVE
+- SMCI
+- SPKLF
+- AIB
+- CC
+- IREN
+- ACCV
+- AIRJ
+- CHRN
+- CORZ
+history:
+- date: '2026-10-01'
+  event: SEEDED
+  from_status: null
+  to_status: ACTIVE
+  evidence: 初始核心高确定性赛道建档
+leader_tickers:
+- POWL
+- IESC
+- MOD
+- VRT
+- FIX
+latest_radar_snapshot:
+  slug: ai_grid_liquid_cooling
+  as_of_date: '2026-11-24'
+  leaders_aggregate_revenue_usd_m: 35022.02
+  leaders_median_yoy_growth: 0.3508
+  leaders_sampled: 5
+  usaspending_12m_award_usd_m: 332.64
+  usaspending_yoy_growth: -0.0581
+  sec_cluster_filings_180d: 136
+  sec_discovered_tickers:
+  - NNBR
+  - WOR
+  - INV
+  - XLAB
+  - AAON
+  - HIVE
+  - SMCI
+  - SPKLF
+  - AIB
+  - CC
+  - IREN
+  - ACCV
+  - AIRJ
+  - CHRN
+  - CORZ
+  - ECL
+  - GLXY
+  - NUAI
+  - WYFI
+  - ADVI
+  - ALIS
+  - APLD
+  - APUR
+  - APXT
+  - BACC
+  - BGDE
+  - CRWV
+  - DGXX
+  - EQIX
+  - ESI
+  - ETN
+  - FLEX
+  - FRMM
+  - MAIR
+  - MOD
+  - NMAD
+  - NVT
+  - PACH
+  - SKFG
+  - SNX
+  - SOAR
+  - SOLS
+  - UIS
+  - VRT
+  - VWAV
+  - WCC
+  - WKHS
+  - ZSQR
+  - PKOH
+  - FPS
+  transcript_mentions: 0

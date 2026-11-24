@@ -10,12 +10,14 @@ Implements SEC fair-access policy:
 
 from __future__ import annotations
 
+import hashlib
 import json
 import time
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlencode
 
 import requests
 
@@ -157,6 +159,7 @@ class SecEdgarClient:
         )
         raw = self._get_json(url, "company_tickers")
         mapping: dict[str, tuple[str, str]] = {}
+        reverse_map: dict[str, str] = {}
         for item in raw.values():
             if not isinstance(item, dict):
                 continue
@@ -164,8 +167,12 @@ class SecEdgarClient:
             cik_num = item.get("cik_str")
             title = str(item.get("title", "")).strip()
             if ticker and cik_num is not None:
-                mapping[ticker] = (f"{int(cik_num):010d}", title)
+                cik10 = f"{int(cik_num):010d}"
+                mapping[ticker] = (cik10, title)
+                # Keep primary/first ticker (company_tickers.json orders primary class first)
+                reverse_map.setdefault(cik10, ticker)
         self._ticker_map = mapping
+        self._cik_to_ticker_map = reverse_map
         return mapping
 
     def lookup_company(self, ticker: str) -> tuple[str, str]:
@@ -184,6 +191,15 @@ class SecEdgarClient:
         cik, _ = self.lookup_company(ticker)
         return cik
 
+    def lookup_ticker_by_cik(self, cik: str) -> str | None:
+        """Resolve a SEC CIK back to its primary US ticker symbol (if listed)."""
+        self._load_ticker_map()
+        try:
+            cik10 = f"{int(str(cik).strip()):010d}"
+        except ValueError:
+            return None
+        return getattr(self, "_cik_to_ticker_map", {}).get(cik10)
+
     def get_company_facts(self, cik: str) -> dict[str, Any]:
         """Fetch XBRL CompanyFacts JSON for fundamental financial extraction."""
         cik10 = f"{int(cik):010d}"
@@ -201,10 +217,65 @@ class SecEdgarClient:
         return self._get_json(tpl.format(cik=cik10), f"submissions_{cik10}")
 
     def search_efts(
-        self, query: str, forms: list[str], lookback_days: int = 180
-    ) -> list[dict[str, Any]]:
-        """Run full-text search across SEC filings via EFTS."""
-        raise NotImplementedError("Phase 3: implement SEC EFTS full-text search for Topic Radar")
+        self,
+        query: str,
+        forms: list[str],
+        lookback_days: int = 180,
+        limit: int = 25,
+        as_of: date | None = None,
+    ) -> dict[str, Any]:
+        """Run full-text search across SEC filings via EFTS and resolve matched CIKs to tickers."""
+        end_d = as_of or datetime.now(UTC).date()
+        start_d = end_d - timedelta(days=lookback_days)
+        base_url = self.endpoints.get("efts_search", "https://efts.sec.gov/LATEST/search-index")
+        params = {
+            "q": f'"{query.strip()}"' if " " in query.strip() else query.strip(),
+            "forms": ",".join(forms),
+            "dateRange": "custom",
+            "startdt": start_d.isoformat(),
+            "enddt": end_d.isoformat(),
+            "from": 0,
+            "size": limit,
+        }
+        url = f"{base_url}?{urlencode(params)}"
+        digest = hashlib.sha256(url.encode("utf-8")).hexdigest()[:16]
+        raw = self._get_json(url, f"efts_{digest}")
+
+        hits_block = raw.get("hits", {})
+        total_raw = hits_block.get("total", 0)
+        total_hits = (
+            int(total_raw.get("value", 0)) if isinstance(total_raw, dict) else int(total_raw)
+        )
+
+        parsed_hits: list[dict[str, Any]] = []
+        ticker_counts: dict[str, int] = {}
+        for item in hits_block.get("hits", []):
+            src = item.get("_source", {}) if isinstance(item, dict) else {}
+            ciks = src.get("ciks") or []
+            cik = str(ciks[0]) if ciks else None
+            ticker = self.lookup_ticker_by_cik(cik) if cik else None
+            if ticker:
+                ticker_counts[ticker] = ticker_counts.get(ticker, 0) + 1
+            parsed_hits.append(
+                {
+                    "cik": cik,
+                    "ticker": ticker,
+                    "display_name": (src.get("display_names") or [""])[0],
+                    "form": (src.get("root_forms") or [src.get("form", "")])[0],
+                    "file_date": src.get("file_date"),
+                    "adsh": src.get("adsh") or str(item.get("_id", "")).split(":")[0],
+                }
+            )
+
+        discovered_tickers = [
+            t for t, _ in sorted(ticker_counts.items(), key=lambda kv: (-kv[1], kv[0]))
+        ]
+        return {
+            "query": query,
+            "total_hits": total_hits,
+            "hits": parsed_hits,
+            "discovered_tickers": discovered_tickers,
+        }
 
 
 # =============================================================================
@@ -695,4 +766,34 @@ def extract_fundamentals_from_company_facts(
         ),
         "latest_period_end": latest_period_end.isoformat() if latest_period_end else None,
         "filing_accession": filing_accession,
+    }
+
+
+def extract_capex_growth(
+    company_facts: dict[str, Any],
+    xbrl_tag_fallbacks: dict[str, list[str]],
+) -> dict[str, Any]:
+    """Extract TTM CapEx (USD M) and YoY growth for bellwether capital-spending radar."""
+    capex_facts = _collect_facts(
+        company_facts,
+        xbrl_tag_fallbacks.get("capex", []),
+        unit_key="USD",
+        require_start=True,
+    )
+    ttm, prior, latest_end, accn = compute_ttm_series(capex_facts)
+    ttm_abs = abs(ttm) if ttm is not None else None
+    prior_abs = abs(prior) if prior is not None else None
+    yoy = (
+        ((ttm_abs / prior_abs) - 1.0)
+        if (ttm_abs is not None and prior_abs and prior_abs > 0)
+        else None
+    )
+    return {
+        "ttm_capex_usd_m": round(ttm_abs / 1_000_000.0, 2) if ttm_abs is not None else None,
+        "prior_ttm_capex_usd_m": (
+            round(prior_abs / 1_000_000.0, 2) if prior_abs is not None else None
+        ),
+        "capex_yoy_growth": round(yoy, 4) if yoy is not None else None,
+        "latest_period_end": latest_end.isoformat() if latest_end else None,
+        "filing_accession": accn,
     }
