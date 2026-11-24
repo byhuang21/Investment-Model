@@ -68,22 +68,32 @@ cp .env.example .env
 # 必填：修改 .env 中的 SEC_USER_AGENT="CoffeeCanResearch your_email@example.com"
 ```
 
-### 3. 运行基础测试与脚本骨架检查
+### 3. 启动交互式 Web 投研工作台
+
+```bash
+pip install -e ".[web]"
+python scripts/run_workbench.py
+# 同时可导出静态快照（用于 GitHub Pages / Vercel 零运维只读部署）：
+python scripts/export_web_snapshot.py
+```
+
+### 4. 运行测试与各流水线脚本
 
 ```bash
 pytest
-python scripts/1_topic_radar.py --help
-python scripts/2_quant_screener.py --help
-python scripts/3_watchlist_monitor.py --help
-python scripts/4_earnings_diff.py --help
-python scripts/5_post_mortem.py --help
+python scripts/1_topic_radar.py --discover
+python scripts/2_quant_screener.py --tickers POWL DUOL IESC TMDX
+python scripts/3_watchlist_monitor.py
+python scripts/4_earnings_diff.py
+python scripts/5_post_mortem.py
 ```
 
 ## 开发路线图
 
 - [x] Phase 0：目录结构、永久指令、配置文件、核心 Schema 与脚本骨架初始化
-- [ ] Phase 1：公共数据客户端（`sec_edgar.py`、`market_data.py`、`usaspending.py`）
-- [ ] Phase 2：`scripts/2_quant_screener.py` 双轨硬过滤与三向分流实战测试
-- [ ] Phase 3：`scripts/1_topic_radar.py` 主动赛道扫描与状态机唤醒
-- [ ] Phase 4：`scripts/3_watchlist_monitor.py` 与 `scripts/4_earnings_diff.py` 盯盘/体检闭环
-- [ ] Phase 5：`scripts/5_post_mortem.py` 误杀率回测校准 + GitHub Actions 上线
+- [x] Phase 1：公共数据客户端（`sec_edgar.py` XBRL/EFTS/CapEx、`market_data.py`、`usaspending.py`）
+- [x] Phase 2：`scripts/2_quant_screener.py` 双轨硬过滤（A1/A2/B）与三向分流实测校准（`rules.yaml v0.2.0`）
+- [x] Phase 3：`scripts/1_topic_radar.py` 主动赛道扫描与 `DORMANT ↔ ACTIVE` 状态机唤醒
+- [x] Phase 4：`scripts/3_watchlist_monitor.py` 防抖盯盘、`scripts/4_earnings_diff.py` 季报红绿灯体检与多通道 `Notifier`
+- [x] Phase 5：`scripts/5_post_mortem.py` 误杀率回测校准 + 交互式 Web 工作台（`web/` + FastAPI 读写后端）
+- [ ] Phase 6：第三层自动化取证增强（SEC Form 4 内部人交易与管理层指引兑现率抽取）+ 首批正式入罐实战

@@ -1,0 +1,1944 @@
+{
+  "generated_at": "2026-11-24T14:48:09.243873+00:00",
+  "rules_version": "0.2.0",
+  "rules": {
+    "version": "0.2.0",
+    "last_calibrated": "2026-11-22",
+    "universe": {
+      "primary_market": "US",
+      "currency": "USD",
+      "exclude_sectors": [
+        "Financial Services",
+        "Real Estate",
+        "Utilities"
+      ],
+      "exclude_adrs_from_non_sec_filers": false
+    },
+    "layer1_industry_radar": {
+      "state_machine": {
+        "awaken_thresholds": {
+          "min_leaders_aggregate_revenue_usd_m": 1000,
+          "consecutive_high_growth_quarters": 2,
+          "min_sector_yoy_revenue_growth": 0.25,
+          "usaspending_12m_award_usd_m": 250,
+          "usaspending_yoy_growth": 0.4,
+          "min_sec_cluster_filings_180d": 3
+        },
+        "state_change_cooldown_days": 30,
+        "dormant_inactivity_months": 12
+      }
+    },
+    "layer2_quant_screener": {
+      "market_cap_usd_m": {
+        "min_pass": 300,
+        "max_pass": 15000,
+        "max_near_miss": 35000
+      },
+      "common_floor": {
+        "min_ttm_revenue_usd_m": 20.0,
+        "min_gross_margin": 0.2,
+        "allow_improving_gross_margin": true,
+        "min_gross_margin_improvement_yoy": 0.05,
+        "min_cash_runway_months": 24,
+        "max_short_term_debt_to_cash": 0.8,
+        "max_goodwill_to_total_assets": 0.35,
+        "max_annual_share_dilution": 0.06
+      },
+      "tracks": {
+        "profitable_compounder": {
+          "require_positive_ocf_or_fcf": true,
+          "min_revenue_yoy_growth": 0.12,
+          "min_gross_margin": 0.3,
+          "operating_leverage_subtrack": {
+            "enabled": true,
+            "min_gross_margin": 0.2,
+            "min_revenue_yoy_growth": 0.2,
+            "min_ocf_margin": 0.08
+          }
+        },
+        "high_growth_reinvestment": {
+          "allow_negative_fcf": true,
+          "min_revenue_yoy_growth": 0.25,
+          "min_gross_margin": 0.4,
+          "min_cash_runway_months": 24
+        }
+      },
+      "valuation_gate": {
+        "max_ev_to_sales_pass": 18.0,
+        "near_miss_discount_target_pct": 0.25
+      }
+    },
+    "layer3_deep_dive": {
+      "min_target_upside_multiple": 10.0,
+      "min_holding_horizon_years": 5,
+      "require_human_approval": true,
+      "required_falsification_lines_min": 1,
+      "required_falsification_lines_max": 3,
+      "management_evidence_lookback_years": 3
+    },
+    "watchlist_monitor": {
+      "consecutive_trading_days_below_target": 3,
+      "alert_cooldown_days": 30,
+      "extra_drop_override_pct": 0.15,
+      "approaching_zone_pct": 0.1
+    },
+    "earnings_diff": {
+      "traffic_light": {
+        "red_on_any_falsification_breach": true,
+        "yellow_triggers": {
+          "gross_margin_drop_yoy_bps": 300,
+          "revenue_growth_deceleration_pct": 0.15,
+          "cash_runway_below_months": 18,
+          "annual_dilution_above": 0.08
+        }
+      }
+    },
+    "post_mortem": {
+      "review_cadence_months": 6,
+      "benchmarks": {
+        "primary": "SPY",
+        "secondary": "QQQ"
+      },
+      "lookback_windows_days": [
+        180,
+        365
+      ],
+      "false_negative_excess_return_threshold": 0.3,
+      "rule_review_trigger_false_negative_rate": 0.25,
+      "min_sample_size_for_calibration": 10
+    }
+  },
+  "industries": [
+    {
+      "slug": "ai_grid_liquid_cooling",
+      "name": "AI 数据中心液冷与高压配电",
+      "status": "ACTIVE",
+      "created_at": "2026-11-24",
+      "last_scanned_at": "2026-11-24",
+      "last_state_change_at": "2026-10-01",
+      "thesis_snapshot": {
+        "profit_pool_description": "北美老旧电网升级与 AI 高密度算力机房供配电/散热改造的千亿级存量基础设施池",
+        "demand_innovation_hypothesis": "单机柜功耗突破 100kW 物理极限，液冷与定制模块化高压配电从可选变为刚需",
+        "winner_take_all_dynamics": "与超大规模云厂联合定制认证 + 交付周期与工程可靠性形成高转换成本"
+      },
+      "signals": {
+        "sec_keywords": [
+          "liquid cooling",
+          "data center electrical"
+        ],
+        "sic_codes": [
+          "3612",
+          "3613",
+          "1731"
+        ],
+        "naics_codes": [],
+        "usaspending_keywords": [
+          "switchgear",
+          "electrical substation"
+        ],
+        "bellwether_mentions": [
+          "MSFT",
+          "AMZN",
+          "GOOGL",
+          "META",
+          "NVDA"
+        ]
+      },
+      "awaken_conditions": {
+        "min_leaders_aggregate_revenue_usd_m": 1000,
+        "consecutive_high_growth_quarters": 2,
+        "min_sector_yoy_revenue_growth": 0.25,
+        "usaspending_12m_award_usd_m": 150,
+        "min_sec_cluster_filings_180d": 3
+      },
+      "candidate_tickers": [
+        "POWL",
+        "IESC",
+        "MOD",
+        "VRT",
+        "FIX",
+        "NNBR",
+        "WOR",
+        "INV",
+        "XLAB",
+        "AAON",
+        "HIVE",
+        "SMCI",
+        "SPKLF",
+        "AIB",
+        "CC",
+        "IREN",
+        "ACCV",
+        "AIRJ",
+        "CHRN",
+        "CORZ"
+      ],
+      "history": [
+        {
+          "date": "2026-10-01",
+          "event": "SEEDED",
+          "from_status": null,
+          "to_status": "ACTIVE",
+          "evidence": "初始核心高确定性赛道建档"
+        }
+      ],
+      "leader_tickers": [
+        "POWL",
+        "IESC",
+        "MOD",
+        "VRT",
+        "FIX"
+      ],
+      "latest_radar_snapshot": {
+        "slug": "ai_grid_liquid_cooling",
+        "as_of_date": "2026-11-24",
+        "leaders_aggregate_revenue_usd_m": 35022.02,
+        "leaders_median_yoy_growth": 0.3508,
+        "leaders_sampled": 5,
+        "usaspending_12m_award_usd_m": 332.64,
+        "usaspending_yoy_growth": -0.0581,
+        "sec_cluster_filings_180d": 136,
+        "sec_discovered_tickers": [
+          "NNBR",
+          "WOR",
+          "INV",
+          "XLAB",
+          "AAON",
+          "HIVE",
+          "SMCI",
+          "SPKLF",
+          "AIB",
+          "CC",
+          "IREN",
+          "ACCV",
+          "AIRJ",
+          "CHRN",
+          "CORZ",
+          "ECL",
+          "GLXY",
+          "NUAI",
+          "WYFI",
+          "ADVI",
+          "ALIS",
+          "APLD",
+          "APUR",
+          "APXT",
+          "BACC",
+          "BGDE",
+          "CRWV",
+          "DGXX",
+          "EQIX",
+          "ESI",
+          "ETN",
+          "FLEX",
+          "FRMM",
+          "MAIR",
+          "MOD",
+          "NMAD",
+          "NVT",
+          "PACH",
+          "SKFG",
+          "SNX",
+          "SOAR",
+          "SOLS",
+          "UIS",
+          "VRT",
+          "VWAV",
+          "WCC",
+          "WKHS",
+          "ZSQR",
+          "PKOH",
+          "FPS"
+        ],
+        "transcript_mentions": 0
+      }
+    },
+    {
+      "slug": "autonomous_defense_systems",
+      "name": "自主国防与低成本无人集群系统",
+      "status": "ACTIVE",
+      "created_at": "2026-11-24",
+      "last_scanned_at": "2026-11-24",
+      "last_state_change_at": "2026-10-01",
+      "thesis_snapshot": {
+        "profit_pool_description": "美国与盟国国防装备采购预算从昂贵传统平台向软件定义低成本无人集群迁移",
+        "demand_innovation_hypothesis": "单次任务成本降低一个数量级，传统大军工巨头因既得高单价项目利润不敢自我革命",
+        "winner_take_all_dynamics": "军方安全认证 + 战区实战飞行数据闭环 + 软件持续 OTA 迭代"
+      },
+      "signals": {
+        "sec_keywords": [
+          "loitering munition",
+          "unmanned aerial systems"
+        ],
+        "sic_codes": [
+          "3721",
+          "3812"
+        ],
+        "naics_codes": [],
+        "usaspending_keywords": [
+          "unmanned aerial",
+          "autonomous drone"
+        ],
+        "bellwether_mentions": [
+          "LMT"
+        ]
+      },
+      "awaken_conditions": {
+        "min_leaders_aggregate_revenue_usd_m": 1000,
+        "consecutive_high_growth_quarters": 2,
+        "min_sector_yoy_revenue_growth": 0.25,
+        "usaspending_12m_award_usd_m": 250,
+        "min_sec_cluster_filings_180d": 3
+      },
+      "candidate_tickers": [
+        "AVAV",
+        "KTOS",
+        "AXON",
+        "PDYN",
+        "ONDS",
+        "VWAV",
+        "QUCY",
+        "AVEX",
+        "DUKR",
+        "SDCO",
+        "UAVS",
+        "FBDT",
+        "VTOL",
+        "CHGA",
+        "DFNS",
+        "PUSA",
+        "LYNX",
+        "BHAI",
+        "LASE",
+        "AMPX"
+      ],
+      "history": [
+        {
+          "date": "2026-10-01",
+          "event": "SEEDED",
+          "from_status": null,
+          "to_status": "ACTIVE",
+          "evidence": "初始国防科技赛道建档"
+        }
+      ],
+      "leader_tickers": [
+        "AVAV",
+        "KTOS",
+        "AXON"
+      ],
+      "latest_radar_snapshot": {
+        "slug": "autonomous_defense_systems",
+        "as_of_date": "2026-11-24",
+        "leaders_aggregate_revenue_usd_m": 7066.37,
+        "leaders_median_yoy_growth": 0.3358,
+        "leaders_sampled": 3,
+        "usaspending_12m_award_usd_m": 262.56,
+        "usaspending_yoy_growth": -0.1747,
+        "sec_cluster_filings_180d": 103,
+        "sec_discovered_tickers": [
+          "PDYN",
+          "ONDS",
+          "VWAV",
+          "QUCY",
+          "AVEX",
+          "DUKR",
+          "SDCO",
+          "UAVS",
+          "FBDT",
+          "VTOL",
+          "CHGA",
+          "DFNS",
+          "PUSA",
+          "LYNX",
+          "BHAI",
+          "LASE",
+          "AMPX",
+          "FAC",
+          "HLSQ",
+          "KTOS",
+          "LTRX",
+          "MOBX",
+          "AERG",
+          "ARAI",
+          "EXYN",
+          "GPAT",
+          "GUER",
+          "HONA",
+          "IPXG",
+          "KBR",
+          "KULR",
+          "MKLY",
+          "NEOA",
+          "NPK",
+          "PRSO",
+          "SWMR",
+          "WRAP"
+        ],
+        "transcript_mentions": 0
+      }
+    },
+    {
+      "slug": "industrial_smr_nuclear",
+      "name": "微型模块化核电 (SMR) 与先进核能",
+      "status": "DORMANT",
+      "created_at": "2026-11-24",
+      "last_scanned_at": "2026-11-24",
+      "last_state_change_at": "2026-10-01",
+      "thesis_snapshot": {
+        "profit_pool_description": "AI 数据中心与重工业 24/7 零碳基荷电力长期替代空间",
+        "demand_innovation_hypothesis": "工厂预制模块化小堆压缩建造周期与资本风险，解决可再生能源间歇性瓶颈",
+        "winner_take_all_dynamics": "NRC 核安全设计认证壁垒极高 + 燃料供应链与运维长约锁定"
+      },
+      "signals": {
+        "sec_keywords": [
+          "small modular reactor"
+        ],
+        "sic_codes": [],
+        "naics_codes": [],
+        "usaspending_keywords": [
+          "small modular reactor",
+          "microreactor"
+        ],
+        "bellwether_mentions": [
+          "MSFT",
+          "AMZN",
+          "GOOGL"
+        ]
+      },
+      "awaken_conditions": {
+        "min_leaders_aggregate_revenue_usd_m": 1000,
+        "consecutive_high_growth_quarters": 2,
+        "min_sector_yoy_revenue_growth": 0.25,
+        "usaspending_12m_award_usd_m": 250,
+        "min_sec_cluster_filings_180d": 5,
+        "custom_trigger_note": "等待纯 SMR 商业化装机营收实质放量后再从 DORMANT 唤醒至 ACTIVE"
+      },
+      "candidate_tickers": [
+        "SMR",
+        "OKLO",
+        "NNE",
+        "NUCL",
+        "LPBB",
+        "ONEN",
+        "AP",
+        "BHAI",
+        "D",
+        "GRDX",
+        "MIR",
+        "NEE",
+        "APTT",
+        "FISN",
+        "GFUZ",
+        "GHM",
+        "KEYY",
+        "LEU",
+        "LIS",
+        "MESH"
+      ],
+      "history": [
+        {
+          "date": "2026-10-01",
+          "event": "SEEDED",
+          "from_status": null,
+          "to_status": "DORMANT",
+          "evidence": "商业逻辑宏大但当前纯 SMR 商业化营收规模远未达标，设为 DORMANT 等待唤醒"
+        }
+      ],
+      "leader_tickers": [
+        "SMR",
+        "OKLO",
+        "NNE"
+      ],
+      "latest_radar_snapshot": {
+        "slug": "industrial_smr_nuclear",
+        "as_of_date": "2026-11-24",
+        "leaders_aggregate_revenue_usd_m": 2.73,
+        "leaders_median_yoy_growth": -0.9573,
+        "leaders_sampled": 1,
+        "usaspending_12m_award_usd_m": 8.07,
+        "usaspending_yoy_growth": null,
+        "sec_cluster_filings_180d": 45,
+        "sec_discovered_tickers": [
+          "NUCL",
+          "LPBB",
+          "ONEN",
+          "AP",
+          "BHAI",
+          "D",
+          "GRDX",
+          "MIR",
+          "NEE",
+          "SMR",
+          "APTT",
+          "FISN",
+          "GFUZ",
+          "GHM",
+          "KEYY",
+          "LEU",
+          "LIS",
+          "MESH",
+          "MRCO",
+          "NSAI",
+          "SEI",
+          "TACO",
+          "UUUU",
+          "XE"
+        ],
+        "transcript_mentions": 0
+      }
+    },
+    {
+      "slug": "organ_perfusion_medtech",
+      "name": "器官灌注与精准医疗器械",
+      "status": "ACTIVE",
+      "created_at": "2026-11-24",
+      "last_scanned_at": "2026-11-24",
+      "last_state_change_at": "2026-11-24",
+      "thesis_snapshot": {
+        "profit_pool_description": "全球实体器官移植长期受限于冷保存时间短与高弃用率的庞大医疗刚需",
+        "demand_innovation_hypothesis": "常温机械灌注 + 一体化航空物流网络显著提升器官利用率与移植存活率",
+        "winner_take_all_dynamics": "FDA 临床审批壁垒 + 医院移植中心耗材/物流双边网络锁定"
+      },
+      "signals": {
+        "sec_keywords": [
+          "organ care system",
+          "organ perfusion"
+        ],
+        "sic_codes": [
+          "3841",
+          "3845"
+        ],
+        "naics_codes": [],
+        "usaspending_keywords": [],
+        "bellwether_mentions": [
+          "UNH"
+        ]
+      },
+      "awaken_conditions": {
+        "min_leaders_aggregate_revenue_usd_m": 600,
+        "consecutive_high_growth_quarters": 2,
+        "min_sector_yoy_revenue_growth": 0.25,
+        "usaspending_12m_award_usd_m": 250,
+        "min_sec_cluster_filings_180d": 3,
+        "custom_trigger_note": "测试真实 DORMANT -> ACTIVE 唤醒：若核心龙头 TTM 营收 > $600M 且增速 >= 25%，应自动唤醒"
+      },
+      "candidate_tickers": [
+        "TMDX",
+        "CTSO",
+        "XBIO"
+      ],
+      "history": [
+        {
+          "date": "2026-10-01",
+          "event": "SEEDED",
+          "from_status": null,
+          "to_status": "DORMANT",
+          "evidence": "初始医疗创新赛道建档，等待营收规模与增速验证后唤醒"
+        },
+        {
+          "date": "2026-11-24",
+          "event": "AWAKENED",
+          "from_status": "DORMANT",
+          "to_status": "ACTIVE",
+          "evidence": "AWAKENED DORMANT -> ACTIVE via: leaders_agg_rev ($728M >= $600M); sector_yoy (28.5% >= 25%); sec_cluster_180d (4 >= 3)"
+        }
+      ],
+      "leader_tickers": [
+        "TMDX"
+      ],
+      "latest_radar_snapshot": {
+        "slug": "organ_perfusion_medtech",
+        "as_of_date": "2026-11-24",
+        "leaders_aggregate_revenue_usd_m": 727.65,
+        "leaders_median_yoy_growth": 0.2848,
+        "leaders_sampled": 1,
+        "usaspending_12m_award_usd_m": 0.0,
+        "usaspending_yoy_growth": null,
+        "sec_cluster_filings_180d": 4,
+        "sec_discovered_tickers": [
+          "TMDX",
+          "CTSO",
+          "XBIO"
+        ],
+        "transcript_mentions": 0
+      }
+    }
+  ],
+  "research": [
+    {
+      "ticker": "CAVA",
+      "scorecard": {
+        "ticker": "CAVA",
+        "company_name": "CAVA Group, Inc.",
+        "cik": "0001639438",
+        "industry_slug": "initial_calibration_cohort",
+        "status": "DRAFTING_EVIDENCE",
+        "created_at": "2026-11-23",
+        "updated_at": "2026-11-23",
+        "layer2_track_qualified": "operating_leverage_compounder",
+        "odds_check": {
+          "current_market_cap_usd_m": 5706.63,
+          "conservative_10y_target_market_cap_usd_m": null,
+          "implied_upside_multiple": null,
+          "passed_10x_gate": null,
+          "assumptions_summary": ""
+        },
+        "dimensions": {
+          "1_demand_fulfilling_innovation": {
+            "summary": "",
+            "incumbent_dilemma": "",
+            "evidence_refs": []
+          },
+          "2_market_formation": {
+            "why_now_inflection": "",
+            "estimated_penetration_pct": null,
+            "evidence_refs": []
+          },
+          "3_competitive_landscape": {
+            "emerging_moat_types": [],
+            "moat_evidence": "",
+            "evidence_refs": []
+          },
+          "4_financial_floor": {
+            "veto_passed": true,
+            "unit_economics_note": "",
+            "ttm_revenue_usd_m": 1438.13,
+            "revenue_yoy_growth": 0.2703,
+            "gross_margin": 0.2437,
+            "ocf_usd_m": 221.9,
+            "fcf_usd_m": 39.95,
+            "cash_runway_months": null,
+            "short_term_debt_to_cash": 0.0,
+            "goodwill_to_assets": 0.0013,
+            "annual_share_dilution": 0.0074,
+            "filing_refs": [
+              "0001628280-26-070344"
+            ]
+          },
+          "5_management": {
+            "objective_evidence": {
+              "guidance_delivery_rate_note": "",
+              "capital_allocation_record": "",
+              "form4_net_insider_activity_24m": "",
+              "founder_led": null,
+              "insider_ownership_pct": null,
+              "evidence_refs": []
+            },
+            "human_subjective_score": null,
+            "human_notes": "",
+            "reviewed_by_human": false,
+            "reviewed_at": null
+          }
+        },
+        "decision": {
+          "three_sentence_memo": [
+            "",
+            "",
+            ""
+          ],
+          "falsification_lines": []
+        }
+      },
+      "evidence_markdown": "# `CAVA` — 五维深度投研证据档案\n\n- **公司名称**：CAVA Group, Inc.\n- **CIK**：`0001639438`\n- **所属赛道**：`initial_calibration_cohort`\n- **二层命中轨道**：`operating_leverage_compounder`\n- **当前状态**：`DRAFTING_EVIDENCE`\n- **初筛日期**：`2026-11-23`\n\n## 财务底线初筛快照（SEC Accession: `0001628280-26-070344`）\n- 市值：`$5706.63M` | EV/Sales：`4.04x`\n- TTM 营收：`$1438.13M` | YoY：`27.0%`\n- 毛利率：`24.4%` | OCF：`$221.9M` | FCF：`$39.95M`\n- 现金跑道：`N/A (FCF+)` | 短债/现金：`0.0` | 商誉/总资产：`0.1%` | 年化稀释：`0.7%`\n\n## 后续动作\n请运行第三层 Agent 深挖补齐五维证据，并将 `scorecard.yaml` 状态更新为 `PENDING_HUMAN_REVIEW` 等待人类对掌舵人打分。\n"
+    },
+    {
+      "ticker": "CELH",
+      "scorecard": {
+        "ticker": "CELH",
+        "company_name": "Celsius Holdings, Inc.",
+        "cik": "0001341766",
+        "industry_slug": "initial_calibration_cohort",
+        "status": "DRAFTING_EVIDENCE",
+        "created_at": "2026-11-23",
+        "updated_at": "2026-11-23",
+        "layer2_track_qualified": "profitable_compounder",
+        "odds_check": {
+          "current_market_cap_usd_m": 7130.83,
+          "conservative_10y_target_market_cap_usd_m": null,
+          "implied_upside_multiple": null,
+          "passed_10x_gate": null,
+          "assumptions_summary": ""
+        },
+        "dimensions": {
+          "1_demand_fulfilling_innovation": {
+            "summary": "",
+            "incumbent_dilemma": "",
+            "evidence_refs": []
+          },
+          "2_market_formation": {
+            "why_now_inflection": "",
+            "estimated_penetration_pct": null,
+            "evidence_refs": []
+          },
+          "3_competitive_landscape": {
+            "emerging_moat_types": [],
+            "moat_evidence": "",
+            "evidence_refs": []
+          },
+          "4_financial_floor": {
+            "veto_passed": true,
+            "unit_economics_note": "",
+            "ttm_revenue_usd_m": 3169.4,
+            "revenue_yoy_growth": 0.4909,
+            "gross_margin": 0.4764,
+            "ocf_usd_m": 330.75,
+            "fcf_usd_m": 269.01,
+            "cash_runway_months": null,
+            "short_term_debt_to_cash": 0.0099,
+            "goodwill_to_assets": 0.1785,
+            "annual_share_dilution": -0.0197,
+            "filing_refs": [
+              "0001341766-26-000062"
+            ]
+          },
+          "5_management": {
+            "objective_evidence": {
+              "guidance_delivery_rate_note": "",
+              "capital_allocation_record": "",
+              "form4_net_insider_activity_24m": "",
+              "founder_led": null,
+              "insider_ownership_pct": null,
+              "evidence_refs": []
+            },
+            "human_subjective_score": null,
+            "human_notes": "",
+            "reviewed_by_human": false,
+            "reviewed_at": null
+          }
+        },
+        "decision": {
+          "three_sentence_memo": [
+            "",
+            "",
+            ""
+          ],
+          "falsification_lines": []
+        }
+      },
+      "evidence_markdown": "# `CELH` — 五维深度投研证据档案\n\n- **公司名称**：Celsius Holdings, Inc.\n- **CIK**：`0001341766`\n- **所属赛道**：`initial_calibration_cohort`\n- **二层命中轨道**：`profitable_compounder`\n- **当前状态**：`DRAFTING_EVIDENCE`\n- **初筛日期**：`2026-11-23`\n\n## 财务底线初筛快照（SEC Accession: `0001341766-26-000062`）\n- 市值：`$7130.83M` | EV/Sales：`2.8x`\n- TTM 营收：`$3169.4M` | YoY：`49.1%`\n- 毛利率：`47.6%` | OCF：`$330.75M` | FCF：`$269.01M`\n- 现金跑道：`N/A (FCF+)` | 短债/现金：`0.0099` | 商誉/总资产：`17.8%` | 年化稀释：`-2.0%`\n\n## 后续动作\n请运行第三层 Agent 深挖补齐五维证据，并将 `scorecard.yaml` 状态更新为 `PENDING_HUMAN_REVIEW` 等待人类对掌舵人打分。\n"
+    },
+    {
+      "ticker": "DUOL",
+      "scorecard": {
+        "ticker": "DUOL",
+        "company_name": "Duolingo, Inc.",
+        "cik": "0001562088",
+        "industry_slug": "initial_calibration_cohort",
+        "status": "DRAFTING_EVIDENCE",
+        "created_at": "2026-11-23",
+        "updated_at": "2026-11-23",
+        "layer2_track_qualified": "profitable_compounder",
+        "odds_check": {
+          "current_market_cap_usd_m": 6841.79,
+          "conservative_10y_target_market_cap_usd_m": null,
+          "implied_upside_multiple": null,
+          "passed_10x_gate": null,
+          "assumptions_summary": ""
+        },
+        "dimensions": {
+          "1_demand_fulfilling_innovation": {
+            "summary": "",
+            "incumbent_dilemma": "",
+            "evidence_refs": []
+          },
+          "2_market_formation": {
+            "why_now_inflection": "",
+            "estimated_penetration_pct": null,
+            "evidence_refs": []
+          },
+          "3_competitive_landscape": {
+            "emerging_moat_types": [],
+            "moat_evidence": "",
+            "evidence_refs": []
+          },
+          "4_financial_floor": {
+            "veto_passed": true,
+            "unit_economics_note": "",
+            "ttm_revenue_usd_m": 1182.3,
+            "revenue_yoy_growth": 0.2261,
+            "gross_margin": 0.7281,
+            "ocf_usd_m": 435.75,
+            "fcf_usd_m": 407.02,
+            "cash_runway_months": null,
+            "short_term_debt_to_cash": 0.0,
+            "goodwill_to_assets": 0.0186,
+            "annual_share_dilution": 0.0526,
+            "filing_refs": [
+              "0001628280-26-069692"
+            ]
+          },
+          "5_management": {
+            "objective_evidence": {
+              "guidance_delivery_rate_note": "",
+              "capital_allocation_record": "",
+              "form4_net_insider_activity_24m": "",
+              "founder_led": null,
+              "insider_ownership_pct": null,
+              "evidence_refs": []
+            },
+            "human_subjective_score": null,
+            "human_notes": "",
+            "reviewed_by_human": false,
+            "reviewed_at": null
+          }
+        },
+        "decision": {
+          "three_sentence_memo": [
+            "",
+            "",
+            ""
+          ],
+          "falsification_lines": []
+        }
+      },
+      "evidence_markdown": "# `DUOL` — 五维深度投研证据档案\n\n- **公司名称**：Duolingo, Inc.\n- **CIK**：`0001562088`\n- **所属赛道**：`initial_calibration_cohort`\n- **二层命中轨道**：`profitable_compounder`\n- **当前状态**：`DRAFTING_EVIDENCE`\n- **初筛日期**：`2026-11-23`\n\n## 财务底线初筛快照（SEC Accession: `0001628280-26-069692`）\n- 市值：`$6841.79M` | EV/Sales：`4.7x`\n- TTM 营收：`$1182.3M` | YoY：`22.6%`\n- 毛利率：`72.8%` | OCF：`$435.75M` | FCF：`$407.02M`\n- 现金跑道：`N/A (FCF+)` | 短债/现金：`0.0` | 商誉/总资产：`1.9%` | 年化稀释：`5.3%`\n\n## 后续动作\n请运行第三层 Agent 深挖补齐五维证据，并将 `scorecard.yaml` 状态更新为 `PENDING_HUMAN_REVIEW` 等待人类对掌舵人打分。\n"
+    },
+    {
+      "ticker": "ELF",
+      "scorecard": {
+        "ticker": "ELF",
+        "company_name": "e.l.f. Beauty, Inc.",
+        "cik": "0001600033",
+        "industry_slug": "initial_calibration_cohort",
+        "status": "DRAFTING_EVIDENCE",
+        "created_at": "2026-11-23",
+        "updated_at": "2026-11-23",
+        "layer2_track_qualified": "profitable_compounder",
+        "odds_check": {
+          "current_market_cap_usd_m": 6120.01,
+          "conservative_10y_target_market_cap_usd_m": null,
+          "implied_upside_multiple": null,
+          "passed_10x_gate": null,
+          "assumptions_summary": ""
+        },
+        "dimensions": {
+          "1_demand_fulfilling_innovation": {
+            "summary": "",
+            "incumbent_dilemma": "",
+            "evidence_refs": []
+          },
+          "2_market_formation": {
+            "why_now_inflection": "",
+            "estimated_penetration_pct": null,
+            "evidence_refs": []
+          },
+          "3_competitive_landscape": {
+            "emerging_moat_types": [],
+            "moat_evidence": "",
+            "evidence_refs": []
+          },
+          "4_financial_floor": {
+            "veto_passed": true,
+            "unit_economics_note": "",
+            "ttm_revenue_usd_m": 1938.99,
+            "revenue_yoy_growth": 0.3993,
+            "gross_margin": 0.7442,
+            "ocf_usd_m": 288.17,
+            "fcf_usd_m": 275.69,
+            "cash_runway_months": null,
+            "short_term_debt_to_cash": 0.0,
+            "goodwill_to_assets": 0.3324,
+            "annual_share_dilution": 0.0115,
+            "filing_refs": [
+              "0001600033-26-000050"
+            ]
+          },
+          "5_management": {
+            "objective_evidence": {
+              "guidance_delivery_rate_note": "",
+              "capital_allocation_record": "",
+              "form4_net_insider_activity_24m": "",
+              "founder_led": null,
+              "insider_ownership_pct": null,
+              "evidence_refs": []
+            },
+            "human_subjective_score": null,
+            "human_notes": "",
+            "reviewed_by_human": false,
+            "reviewed_at": null
+          }
+        },
+        "decision": {
+          "three_sentence_memo": [
+            "",
+            "",
+            ""
+          ],
+          "falsification_lines": []
+        }
+      },
+      "evidence_markdown": "# `ELF` — 五维深度投研证据档案\n\n- **公司名称**：e.l.f. Beauty, Inc.\n- **CIK**：`0001600033`\n- **所属赛道**：`initial_calibration_cohort`\n- **二层命中轨道**：`profitable_compounder`\n- **当前状态**：`DRAFTING_EVIDENCE`\n- **初筛日期**：`2026-11-23`\n\n## 财务底线初筛快照（SEC Accession: `0001600033-26-000050`）\n- 市值：`$6120.01M` | EV/Sales：`3.45x`\n- TTM 营收：`$1938.99M` | YoY：`39.9%`\n- 毛利率：`74.4%` | OCF：`$288.17M` | FCF：`$275.69M`\n- 现金跑道：`N/A (FCF+)` | 短债/现金：`0.0` | 商誉/总资产：`33.2%` | 年化稀释：`1.1%`\n\n## 后续动作\n请运行第三层 Agent 深挖补齐五维证据，并将 `scorecard.yaml` 状态更新为 `PENDING_HUMAN_REVIEW` 等待人类对掌舵人打分。\n"
+    },
+    {
+      "ticker": "IESC",
+      "scorecard": {
+        "ticker": "IESC",
+        "company_name": "IES Holdings, Inc.",
+        "cik": "0001048268",
+        "industry_slug": "initial_calibration_cohort",
+        "status": "DRAFTING_EVIDENCE",
+        "created_at": "2026-11-23",
+        "updated_at": "2026-11-23",
+        "layer2_track_qualified": "operating_leverage_compounder",
+        "odds_check": {
+          "current_market_cap_usd_m": 6617.69,
+          "conservative_10y_target_market_cap_usd_m": null,
+          "implied_upside_multiple": null,
+          "passed_10x_gate": null,
+          "assumptions_summary": ""
+        },
+        "dimensions": {
+          "1_demand_fulfilling_innovation": {
+            "summary": "",
+            "incumbent_dilemma": "",
+            "evidence_refs": []
+          },
+          "2_market_formation": {
+            "why_now_inflection": "",
+            "estimated_penetration_pct": null,
+            "evidence_refs": []
+          },
+          "3_competitive_landscape": {
+            "emerging_moat_types": [],
+            "moat_evidence": "",
+            "evidence_refs": []
+          },
+          "4_financial_floor": {
+            "veto_passed": true,
+            "unit_economics_note": "",
+            "ttm_revenue_usd_m": 4477.91,
+            "revenue_yoy_growth": 0.3282,
+            "gross_margin": 0.2656,
+            "ocf_usd_m": 364.52,
+            "fcf_usd_m": 201.44,
+            "cash_runway_months": null,
+            "short_term_debt_to_cash": 0.0,
+            "goodwill_to_assets": 0.0476,
+            "annual_share_dilution": -0.0001,
+            "filing_refs": [
+              "0001048268-26-000175"
+            ]
+          },
+          "5_management": {
+            "objective_evidence": {
+              "guidance_delivery_rate_note": "",
+              "capital_allocation_record": "",
+              "form4_net_insider_activity_24m": "",
+              "founder_led": null,
+              "insider_ownership_pct": null,
+              "evidence_refs": []
+            },
+            "human_subjective_score": null,
+            "human_notes": "",
+            "reviewed_by_human": false,
+            "reviewed_at": null
+          }
+        },
+        "decision": {
+          "three_sentence_memo": [
+            "",
+            "",
+            ""
+          ],
+          "falsification_lines": []
+        }
+      },
+      "evidence_markdown": "# `IESC` — 五维深度投研证据档案\n\n- **公司名称**：IES Holdings, Inc.\n- **CIK**：`0001048268`\n- **所属赛道**：`initial_calibration_cohort`\n- **二层命中轨道**：`operating_leverage_compounder`\n- **当前状态**：`DRAFTING_EVIDENCE`\n- **初筛日期**：`2026-11-23`\n\n## 财务底线初筛快照（SEC Accession: `0001048268-26-000175`）\n- 市值：`$6617.69M` | EV/Sales：`1.32x`\n- TTM 营收：`$4477.91M` | YoY：`32.8%`\n- 毛利率：`26.6%` | OCF：`$364.52M` | FCF：`$201.44M`\n- 现金跑道：`N/A (FCF+)` | 短债/现金：`0.0` | 商誉/总资产：`4.8%` | 年化稀释：`-0.0%`\n\n## 后续动作\n请运行第三层 Agent 深挖补齐五维证据，并将 `scorecard.yaml` 状态更新为 `PENDING_HUMAN_REVIEW` 等待人类对掌舵人打分。\n"
+    },
+    {
+      "ticker": "POWL",
+      "scorecard": {
+        "ticker": "POWL",
+        "company_name": "Powell Industries, Inc.",
+        "cik": "0000080420",
+        "industry_slug": "initial_calibration_cohort",
+        "status": "DRAFTING_EVIDENCE",
+        "created_at": "2026-11-23",
+        "updated_at": "2026-11-23",
+        "layer2_track_qualified": "profitable_compounder",
+        "odds_check": {
+          "current_market_cap_usd_m": 5402.42,
+          "conservative_10y_target_market_cap_usd_m": null,
+          "implied_upside_multiple": null,
+          "passed_10x_gate": null,
+          "assumptions_summary": ""
+        },
+        "dimensions": {
+          "1_demand_fulfilling_innovation": {
+            "summary": "",
+            "incumbent_dilemma": "",
+            "evidence_refs": []
+          },
+          "2_market_formation": {
+            "why_now_inflection": "",
+            "estimated_penetration_pct": null,
+            "evidence_refs": []
+          },
+          "3_competitive_landscape": {
+            "emerging_moat_types": [],
+            "moat_evidence": "",
+            "evidence_refs": []
+          },
+          "4_financial_floor": {
+            "veto_passed": true,
+            "unit_economics_note": "",
+            "ttm_revenue_usd_m": 1256.25,
+            "revenue_yoy_growth": 0.1376,
+            "gross_margin": 0.3128,
+            "ocf_usd_m": 433.69,
+            "fcf_usd_m": 415.23,
+            "cash_runway_months": null,
+            "short_term_debt_to_cash": 0.0,
+            "goodwill_to_assets": 0.0037,
+            "annual_share_dilution": 0.0061,
+            "filing_refs": [
+              "0000080420-26-000143"
+            ]
+          },
+          "5_management": {
+            "objective_evidence": {
+              "guidance_delivery_rate_note": "",
+              "capital_allocation_record": "",
+              "form4_net_insider_activity_24m": "",
+              "founder_led": null,
+              "insider_ownership_pct": null,
+              "evidence_refs": []
+            },
+            "human_subjective_score": null,
+            "human_notes": "",
+            "reviewed_by_human": false,
+            "reviewed_at": null
+          }
+        },
+        "decision": {
+          "three_sentence_memo": [
+            "",
+            "",
+            ""
+          ],
+          "falsification_lines": []
+        }
+      },
+      "evidence_markdown": "# `POWL` — 五维深度投研证据档案\n\n- **公司名称**：Powell Industries, Inc.\n- **CIK**：`0000080420`\n- **所属赛道**：`initial_calibration_cohort`\n- **二层命中轨道**：`profitable_compounder`\n- **当前状态**：`DRAFTING_EVIDENCE`\n- **初筛日期**：`2026-11-23`\n\n## 财务底线初筛快照（SEC Accession: `0000080420-26-000143`）\n- 市值：`$5402.42M` | EV/Sales：`3.62x`\n- TTM 营收：`$1256.25M` | YoY：`13.8%`\n- 毛利率：`31.3%` | OCF：`$433.69M` | FCF：`$415.23M`\n- 现金跑道：`N/A (FCF+)` | 短债/现金：`0.0` | 商誉/总资产：`0.4%` | 年化稀释：`0.6%`\n\n## 后续动作\n请运行第三层 Agent 深挖补齐五维证据，并将 `scorecard.yaml` 状态更新为 `PENDING_HUMAN_REVIEW` 等待人类对掌舵人打分。\n"
+    },
+    {
+      "ticker": "TMDX",
+      "scorecard": {
+        "ticker": "TMDX",
+        "company_name": "TransMedics Group, Inc.",
+        "cik": "0001756262",
+        "industry_slug": "initial_calibration_cohort",
+        "status": "DRAFTING_EVIDENCE",
+        "created_at": "2026-11-23",
+        "updated_at": "2026-11-23",
+        "layer2_track_qualified": "profitable_compounder",
+        "odds_check": {
+          "current_market_cap_usd_m": 2961.06,
+          "conservative_10y_target_market_cap_usd_m": null,
+          "implied_upside_multiple": null,
+          "passed_10x_gate": null,
+          "assumptions_summary": ""
+        },
+        "dimensions": {
+          "1_demand_fulfilling_innovation": {
+            "summary": "",
+            "incumbent_dilemma": "",
+            "evidence_refs": []
+          },
+          "2_market_formation": {
+            "why_now_inflection": "",
+            "estimated_penetration_pct": null,
+            "evidence_refs": []
+          },
+          "3_competitive_landscape": {
+            "emerging_moat_types": [],
+            "moat_evidence": "",
+            "evidence_refs": []
+          },
+          "4_financial_floor": {
+            "veto_passed": true,
+            "unit_economics_note": "",
+            "ttm_revenue_usd_m": 727.65,
+            "revenue_yoy_growth": 0.2848,
+            "gross_margin": 0.586,
+            "ocf_usd_m": 112.36,
+            "fcf_usd_m": 44.7,
+            "cash_runway_months": null,
+            "short_term_debt_to_cash": 0.1072,
+            "goodwill_to_assets": 0.0119,
+            "annual_share_dilution": 0.017,
+            "filing_refs": [
+              "0001193125-26-449827"
+            ]
+          },
+          "5_management": {
+            "objective_evidence": {
+              "guidance_delivery_rate_note": "",
+              "capital_allocation_record": "",
+              "form4_net_insider_activity_24m": "",
+              "founder_led": null,
+              "insider_ownership_pct": null,
+              "evidence_refs": []
+            },
+            "human_subjective_score": null,
+            "human_notes": "",
+            "reviewed_by_human": false,
+            "reviewed_at": null
+          }
+        },
+        "decision": {
+          "three_sentence_memo": [
+            "",
+            "",
+            ""
+          ],
+          "falsification_lines": []
+        }
+      },
+      "evidence_markdown": "# `TMDX` — 五维深度投研证据档案\n\n- **公司名称**：TransMedics Group, Inc.\n- **CIK**：`0001756262`\n- **所属赛道**：`initial_calibration_cohort`\n- **二层命中轨道**：`profitable_compounder`\n- **当前状态**：`DRAFTING_EVIDENCE`\n- **初筛日期**：`2026-11-23`\n\n## 财务底线初筛快照（SEC Accession: `0001193125-26-449827`）\n- 市值：`$2961.06M` | EV/Sales：`4.58x`\n- TTM 营收：`$727.65M` | YoY：`28.5%`\n- 毛利率：`58.6%` | OCF：`$112.36M` | FCF：`$44.7M`\n- 现金跑道：`N/A (FCF+)` | 短债/现金：`0.1072` | 商誉/总资产：`1.2%` | 年化稀释：`1.7%`\n\n## 后续动作\n请运行第三层 Agent 深挖补齐五维证据，并将 `scorecard.yaml` 状态更新为 `PENDING_HUMAN_REVIEW` 等待人类对掌舵人打分。\n"
+    }
+  ],
+  "near_miss": [
+    {
+      "ticker": "AXON",
+      "company_name": "Axon Enterprise, Inc.",
+      "cik": "0001069183",
+      "industry_slug": "initial_calibration_cohort",
+      "added_at": "2026-11-23",
+      "updated_at": "2026-11-23",
+      "near_miss_reason": "MARKET_CAP_ABOVE_PASS_RANGE",
+      "market_cap_at_entry_usd_m": 23708.32,
+      "price_at_entry_usd": 291.14,
+      "ev_to_sales_at_entry": 7.33,
+      "targets": {
+        "target_market_cap_usd_m": 15000.0,
+        "target_ev_to_sales": 18.0
+      },
+      "monitor_state": {
+        "status": "WATCHING",
+        "consecutive_days_below_target": 0,
+        "last_checked_at": "2026-11-24",
+        "last_market_cap_usd_m": 24691.21,
+        "last_price_usd": 303.21,
+        "last_alert_at": null,
+        "last_alert_market_cap_usd_m": null
+      },
+      "fundamentals_snapshot": {
+        "ttm_revenue_usd_m": 3417.01,
+        "revenue_yoy_growth": 0.3358,
+        "gross_margin": 0.5853,
+        "cash_runway_months": null,
+        "annual_share_dilution": 0.0335,
+        "track_qualified": "profitable_compounder",
+        "filing_accession": "0001628280-26-071242"
+      }
+    },
+    {
+      "ticker": "TOST",
+      "company_name": "Toast, Inc.",
+      "cik": "0001650164",
+      "industry_slug": "initial_calibration_cohort",
+      "added_at": "2026-11-23",
+      "updated_at": "2026-11-23",
+      "near_miss_reason": "MARKET_CAP_ABOVE_PASS_RANGE",
+      "market_cap_at_entry_usd_m": 18255.02,
+      "price_at_entry_usd": 31.42,
+      "ev_to_sales_at_entry": 2.29,
+      "targets": {
+        "target_market_cap_usd_m": 13691.26,
+        "target_ev_to_sales": 18.0
+      },
+      "monitor_state": {
+        "status": "WATCHING",
+        "consecutive_days_below_target": 0,
+        "last_checked_at": "2026-11-24",
+        "last_market_cap_usd_m": 19297.92,
+        "last_price_usd": 33.215,
+        "last_alert_at": null,
+        "last_alert_market_cap_usd_m": null
+      },
+      "fundamentals_snapshot": {
+        "ttm_revenue_usd_m": 7152.0,
+        "revenue_yoy_growth": 0.2209,
+        "gross_margin": 0.2697,
+        "cash_runway_months": null,
+        "annual_share_dilution": -0.0103,
+        "track_qualified": "operating_leverage_compounder",
+        "filing_accession": "0001650164-26-000216"
+      }
+    }
+  ],
+  "coffee_can": [],
+  "rejected_log": [
+    {
+      "ticker": "NET",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "market_cap_above_max_near_miss (> $35000M, actual $98543.53M)"
+      ],
+      "price_at_rejection_usd": 274.96,
+      "market_cap_at_rejection_usd_m": 98543.53,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "NET",
+        "as_of_date": "2026-11-23",
+        "cik": "0001477333",
+        "company_name": "Cloudflare, Inc.",
+        "price_usd": 274.96,
+        "market_cap_usd_m": 98543.53,
+        "ev_to_sales": 35.9,
+        "ttm_revenue_usd_m": 2732.84,
+        "revenue_yoy_growth": 0.3573,
+        "gross_margin": 0.719,
+        "gross_margin_yoy_change": -0.033,
+        "ocf_usd_m": 681.67,
+        "fcf_usd_m": 359.48,
+        "cash_and_st_inv_usd_m": 1969.5,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0488,
+        "annual_share_dilution": 0.0224,
+        "filing_accession": "0001477333-26-000061"
+      },
+      "notes": "Too large for 10x Coffee Can odds universe."
+    },
+    {
+      "ticker": "DDOG",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "market_cap_above_max_near_miss (> $35000M, actual $56817.26M)"
+      ],
+      "price_at_rejection_usd": 157.37,
+      "market_cap_at_rejection_usd_m": 56817.26,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "DDOG",
+        "as_of_date": "2026-11-23",
+        "cik": "0001561550",
+        "company_name": "Datadog, Inc.",
+        "price_usd": 157.37,
+        "market_cap_usd_m": 56817.26,
+        "ev_to_sales": 12.36,
+        "ttm_revenue_usd_m": 4278.16,
+        "revenue_yoy_growth": 0.3321,
+        "gross_margin": 0.7958,
+        "gross_margin_yoy_change": -0.0036,
+        "ocf_usd_m": 1267.52,
+        "fcf_usd_m": 1226.5,
+        "cash_and_st_inv_usd_m": 881.23,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0901,
+        "annual_share_dilution": 0.0286,
+        "filing_accession": "0001628280-26-070292"
+      },
+      "notes": "Too large for 10x Coffee Can odds universe."
+    },
+    {
+      "ticker": "TTD",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "tracks.failed_both (rev_yoy=7.0%, gm=75.6%, ocf_margin=37.3%)"
+      ],
+      "price_at_rejection_usd": 13.38,
+      "market_cap_at_rejection_usd_m": 6327.24,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "TTD",
+        "as_of_date": "2026-11-23",
+        "cik": "0001671933",
+        "company_name": "The Trade Desk, Inc.",
+        "price_usd": 13.38,
+        "market_cap_usd_m": 6327.24,
+        "ev_to_sales": 1.76,
+        "ttm_revenue_usd_m": 2986.67,
+        "revenue_yoy_growth": 0.0703,
+        "gross_margin": 0.7557,
+        "gross_margin_yoy_change": -0.0324,
+        "ocf_usd_m": 1115.26,
+        "fcf_usd_m": 862.19,
+        "cash_and_st_inv_usd_m": 1649.67,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0,
+        "annual_share_dilution": -0.0384,
+        "filing_accession": "0001671933-26-000116"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "MOD",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "tracks.failed_both (rev_yoy=35.1%, gm=21.7%, ocf_margin=4.5%)"
+      ],
+      "price_at_rejection_usd": 124.67,
+      "market_cap_at_rejection_usd_m": 6632.06,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "MOD",
+        "as_of_date": "2026-11-23",
+        "cik": "0000067347",
+        "company_name": "Modexus Solutions, Inc.",
+        "price_usd": 124.67,
+        "market_cap_usd_m": 6632.06,
+        "ev_to_sales": 2.03,
+        "ttm_revenue_usd_m": 3627.9,
+        "revenue_yoy_growth": 0.3508,
+        "gross_margin": 0.2173,
+        "gross_margin_yoy_change": -0.0232,
+        "ocf_usd_m": 162.5,
+        "fcf_usd_m": -9.9,
+        "cash_and_st_inv_usd_m": 150.6,
+        "cash_runway_months": 182.5,
+        "short_term_debt_to_cash": 0.0199,
+        "goodwill_to_total_assets": 0.0933,
+        "annual_share_dilution": 0.0114,
+        "filing_accession": "0001104659-26-122523"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "FIX",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "market_cap_above_max_near_miss (> $35000M, actual $36471.75M)"
+      ],
+      "price_at_rejection_usd": 1042.47,
+      "market_cap_at_rejection_usd_m": 36471.75,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "FIX",
+        "as_of_date": "2026-11-23",
+        "cik": "0001035983",
+        "company_name": "Comfort Systems USA, Inc.",
+        "price_usd": 1042.47,
+        "market_cap_usd_m": 36471.75,
+        "ev_to_sales": 2.76,
+        "ttm_revenue_usd_m": 12543.36,
+        "revenue_yoy_growth": 0.507,
+        "gross_margin": 0.2557,
+        "gross_margin_yoy_change": 0.0209,
+        "ocf_usd_m": 3006.92,
+        "fcf_usd_m": 2441.39,
+        "cash_and_st_inv_usd_m": 2158.03,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": 0.0026,
+        "goodwill_to_total_assets": 0.1173,
+        "annual_share_dilution": -0.0054,
+        "filing_accession": "0001104659-26-118159"
+      },
+      "notes": "Too large for 10x Coffee Can odds universe."
+    },
+    {
+      "ticker": "AVAV",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "common_floor.max_goodwill_to_total_assets (> 35%, actual 43.5%)",
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 6.3%)",
+        "tracks.failed_both (rev_yoy=84.4%, gm=26.5%, ocf_margin=2.9%)"
+      ],
+      "price_at_rejection_usd": 86.79,
+      "market_cap_at_rejection_usd_m": 4410.73,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "AVAV",
+        "as_of_date": "2026-11-23",
+        "cik": "0001368622",
+        "company_name": "AeroVironment, Inc.",
+        "price_usd": 86.79,
+        "market_cap_usd_m": 4410.73,
+        "ev_to_sales": 2.33,
+        "ttm_revenue_usd_m": 2002.66,
+        "revenue_yoy_growth": 0.8444,
+        "gross_margin": 0.2647,
+        "gross_margin_yoy_change": -0.0413,
+        "ocf_usd_m": 58.82,
+        "fcf_usd_m": -25.03,
+        "cash_and_st_inv_usd_m": 580.23,
+        "cash_runway_months": 278.2,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.4352,
+        "annual_share_dilution": 0.0627,
+        "filing_accession": "0001104659-26-106423"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "KTOS",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 10.7%)",
+        "tracks.failed_both (rev_yoy=28.2%, gm=23.0%, ocf_margin=-1.9%)"
+      ],
+      "price_at_rejection_usd": 26.89,
+      "market_cap_at_rejection_usd_m": 5062.67,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "KTOS",
+        "as_of_date": "2026-11-23",
+        "cik": "0001069258",
+        "company_name": "Kratos Defense & Security Solutions, Inc.",
+        "price_usd": 26.89,
+        "market_cap_usd_m": 5062.67,
+        "ev_to_sales": 2.37,
+        "ttm_revenue_usd_m": 1646.7,
+        "revenue_yoy_growth": 0.2817,
+        "gross_margin": 0.2302,
+        "gross_margin_yoy_change": 0.0012,
+        "ocf_usd_m": -31.5,
+        "fcf_usd_m": -123.0,
+        "cash_and_st_inv_usd_m": 1404.3,
+        "cash_runway_months": 137.0,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.2038,
+        "annual_share_dilution": 0.1073,
+        "filing_accession": "0001069258-26-000088"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "RKLB",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 23.4%)",
+        "tracks.failed_both (rev_yoy=59.0%, gm=36.2%, ocf_margin=-21.7%)"
+      ],
+      "price_at_rejection_usd": 45.42,
+      "market_cap_at_rejection_usd_m": 30566.39,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "RKLB",
+        "as_of_date": "2026-11-23",
+        "cik": "0001819994",
+        "company_name": "Rocket Lab Corporation",
+        "price_usd": 45.42,
+        "market_cap_usd_m": 30566.39,
+        "ev_to_sales": 27.46,
+        "ttm_revenue_usd_m": 881.9,
+        "revenue_yoy_growth": 0.5903,
+        "gross_margin": 0.3621,
+        "gross_margin_yoy_change": 0.0452,
+        "ocf_usd_m": -191.78,
+        "fcf_usd_m": -325.62,
+        "cash_and_st_inv_usd_m": 4607.95,
+        "cash_runway_months": 169.8,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0459,
+        "annual_share_dilution": 0.2337,
+        "filing_accession": "0001819994-26-000074"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "WING",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "tracks.failed_both (rev_yoy=6.9%, gm=86.1%, ocf_margin=25.6%)"
+      ],
+      "price_at_rejection_usd": 151.53,
+      "market_cap_at_rejection_usd_m": 4099.36,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "WING",
+        "as_of_date": "2026-11-23",
+        "cik": "0001636222",
+        "company_name": "Wingstop Inc.",
+        "price_usd": 151.53,
+        "market_cap_usd_m": 4099.36,
+        "ev_to_sales": 7.22,
+        "ttm_revenue_usd_m": 730.11,
+        "revenue_yoy_growth": 0.069,
+        "gross_margin": 0.861,
+        "gross_margin_yoy_change": -0.0,
+        "ocf_usd_m": 186.95,
+        "fcf_usd_m": 116.58,
+        "cash_and_st_inv_usd_m": 104.79,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.1495,
+        "annual_share_dilution": -0.0276,
+        "filing_accession": "0001628280-26-067883"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "OKLO",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "excluded_sector:Utilities",
+        "missing_ttm_revenue",
+        "missing_gross_margin",
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 25.4%)",
+        "tracks.failed_both (rev_yoy=N/A, gm=N/A, ocf_margin=N/A)"
+      ],
+      "price_at_rejection_usd": 19.85,
+      "market_cap_at_rejection_usd_m": 3876.5,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "OKLO",
+        "as_of_date": "2026-11-23",
+        "cik": "0001849056",
+        "company_name": "Oklo Inc.",
+        "price_usd": 19.85,
+        "market_cap_usd_m": 3876.5,
+        "ev_to_sales": null,
+        "ttm_revenue_usd_m": null,
+        "revenue_yoy_growth": null,
+        "gross_margin": null,
+        "gross_margin_yoy_change": null,
+        "ocf_usd_m": -144.37,
+        "fcf_usd_m": -452.19,
+        "cash_and_st_inv_usd_m": 1550.06,
+        "cash_runway_months": 41.1,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0044,
+        "annual_share_dilution": 0.2543,
+        "filing_accession": "0001628280-26-071319"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "PLUG",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "common_floor.min_gross_margin (< 20%, actual -3.0%)",
+        "common_floor.min_cash_runway_months (< 24m, actual 3.3m)",
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 20.3%)",
+        "tracks.failed_both (rev_yoy=13.5%, gm=-3.0%, ocf_margin=-61.1%)"
+      ],
+      "price_at_rejection_usd": 0.96,
+      "market_cap_at_rejection_usd_m": 1342.92,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "PLUG",
+        "as_of_date": "2026-11-23",
+        "cik": "0001093691",
+        "company_name": "Plug Power Inc.",
+        "price_usd": 0.96,
+        "market_cap_usd_m": 1342.92,
+        "ev_to_sales": 2.72,
+        "ttm_revenue_usd_m": 767.63,
+        "revenue_yoy_growth": 0.1353,
+        "gross_margin": -0.0302,
+        "gross_margin_yoy_change": 0.6827,
+        "ocf_usd_m": -469.17,
+        "fcf_usd_m": -485.54,
+        "cash_and_st_inv_usd_m": 134.13,
+        "cash_runway_months": 3.3,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0,
+        "annual_share_dilution": 0.2028,
+        "filing_accession": "0001104659-26-124578"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "TDOC",
+      "rejected_at": "2026-11-23",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "initial_calibration_cohort",
+      "failed_rules": [
+        "tracks.failed_both (rev_yoy=-2.4%, gm=68.6%, ocf_margin=10.9%)"
+      ],
+      "price_at_rejection_usd": 7.45,
+      "market_cap_at_rejection_usd_m": 1358.09,
+      "spy_price_at_rejection": 689.81,
+      "qqq_price_at_rejection": 608.45,
+      "metrics_snapshot": {
+        "ticker": "TDOC",
+        "as_of_date": "2026-11-23",
+        "cik": "0001477449",
+        "company_name": "Teladoc Health, Inc.",
+        "price_usd": 7.45,
+        "market_cap_usd_m": 1358.09,
+        "ev_to_sales": 0.63,
+        "ttm_revenue_usd_m": 2468.14,
+        "revenue_yoy_growth": -0.0238,
+        "gross_margin": 0.6857,
+        "gross_margin_yoy_change": -0.0123,
+        "ocf_usd_m": 268.38,
+        "fcf_usd_m": 261.96,
+        "cash_and_st_inv_usd_m": 849.91,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.102,
+        "annual_share_dilution": 0.0279,
+        "filing_accession": "0001477449-26-000052"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    }
+  ],
+  "post_mortem": {
+    "as_of_date": "2026-11-24",
+    "min_window_days": 180,
+    "total_rejected_entries": 12,
+    "mature_sample_count": 0,
+    "immature_sample_count": 12,
+    "false_negative_count": 0,
+    "overall_false_negative_rate": 0.0,
+    "samples": [
+      {
+        "ticker": "NET",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "market_cap_above_max_near_miss"
+        ],
+        "price_at_rejection": 274.96,
+        "current_price": 285.9,
+        "stock_return": 0.0398,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": 0.0016,
+        "excess_vs_qqq": -0.01,
+        "is_false_negative": false
+      },
+      {
+        "ticker": "DDOG",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "market_cap_above_max_near_miss"
+        ],
+        "price_at_rejection": 157.37,
+        "current_price": 165.73,
+        "stock_return": 0.0531,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": 0.0149,
+        "excess_vs_qqq": 0.0034,
+        "is_false_negative": false
+      },
+      {
+        "ticker": "TTD",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "tracks.failed_both"
+        ],
+        "price_at_rejection": 13.38,
+        "current_price": 14.43,
+        "stock_return": 0.0785,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": 0.0403,
+        "excess_vs_qqq": 0.0287,
+        "is_false_negative": false
+      },
+      {
+        "ticker": "MOD",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "tracks.failed_both"
+        ],
+        "price_at_rejection": 124.67,
+        "current_price": 134.79,
+        "stock_return": 0.0812,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": 0.043,
+        "excess_vs_qqq": 0.0314,
+        "is_false_negative": false
+      },
+      {
+        "ticker": "FIX",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "market_cap_above_max_near_miss"
+        ],
+        "price_at_rejection": 1042.47,
+        "current_price": 1110.1899,
+        "stock_return": 0.065,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": 0.0268,
+        "excess_vs_qqq": 0.0152,
+        "is_false_negative": false
+      },
+      {
+        "ticker": "AVAV",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "common_floor.max_annual_share_dilution",
+          "common_floor.max_goodwill_to_total_assets",
+          "tracks.failed_both"
+        ],
+        "price_at_rejection": 86.79,
+        "current_price": 91.4533,
+        "stock_return": 0.0537,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": 0.0155,
+        "excess_vs_qqq": 0.004,
+        "is_false_negative": false
+      },
+      {
+        "ticker": "KTOS",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "common_floor.max_annual_share_dilution",
+          "tracks.failed_both"
+        ],
+        "price_at_rejection": 26.89,
+        "current_price": 28.32,
+        "stock_return": 0.0532,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": 0.015,
+        "excess_vs_qqq": 0.0034,
+        "is_false_negative": false
+      },
+      {
+        "ticker": "RKLB",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "common_floor.max_annual_share_dilution",
+          "tracks.failed_both"
+        ],
+        "price_at_rejection": 45.42,
+        "current_price": 47.18,
+        "stock_return": 0.0387,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": 0.0005,
+        "excess_vs_qqq": -0.011,
+        "is_false_negative": false
+      },
+      {
+        "ticker": "WING",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "tracks.failed_both"
+        ],
+        "price_at_rejection": 151.53,
+        "current_price": 147.45,
+        "stock_return": -0.0269,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": -0.0651,
+        "excess_vs_qqq": -0.0767,
+        "is_false_negative": false
+      },
+      {
+        "ticker": "OKLO",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "common_floor.max_annual_share_dilution",
+          "excluded_sector:Utilities",
+          "missing_gross_margin",
+          "missing_ttm_revenue",
+          "tracks.failed_both"
+        ],
+        "price_at_rejection": 19.85,
+        "current_price": 19.775,
+        "stock_return": -0.0038,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": -0.042,
+        "excess_vs_qqq": -0.0535,
+        "is_false_negative": false
+      },
+      {
+        "ticker": "PLUG",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "common_floor.max_annual_share_dilution",
+          "common_floor.min_cash_runway_months",
+          "common_floor.min_gross_margin",
+          "tracks.failed_both"
+        ],
+        "price_at_rejection": 0.96,
+        "current_price": 0.958,
+        "stock_return": -0.0021,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": -0.0403,
+        "excess_vs_qqq": -0.0518,
+        "is_false_negative": false
+      },
+      {
+        "ticker": "TDOC",
+        "rejected_at": "2026-11-23",
+        "days_elapsed": 1,
+        "mature": false,
+        "failed_rule_keys": [
+          "tracks.failed_both"
+        ],
+        "price_at_rejection": 7.45,
+        "current_price": 7.6675,
+        "stock_return": 0.0292,
+        "spy_return": 0.0382,
+        "qqq_return": 0.0497,
+        "excess_vs_spy": -0.009,
+        "excess_vs_qqq": -0.0206,
+        "is_false_negative": false
+      }
+    ],
+    "rule_attributions": [
+      {
+        "rule_key": "tracks.failed_both",
+        "sample_count": 9,
+        "false_negative_count": 0,
+        "false_negative_rate": 0.0,
+        "avg_excess_vs_spy": -0.0047,
+        "missed_tickers": [],
+        "needs_calibration": false,
+        "proposal": ""
+      },
+      {
+        "rule_key": "common_floor.max_annual_share_dilution",
+        "sample_count": 5,
+        "false_negative_count": 0,
+        "false_negative_rate": 0.0,
+        "avg_excess_vs_spy": -0.0103,
+        "missed_tickers": [],
+        "needs_calibration": false,
+        "proposal": ""
+      },
+      {
+        "rule_key": "market_cap_above_max_near_miss",
+        "sample_count": 3,
+        "false_negative_count": 0,
+        "false_negative_rate": 0.0,
+        "avg_excess_vs_spy": 0.0144,
+        "missed_tickers": [],
+        "needs_calibration": false,
+        "proposal": ""
+      },
+      {
+        "rule_key": "common_floor.max_goodwill_to_total_assets",
+        "sample_count": 1,
+        "false_negative_count": 0,
+        "false_negative_rate": 0.0,
+        "avg_excess_vs_spy": 0.0155,
+        "missed_tickers": [],
+        "needs_calibration": false,
+        "proposal": ""
+      },
+      {
+        "rule_key": "excluded_sector:Utilities",
+        "sample_count": 1,
+        "false_negative_count": 0,
+        "false_negative_rate": 0.0,
+        "avg_excess_vs_spy": -0.042,
+        "missed_tickers": [],
+        "needs_calibration": false,
+        "proposal": ""
+      },
+      {
+        "rule_key": "missing_gross_margin",
+        "sample_count": 1,
+        "false_negative_count": 0,
+        "false_negative_rate": 0.0,
+        "avg_excess_vs_spy": -0.042,
+        "missed_tickers": [],
+        "needs_calibration": false,
+        "proposal": ""
+      },
+      {
+        "rule_key": "missing_ttm_revenue",
+        "sample_count": 1,
+        "false_negative_count": 0,
+        "false_negative_rate": 0.0,
+        "avg_excess_vs_spy": -0.042,
+        "missed_tickers": [],
+        "needs_calibration": false,
+        "proposal": ""
+      },
+      {
+        "rule_key": "common_floor.min_cash_runway_months",
+        "sample_count": 1,
+        "false_negative_count": 0,
+        "false_negative_rate": 0.0,
+        "avg_excess_vs_spy": -0.0403,
+        "missed_tickers": [],
+        "needs_calibration": false,
+        "proposal": ""
+      },
+      {
+        "rule_key": "common_floor.min_gross_margin",
+        "sample_count": 1,
+        "false_negative_count": 0,
+        "false_negative_rate": 0.0,
+        "avg_excess_vs_spy": -0.0403,
+        "missed_tickers": [],
+        "needs_calibration": false,
+        "proposal": ""
+      }
+    ],
+    "dormant_checks": [
+      {
+        "slug": "industrial_smr_nuclear",
+        "name": "微型模块化核电 (SMR) 与先进核能",
+        "candidates_checked": 3,
+        "avg_180d_excess_vs_spy": -0.6615,
+        "breakout_alert": false,
+        "note": ""
+      }
+    ],
+    "calibration_proposals": []
+  },
+  "reports": [
+    {
+      "filename": "20261124_144308_post_mortem.md",
+      "content": "# [INFO] Semi-Annual Post-Mortem (2026-11-24)\n\n- **复盘日期**：`2026-11-24`\n- **淘汰样本总数**：`12`（满 180 天：`0`，未满期：`12`）\n- **潜在误杀率（相对 SPY 超额 >= +30%）**：`0.0%`\n\n## 按淘汰规则归因\n| 规则键 | 样本数 | 误杀数 | 误杀率 | 平均超额 (vs SPY) | 状态 |\n|---|---:|---:|---:|---:|---|\n| `tracks.failed_both` | 9 | 0 | 0.0% | -0.5% | 保持严控 |\n| `common_floor.max_annual_share_dilution` | 5 | 0 | 0.0% | -1.0% | 保持严控 |\n| `market_cap_above_max_near_miss` | 3 | 0 | 0.0% | +1.4% | 保持严控 |\n| `common_floor.max_goodwill_to_total_assets` | 1 | 0 | 0.0% | +1.6% | 保持严控 |\n| `excluded_sector:Utilities` | 1 | 0 | 0.0% | -4.2% | 保持严控 |\n| `missing_gross_margin` | 1 | 0 | 0.0% | -4.2% | 保持严控 |\n| `missing_ttm_revenue` | 1 | 0 | 0.0% | -4.2% | 保持严控 |\n| `common_floor.min_cash_runway_months` | 1 | 0 | 0.0% | -4.0% | 保持严控 |\n| `common_floor.min_gross_margin` | 1 | 0 | 0.0% | -4.0% | 保持严控 |\n\n## 休眠行业 (DORMANT) 股价异动复查\n- **industrial_smr_nuclear**（微型模块化核电 (SMR) 与先进核能）：180 天均值超额 `-66.1%` — 正常休眠 \n\n## `config/rules.yaml` 调参提案（严禁自动修改，须人类审批）\n- 当前无触发校准红线的规则，保持现有 `config/rules.yaml` 参数不变。\n"
+    },
+    {
+      "filename": "20261124_143020_topic_radar.md",
+      "content": "# [TRIGGER] Layer 1 Radar: 1 Industry Awakening(s)\n\n- **organ_perfusion_medtech**: AWAKENED DORMANT -> ACTIVE via: leaders_agg_rev ($728M >= $600M); sector_yoy (28.5% >= 25%); sec_cluster_180d (4 >= 3)\n"
+    }
+  ]
+}

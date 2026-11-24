@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coffee Can OS — 自主投研工作台</title>
+  <meta name="description" content="Coffee Can 自主投研系统交互工作台：三层漏斗、行业状态机、SEC XBRL 双轨量化初筛、五维人机协同深挖与四大自动化闭环。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Left Navigation Rail -->
+    <aside class="sidebar" aria-label="主导航侧栏">
+      <div class="sidebar-top">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">CC</div>
+          <div class="brand-text">
+            <div class="brand-title">Coffee Can OS</div>
+            <div class="brand-subtitle">自主投研工作台</div>
+          </div>
+        </div>
+
+        <div class="universe-chip">
+          <span class="muted">目标赔率宇宙</span>
+          <span class="mono strong">US · $300M–$15B</span>
+        </div>
+
+        <nav class="nav-list" aria-label="功能模块">
+          <button type="button" class="nav-item is-active" data-tab="overview" id="nav-overview">
+            <span class="nav-label">
+              <span class="nav-dot dot-primary"></span>
+              <span>漏斗总览</span>
+            </span>
+            <span class="nav-meta mono">HQ</span>
+          </button>
+
+          <div class="nav-section-label">三层投研漏斗</div>
+
+          <button type="button" class="nav-item" data-tab="radar" id="nav-radar">
+            <span class="nav-label">
+              <span class="nav-code mono">L1</span>
+              <span>赛道雷达 & 状态机</span>
+            </span>
+            <span class="badge badge-primary mono" id="badge-active-industries">0</span>
+          </button>
+
+          <button type="button" class="nav-item" data-tab="screener" id="nav-screener">
+            <span class="nav-label">
+              <span class="nav-code mono">L2</span>
+              <span>量化硬筛分流台</span>
+            </span>
+            <span class="badge badge-muted mono" id="badge-screener-total">0</span>
+          </button>
+
+          <button type="button" class="nav-item" data-tab="deepdive" id="nav-deepdive">
+            <span class="nav-label">
+              <span class="nav-code mono">L3</span>
+              <span>五维深挖 & 掌舵人</span>
+            </span>
+            <span class="badge badge-warning mono" id="badge-research-count">0</span>
+          </button>
+
+          <div class="nav-section-label">自动化闭环</div>
+
+          <button type="button" class="nav-item" data-tab="loops" id="nav-loops">
+            <span class="nav-label">
+              <span class="nav-dot dot-success"></span>
+              <span>咖啡罐 · 观察池 · 复盘</span>
+            </span>
+            <span class="badge badge-success mono" id="badge-in-can">0</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="footer-row">
+          <span class="muted">运行模式</span>
+          <span class="mode-pill mono" id="runtime-mode-pill">连接中...</span>
+        </div>
+        <div class="footer-row">
+          <span class="muted">规则版本</span>
+          <span class="mono" id="rules-version-text">rules.yaml</span>
+        </div>
+        <div class="footer-actions">
+          <button type="button" class="btn btn-ghost btn-sm" id="btn-refresh" title="重新读取 memory/ 文件">
+            刷新数据
+          </button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btn-theme" title="切换浅色/深色主题">
+            深色模式
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="workspace">
+      <header class="topbar">
+        <div>
+          <h1 id="page-title" class="page-title">漏斗总览</h1>
+          <p id="page-subtitle" class="page-subtitle">实时读取 Git memory/ 真相源与 SEC EDGAR 财报档案</p>
+        </div>
+        <div class="topbar-meta">
+          <span class="meta-chip mono" id="snapshot-time">同步中...</span>
+          <span class="meta-chip">SEC XBRL · USASpending · yfinance</span>
+        </div>
+      </header>
+
+      <div id="view-root" class="view-root" aria-live="polite">
+        <div class="loading-state">正在加载 Coffee Can 投研记忆库...</div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
