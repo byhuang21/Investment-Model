@@ -11,7 +11,10 @@ from coffee_can.config import ProjectPaths, load_rules
 from coffee_can.storage import list_active_yaml_files, read_rejected_log, read_yaml
 
 
-def build_workbench_snapshot(root: Path | None = None) -> dict[str, Any]:
+def build_workbench_snapshot(
+    root: Path | None = None,
+    env_name: str = "prod",
+) -> dict[str, Any]:
     """Read live state from config/ and memory/ without external network calls."""
     paths = ProjectPaths.from_root(root)
     rules = load_rules(paths.root)
@@ -62,7 +65,21 @@ def build_workbench_snapshot(root: Path | None = None) -> dict[str, Any]:
                 }
             )
 
+    def _list_lane(lane_dir: Path) -> list[str]:
+        if not lane_dir.exists():
+            return []
+        return sorted(
+            p.name for p in lane_dir.iterdir() if p.is_file() and not p.name.startswith(".")
+        )
+
+    quarantine = {
+        "anomalies": _list_lane(paths.quarantine_anomalies_dir),
+        "proposals": _list_lane(paths.quarantine_proposals_dir),
+        "signals": _list_lane(paths.quarantine_signals_dir),
+    }
+
     return {
+        "env": env_name,
         "generated_at": datetime.now(UTC).isoformat(),
         "rules_version": rules.get("version", "0.2.0"),
         "rules": rules,
@@ -72,6 +89,7 @@ def build_workbench_snapshot(root: Path | None = None) -> dict[str, Any]:
         "coffee_can": coffee_can,
         "rejected_log": rejected_log.get("entries", []),
         "post_mortem": post_mortem,
+        "quarantine": quarantine,
         "reports": reports,
     }
 

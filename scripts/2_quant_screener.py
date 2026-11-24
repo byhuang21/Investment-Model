@@ -36,6 +36,7 @@ from coffee_can.config import (
     load_data_sources,
     load_environment,
     load_rules,
+    resolve_workspace_root,
 )
 from coffee_can.schemas import FinancialSnapshot, RejectedEntry, ScreenDecision, ScreenOutcome
 from coffee_can.screener import compute_near_miss_target_mcap, evaluate_snapshot
@@ -50,6 +51,12 @@ from coffee_can.storage import (
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Layer 2: Run dual-track quant hard screening and 3-way routing."
+    )
+    parser.add_argument(
+        "--env",
+        choices=["prod", "sandbox"],
+        default=None,
+        help="Target workspace environment (defaults to COFFEE_CAN_ENV or 'prod').",
     )
     parser.add_argument(
         "--tickers",
@@ -386,9 +393,10 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     load_environment(ROOT_DIR)
 
-    paths = ProjectPaths.from_root(ROOT_DIR)
-    rules = load_rules(ROOT_DIR)
-    data_sources = load_data_sources(ROOT_DIR)
+    ws_root, env_name = resolve_workspace_root(args.env, ROOT_DIR)
+    paths = ProjectPaths.from_root(ws_root)
+    rules = load_rules(ws_root)
+    data_sources = load_data_sources(ws_root)
 
     l2_cfg = rules["layer2_quant_screener"]
     mcap_cfg = l2_cfg["market_cap_usd_m"]
@@ -400,7 +408,7 @@ def main(argv: list[str] | None = None) -> int:
     else:
         ticker_map = collect_active_industry_tickers(paths.industries_dir, args.industry)
 
-    print("=== [Layer 2] Dual-Track Quant Screener ===")
+    print(f"=== [Layer 2] Dual-Track Quant Screener [{env_name.upper()}] ===")
     print(f"PASS market cap range  : ${mcap_cfg['min_pass']}M - ${mcap_cfg['max_pass']}M")
     print(f"NEAR_MISS ceiling      : <= ${mcap_cfg['max_near_miss']}M")
     print(f"Max annual dilution    : {l2_cfg['common_floor']['max_annual_share_dilution']:.1%}")
@@ -467,6 +475,19 @@ def main(argv: list[str] | None = None) -> int:
                     route_rejected(decision, paths, industry_slug, today_str, spy_price, qqq_price)
         except Exception as exc:
             errors.append((ticker, str(exc)))
+            if not args.dry_run:
+                anom_path = paths.quarantine_anomalies_dir / f"{ticker}_{today_str}.yaml"
+                write_yaml(
+                    anom_path,
+                    {
+                        "ticker": ticker,
+                        "detected_at": today_str,
+                        "source_script": "2_quant_screener.py",
+                        "industry_slug": industry_slug,
+                        "error": str(exc),
+                        "status": "QUARANTINED",
+                    },
+                )
 
     print_summary_table(decisions)
 

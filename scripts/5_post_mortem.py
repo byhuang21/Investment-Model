@@ -24,7 +24,13 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from coffee_can.clients.market_data import MarketDataClient
-from coffee_can.config import ProjectPaths, load_data_sources, load_environment, load_rules
+from coffee_can.config import (
+    ProjectPaths,
+    load_data_sources,
+    load_environment,
+    load_rules,
+    resolve_workspace_root,
+)
 from coffee_can.notifier import AlertMessage, Notifier
 from coffee_can.post_mortem import (
     DormantIndustryCheck,
@@ -37,6 +43,12 @@ from coffee_can.storage import list_active_yaml_files, read_rejected_log, read_y
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Run semi-annual post-mortem on rejected stocks and DORMANT industries."
+    )
+    parser.add_argument(
+        "--env",
+        choices=["prod", "sandbox"],
+        default=None,
+        help="Target workspace environment (defaults to COFFEE_CAN_ENV or 'prod').",
     )
     parser.add_argument(
         "--include-immature",
@@ -60,9 +72,10 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     load_environment(ROOT_DIR)
 
-    paths = ProjectPaths.from_root(ROOT_DIR)
-    rules = load_rules(ROOT_DIR)
-    data_sources = load_data_sources(ROOT_DIR)
+    ws_root, env_name = resolve_workspace_root(args.env, ROOT_DIR)
+    paths = ProjectPaths.from_root(ws_root)
+    rules = load_rules(ws_root)
+    data_sources = load_data_sources(ws_root)
 
     pm_cfg = rules["post_mortem"]
     primary_bm = str(pm_cfg["benchmarks"]["primary"])
@@ -76,7 +89,7 @@ def main(argv: list[str] | None = None) -> int:
         if str(read_yaml(p).get("status", "")).upper() == "DORMANT"
     ]
 
-    print("=== [Loop 3] Semi-Annual Post-Mortem Calibration ===")
+    print(f"=== [Loop 3] Semi-Annual Post-Mortem Calibration [{env_name.upper()}] ===")
     print(f"Rejected log entries   : {len(entries)}")
     print(f"Dormant industries     : {len(dormant_records)}")
     print(f"Benchmarks             : {primary_bm} / {secondary_bm}")
@@ -179,6 +192,14 @@ def main(argv: list[str] | None = None) -> int:
             json.dump(report.to_dict(), fh, indent=2, ensure_ascii=False)
             fh.write("\n")
         tmp.replace(latest_json)
+
+        if report.calibration_proposals:
+            paths.quarantine_proposals_dir.mkdir(parents=True, exist_ok=True)
+            prop_path = paths.quarantine_proposals_dir / f"{today_str}_rules_calibration.md"
+            prop_path.write_text(
+                f"# Rules Calibration Proposal ({today_str})\n\n{markdown_body}\n",
+                encoding="utf-8",
+            )
 
     return 0
 

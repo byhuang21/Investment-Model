@@ -51,11 +51,15 @@ class WatchlistTargetPayload(BaseModel):
     target_market_cap_usd_m: float = Field(..., gt=0)
 
 
-def create_app(root: Path | None = None) -> FastAPI:
+def create_app(
+    root: Path | None = None,
+    web_dir: Path | None = None,
+    env_name: str = "prod",
+) -> FastAPI:
     """Create a configured FastAPI instance bound to `root` (defaults to repo root)."""
     repo_root = (root or get_project_root()).resolve()
     paths = ProjectPaths.from_root(repo_root)
-    web_dir = repo_root / "web"
+    static_web_dir = (web_dir or (repo_root / "web")).resolve()
 
     app = FastAPI(
         title="Coffee Can Research Workbench API",
@@ -65,11 +69,11 @@ def create_app(root: Path | None = None) -> FastAPI:
 
     @app.get("/api/health")
     def health() -> dict[str, str]:
-        return {"status": "ok", "mode": "live-rw"}
+        return {"status": "ok", "mode": "live-rw", "env": env_name}
 
     @app.get("/api/snapshot")
     def get_snapshot() -> dict[str, Any]:
-        return build_workbench_snapshot(repo_root)
+        return build_workbench_snapshot(repo_root, env_name=env_name)
 
     @app.post("/api/research/{ticker}/human-review")
     def save_human_review(ticker: str, payload: HumanReviewPayload) -> dict[str, Any]:
@@ -249,12 +253,12 @@ def create_app(root: Path | None = None) -> FastAPI:
         write_yaml(nm_path, rec)
         return {"updated": True, "near_miss": rec}
 
-    if web_dir.exists():
+    if static_web_dir.exists():
         @app.get("/")
         def index() -> FileResponse:
-            return FileResponse(web_dir / "index.html")
+            return FileResponse(static_web_dir / "index.html")
 
-        app.mount("/", StaticFiles(directory=str(web_dir), html=True), name="web")
+        app.mount("/", StaticFiles(directory=str(static_web_dir), html=True), name="web")
 
     return app
 

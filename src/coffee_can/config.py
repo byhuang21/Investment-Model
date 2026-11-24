@@ -1,4 +1,4 @@
-"""Configuration and path helpers for the Coffee Can research system."""
+"""Configuration, environment isolation (prod/sandbox), and path helpers."""
 
 from __future__ import annotations
 
@@ -15,15 +15,37 @@ except ImportError:  # pragma: no cover - optional when python-dotenv isn't inst
     def load_dotenv(*_args: Any, **_kwargs: Any) -> bool:
         return False
 
+VALID_ENVS = {"prod", "sandbox"}
+
 
 def get_project_root() -> Path:
     """Resolve repository root relative to this module."""
     return Path(__file__).resolve().parents[2]
 
 
+def resolve_workspace_root(
+    env: str | None = None,
+    repo_root: Path | None = None,
+) -> tuple[Path, str]:
+    """Resolve active workspace directory (`prod` -> repo root, `sandbox` -> `<repo>/sandbox`)."""
+    base = (repo_root or get_project_root()).resolve()
+    chosen = (env or os.getenv("COFFEE_CAN_ENV", "prod")).strip().lower()
+    if chosen not in VALID_ENVS:
+        raise ValueError(f"Unsupported COFFEE_CAN_ENV '{chosen}'. Expected one of {VALID_ENVS}.")
+    if chosen == "sandbox":
+        sb_root = base / "sandbox"
+        if not (sb_root / "config" / "rules.yaml").exists():
+            raise FileNotFoundError(
+                f"Sandbox workspace not initialized at {sb_root}. "
+                "Run: python scripts/sandbox_tool.py init"
+            )
+        return sb_root, "sandbox"
+    return base, "prod"
+
+
 @dataclass(frozen=True)
 class ProjectPaths:
-    """Canonical project directories and files."""
+    """Canonical project directories and files (supports both prod and sandbox roots)."""
 
     root: Path
     config_dir: Path
@@ -36,6 +58,10 @@ class ProjectPaths:
     coffee_can_dir: Path
     transcripts_dir: Path
     reports_dir: Path
+    quarantine_dir: Path
+    quarantine_anomalies_dir: Path
+    quarantine_proposals_dir: Path
+    quarantine_signals_dir: Path
     rejected_log_file: Path
 
     @classmethod
@@ -43,6 +69,7 @@ class ProjectPaths:
         base = (root or get_project_root()).resolve()
         config_dir = base / "config"
         memory_dir = base / "memory"
+        quarantine_dir = memory_dir / "quarantine"
         return cls(
             root=base,
             config_dir=config_dir,
@@ -55,6 +82,10 @@ class ProjectPaths:
             coffee_can_dir=memory_dir / "coffee_can",
             transcripts_dir=memory_dir / "inputs" / "transcripts",
             reports_dir=memory_dir / "reports",
+            quarantine_dir=quarantine_dir,
+            quarantine_anomalies_dir=quarantine_dir / "anomalies",
+            quarantine_proposals_dir=quarantine_dir / "proposals",
+            quarantine_signals_dir=quarantine_dir / "signals",
             rejected_log_file=memory_dir / "rejected_log.json",
         )
 
@@ -84,8 +115,8 @@ def load_data_sources(root: Path | None = None) -> dict[str, Any]:
 
 def load_environment(root: Path | None = None) -> None:
     """Load local .env file if present without overriding existing environment variables."""
-    paths = ProjectPaths.from_root(root)
-    env_file = paths.root / ".env"
+    base = (root or get_project_root()).resolve()
+    env_file = base / ".env"
     if env_file.exists():
         load_dotenv(dotenv_path=env_file, override=False)
 

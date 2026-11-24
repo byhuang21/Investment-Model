@@ -32,6 +32,7 @@ from coffee_can.config import (
     load_data_sources,
     load_environment,
     load_rules,
+    resolve_workspace_root,
 )
 from coffee_can.earnings_diff import EarningsHealthCheck, evaluate_earnings_diff
 from coffee_can.notifier import AlertMessage, Notifier
@@ -42,6 +43,12 @@ from coffee_can.storage import list_active_yaml_files, read_yaml, write_yaml
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Run quarterly 10-Q/10-K diff against memory/coffee_can/ falsification lines."
+    )
+    parser.add_argument(
+        "--env",
+        choices=["prod", "sandbox"],
+        default=None,
+        help="Target workspace environment (defaults to COFFEE_CAN_ENV or 'prod').",
     )
     parser.add_argument(
         "--ticker",
@@ -77,9 +84,10 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     load_environment(ROOT_DIR)
 
-    paths = ProjectPaths.from_root(ROOT_DIR)
-    rules = load_rules(ROOT_DIR)
-    data_sources = load_data_sources(ROOT_DIR)
+    ws_root, env_name = resolve_workspace_root(args.env, ROOT_DIR)
+    paths = ProjectPaths.from_root(ws_root)
+    rules = load_rules(ws_root)
+    data_sources = load_data_sources(ws_root)
 
     positions = list_active_yaml_files(paths.coffee_can_dir)
     if args.ticker:
@@ -89,7 +97,7 @@ def main(argv: list[str] | None = None) -> int:
         ]
 
     yellow_cfg = rules["earnings_diff"]["traffic_light"]["yellow_triggers"]
-    print("=== [Loop 2] Quarterly Earnings Diff & Falsification Check ===")
+    print(f"=== [Loop 2] Quarterly Earnings Diff & Falsification Check [{env_name.upper()}] ===")
     print(f"Positions in Coffee Can: {len(positions)}")
     print(f"Yellow GM drop trigger : >= {yellow_cfg['gross_margin_drop_yoy_bps']} bps YoY")
     print(f"Dry run                : {args.dry_run}")

@@ -1,5 +1,6 @@
 {
-  "generated_at": "2026-11-24T14:48:09.243873+00:00",
+  "env": "prod",
+  "generated_at": "2026-11-24T20:08:21.601906+00:00",
   "rules_version": "0.2.0",
   "rules": {
     "version": "0.2.0",
@@ -1930,6 +1931,11 @@
       }
     ],
     "calibration_proposals": []
+  },
+  "quarantine": {
+    "anomalies": [],
+    "proposals": [],
+    "signals": []
   },
   "reports": [
     {

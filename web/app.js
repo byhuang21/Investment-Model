@@ -126,8 +126,13 @@ function syncHeaderAndBadges() {
   document.getElementById("rules-version-text").textContent = `rules v${s.rules_version || "0.2.0"}`;
   const modePill = document.getElementById("runtime-mode-pill");
   if (appState.mode === "live-rw") {
-    modePill.textContent = "本地读写 API";
-    modePill.classList.remove("is-static");
+    if (s.env === "sandbox") {
+      modePill.textContent = "SANDBOX 沙盒读写";
+      modePill.classList.add("is-static");
+    } else {
+      modePill.textContent = "PROD 本地读写";
+      modePill.classList.remove("is-static");
+    }
   } else {
     modePill.textContent = "静态只读快照";
     modePill.classList.add("is-static");

@@ -38,6 +38,7 @@ from coffee_can.config import (
     load_data_sources,
     load_environment,
     load_rules,
+    resolve_workspace_root,
 )
 from coffee_can.notifier import AlertMessage, Notifier
 from coffee_can.radar import (
@@ -53,6 +54,12 @@ from coffee_can.storage import list_active_yaml_files, read_yaml, write_yaml
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Layer 1: Scan external signals and update industry state machines."
+    )
+    parser.add_argument(
+        "--env",
+        choices=["prod", "sandbox"],
+        default=None,
+        help="Target workspace environment (defaults to COFFEE_CAN_ENV or 'prod').",
     )
     parser.add_argument(
         "--industry",
@@ -196,9 +203,10 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     load_environment(ROOT_DIR)
 
-    paths = ProjectPaths.from_root(ROOT_DIR)
-    rules = load_rules(ROOT_DIR)
-    data_sources = load_data_sources(ROOT_DIR)
+    ws_root, env_name = resolve_workspace_root(args.env, ROOT_DIR)
+    paths = ProjectPaths.from_root(ws_root)
+    rules = load_rules(ws_root)
+    data_sources = load_data_sources(ws_root)
 
     industries = list_active_yaml_files(paths.industries_dir)
     if args.industry:
@@ -207,7 +215,7 @@ def main(argv: list[str] | None = None) -> int:
         ]
 
     awaken_cfg = rules["layer1_industry_radar"]["state_machine"]["awaken_thresholds"]
-    print("=== [Layer 1] Topic Radar & Industry State Machine ===")
+    print(f"=== [Layer 1] Topic Radar & Industry State Machine [{env_name.upper()}] ===")
     print(f"Tracked industries     : {len(industries)}")
     print(f"Global awaken revenue  : ${awaken_cfg['min_leaders_aggregate_revenue_usd_m']}M")
     print(f"Dry run                : {args.dry_run}")

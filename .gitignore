@@ -15,8 +15,9 @@ venv/
 .env
 .env.local
 
-# Local cache & runtime artifacts
+# Local cache, sandbox & runtime artifacts
 .cache/
+sandbox/
 *.log
 
 # OS / Editor
