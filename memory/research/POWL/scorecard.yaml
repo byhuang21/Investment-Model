@@ -2,9 +2,9 @@ ticker: POWL
 company_name: Powell Industries, Inc.
 cik: 0000080420
 industry_slug: initial_calibration_cohort
-status: DRAFTING_EVIDENCE
+status: PENDING_HUMAN_REVIEW
 created_at: '2026-11-23'
-updated_at: '2026-11-23'
+updated_at: '2026-11-25'
 layer2_track_qualified: profitable_compounder
 odds_check:
   current_market_cap_usd_m: 5402.42
@@ -42,11 +42,80 @@ dimensions:
   5_management:
     objective_evidence:
       guidance_delivery_rate_note: ''
-      capital_allocation_record: ''
-      form4_net_insider_activity_24m: ''
+      capital_allocation_record: 近 3 财年累计：FCF $666.7M | CapEx $43.6M | 现金并购 $11.5M
+        | 股票回购 $0.0M
+      form4_net_insider_activity_24m: 解析 40 份 Form 4：公开买入 0 笔 ($0) | 自主卖出 30 笔 ($56.02M)
+        | 10b5-1 计划卖出 36 笔 ($10.05M)
       founder_led: null
       insider_ownership_pct: null
-      evidence_refs: []
+      evidence_refs:
+      - 0000080420-26-000143
+      - 0000080420-26-000139
+      - 0000080420-26-000136
+      - 0000080420-26-000107
+      - 0000080420-26-000103
+      - 0000080420-26-000095
+      capital_allocation_3y:
+      - fiscal_year: 2024
+        period_end: '2024-09-30'
+        filing_accession: 0000080420-26-000143
+        revenue_usd_m: 1012.36
+        revenue_yoy_growth: 0.4477
+        gross_margin: 0.2698
+        operating_margin: 0.1766
+        ocf_usd_m: 108.66
+        capex_usd_m: 11.98
+        fcf_usd_m: 96.68
+        rd_usd_m: 9.43
+        rd_pct_of_rev: 0.0093
+        acquisitions_cash_usd_m: 0.0
+        share_repurchases_usd_m: 0.0
+        dividends_paid_usd_m: 12.65
+        sbc_usd_m: 4.75
+        sbc_pct_of_rev: 0.0047
+      - fiscal_year: 2025
+        period_end: '2025-09-30'
+        filing_accession: 0000080420-26-000143
+        revenue_usd_m: 1104.32
+        revenue_yoy_growth: 0.0908
+        gross_margin: 0.2937
+        operating_margin: 0.1973
+        ocf_usd_m: 167.94
+        capex_usd_m: 13.15
+        fcf_usd_m: 154.79
+        rd_usd_m: 11.01
+        rd_pct_of_rev: 0.01
+        acquisitions_cash_usd_m: 11.49
+        share_repurchases_usd_m: 0.0
+        dividends_paid_usd_m: 12.87
+        sbc_usd_m: 4.63
+        sbc_pct_of_rev: 0.0042
+      - fiscal_year: 2026
+        period_end: '2026-09-30'
+        filing_accession: 0000080420-26-000143
+        revenue_usd_m: 1256.25
+        revenue_yoy_growth: 0.1376
+        gross_margin: 0.3128
+        operating_margin: 0.2109
+        ocf_usd_m: 433.69
+        capex_usd_m: 18.46
+        fcf_usd_m: 415.23
+        rd_usd_m: 15.54
+        rd_pct_of_rev: 0.0124
+        acquisitions_cash_usd_m: 0.0
+        share_repurchases_usd_m: 0.0
+        dividends_paid_usd_m: 13.07
+        sbc_usd_m: 6.79
+        sbc_pct_of_rev: 0.0054
+      form4_summary:
+        filings_parsed: 40
+        open_market_buy_count: 0
+        open_market_buy_usd: 0
+        discretionary_sell_count: 30
+        discretionary_sell_usd: 56017970.35
+        plan_10b5_1_sell_count: 36
+        plan_10b5_1_sell_usd: 10054419.12
+        net_open_market_usd: -66072389.47
     human_subjective_score: null
     human_notes: ''
     reviewed_by_human: false

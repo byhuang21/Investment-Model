@@ -238,6 +238,131 @@ class SecEdgarClient:
                 }
         return None
 
+    def _get_text(self, url: str, cache_key: str) -> str:
+        """Fetch raw text/XML from SEC EDGAR with rate limiting and local disk cache."""
+        safe = "".join(c if c.isalnum() or c in "._-" else "_" for c in cache_key)
+        cache_path = self.cache_dir / f"{safe}.txt"
+        if self.use_cache and cache_path.exists():
+            if (time.time() - cache_path.stat().st_mtime) <= self.cache_ttl_seconds:
+                try:
+                    return cache_path.read_text(encoding="utf-8")
+                except OSError:
+                    pass
+
+        last_err: Exception | None = None
+        for attempt in range(1, self.max_retries + 1):
+            self._throttle()
+            try:
+                resp = self.session.get(url, timeout=self.timeout)
+                if resp.status_code == 200:
+                    text = resp.text
+                    if self.use_cache:
+                        self.cache_dir.mkdir(parents=True, exist_ok=True)
+                        tmp = cache_path.with_suffix(".txt.tmp")
+                        tmp.write_text(text, encoding="utf-8")
+                        tmp.replace(cache_path)
+                    return text
+                if resp.status_code in {429, 500, 502, 503, 504}:
+                    last_err = requests.HTTPError(f"HTTP {resp.status_code} for {url}")
+                    time.sleep(min(2.0 * attempt, 6.0))
+                    continue
+                resp.raise_for_status()
+            except requests.RequestException as exc:
+                last_err = exc
+                if attempt < self.max_retries:
+                    time.sleep(min(1.5 * attempt, 5.0))
+        raise RuntimeError(
+            f"SEC EDGAR text fetch failed after {self.max_retries} tries: {last_err}"
+        )
+
+    def get_recent_form4_filings(
+        self,
+        cik: str,
+        lookback_days: int = 730,
+        max_filings: int = 40,
+        as_of: date | None = None,
+    ) -> list[dict[str, Any]]:
+        """List recent SEC Form 4 insider filings within `lookback_days`."""
+        subs = self.get_submissions(cik)
+        recent = subs.get("filings", {}).get("recent", {})
+        forms = recent.get("form", [])
+        accessions = recent.get("accessionNumber", [])
+        filing_dates = recent.get("filingDate", [])
+        primary_docs = recent.get("primaryDocument", [])
+
+        end_d = as_of or datetime.now(UTC).date()
+        cutoff = end_d - timedelta(days=lookback_days)
+        results: list[dict[str, Any]] = []
+        for idx, form in enumerate(forms):
+            if str(form).upper() not in {"4", "4/A"}:
+                continue
+            f_date_str = filing_dates[idx] if idx < len(filing_dates) else ""
+            f_date = _parse_iso_date(f_date_str)
+            if f_date is None or f_date < cutoff:
+                continue
+            results.append(
+                {
+                    "form": str(form).upper(),
+                    "filing_date": f_date_str,
+                    "accession": accessions[idx] if idx < len(accessions) else "",
+                    "primary_document": primary_docs[idx] if idx < len(primary_docs) else "",
+                }
+            )
+            if len(results) >= max_filings:
+                break
+        return results
+
+    def get_form4_xml(self, cik: str, accession: str, primary_document: str) -> str:
+        """Fetch raw Form 4 XML by stripping any XSLT rendering folder prefix."""
+        raw_doc = primary_document.split("/")[-1]
+        accn_clean = accession.replace("-", "")
+        url = f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{accn_clean}/{raw_doc}"
+        return self._get_text(url, f"form4_{int(cik)}_{accn_clean}")
+
+    def get_recent_narrative_filings(
+        self,
+        cik: str,
+        forms: tuple[str, ...] = ("10-K", "10-Q", "8-K"),
+        limit: int = 12,
+    ) -> list[dict[str, Any]]:
+        """Return recent 10-K/10-Q/8-K filings with direct SEC EDGAR archive URLs."""
+        subs = self.get_submissions(cik)
+        recent = subs.get("filings", {}).get("recent", {})
+        all_forms = recent.get("form", [])
+        accessions = recent.get("accessionNumber", [])
+        filing_dates = recent.get("filingDate", [])
+        report_dates = recent.get("reportDate", [])
+        primary_docs = recent.get("primaryDocument", [])
+        items_list = recent.get("items", [])
+
+        allowed = {f.upper() for f in forms}
+        out: list[dict[str, Any]] = []
+        for idx, form in enumerate(all_forms):
+            fu = str(form).upper()
+            if fu not in allowed:
+                continue
+            accn = accessions[idx] if idx < len(accessions) else ""
+            doc = primary_docs[idx] if idx < len(primary_docs) else ""
+            accn_clean = accn.replace("-", "")
+            url = (
+                f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{accn_clean}/{doc}"
+                if accn_clean and doc
+                else ""
+            )
+            out.append(
+                {
+                    "form": fu,
+                    "filing_date": filing_dates[idx] if idx < len(filing_dates) else "",
+                    "report_date": report_dates[idx] if idx < len(report_dates) else "",
+                    "accession": accn,
+                    "items": items_list[idx] if idx < len(items_list) else [],
+                    "url": url,
+                }
+            )
+            if len(out) >= limit:
+                break
+        return out
+
     def search_efts(
         self,
         query: str,

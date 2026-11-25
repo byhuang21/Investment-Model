@@ -2,9 +2,9 @@ ticker: TMDX
 company_name: TransMedics Group, Inc.
 cik: '0001756262'
 industry_slug: initial_calibration_cohort
-status: DRAFTING_EVIDENCE
+status: PENDING_HUMAN_REVIEW
 created_at: '2026-11-23'
-updated_at: '2026-11-23'
+updated_at: '2026-11-25'
 layer2_track_qualified: profitable_compounder
 odds_check:
   current_market_cap_usd_m: 2961.06
@@ -42,11 +42,80 @@ dimensions:
   5_management:
     objective_evidence:
       guidance_delivery_rate_note: ''
-      capital_allocation_record: ''
-      form4_net_insider_activity_24m: ''
+      capital_allocation_record: 近 3 财年累计：FCF $-112.2M | CapEx $340.8M | 现金并购 $14.9M
+        | 股票回购 $0.0M
+      form4_net_insider_activity_24m: 解析 40 份 Form 4：公开买入 5 笔 ($3.09M) | 自主卖出 16 笔
+        ($5.09M) | 10b5-1 计划卖出 4 笔 ($2.39M)
       founder_led: null
       insider_ownership_pct: null
-      evidence_refs: []
+      evidence_refs:
+      - 0001193125-26-449827
+      - 0001193125-26-449729
+      - 0001193125-26-387960
+      - 0001193125-26-332843
+      - 0001193125-26-332767
+      - 0001193125-26-234440
+      capital_allocation_3y:
+      - fiscal_year: 2023
+        period_end: '2023-12-31'
+        filing_accession: 0001193125-26-067032
+        revenue_usd_m: 241.62
+        revenue_yoy_growth: 1.5853
+        gross_margin: 0.6377
+        operating_margin: -0.1189
+        ocf_usd_m: -13.03
+        capex_usd_m: 151.85
+        fcf_usd_m: -164.88
+        rd_usd_m: 36.05
+        rd_pct_of_rev: 0.1492
+        acquisitions_cash_usd_m: 14.89
+        share_repurchases_usd_m: 0.0
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 19.79
+        sbc_pct_of_rev: 0.0819
+      - fiscal_year: 2024
+        period_end: '2024-12-31'
+        filing_accession: 0001193125-26-067032
+        revenue_usd_m: 441.54
+        revenue_yoy_growth: 0.8274
+        gross_margin: 0.5936
+        operating_margin: 0.0849
+        ocf_usd_m: 48.8
+        capex_usd_m: 129.74
+        fcf_usd_m: -80.94
+        rd_usd_m: 55.97
+        rd_pct_of_rev: 0.1268
+        acquisitions_cash_usd_m: 0.0
+        share_repurchases_usd_m: 0.0
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 33.22
+        sbc_pct_of_rev: 0.0752
+      - fiscal_year: 2025
+        period_end: '2025-12-31'
+        filing_accession: 0001193125-26-067032
+        revenue_usd_m: 605.49
+        revenue_yoy_growth: 0.3713
+        gross_margin: 0.5992
+        operating_margin: 0.1793
+        ocf_usd_m: 192.84
+        capex_usd_m: 59.25
+        fcf_usd_m: 133.59
+        rd_usd_m: 69.06
+        rd_pct_of_rev: 0.114
+        acquisitions_cash_usd_m: 0.0
+        share_repurchases_usd_m: 0.0
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 36.86
+        sbc_pct_of_rev: 0.0609
+      form4_summary:
+        filings_parsed: 40
+        open_market_buy_count: 5
+        open_market_buy_usd: 3091528.34
+        discretionary_sell_count: 16
+        discretionary_sell_usd: 5088703.49
+        plan_10b5_1_sell_count: 4
+        plan_10b5_1_sell_usd: 2386341.83
+        net_open_market_usd: -4383516.98
     human_subjective_score: null
     human_notes: ''
     reviewed_by_human: false

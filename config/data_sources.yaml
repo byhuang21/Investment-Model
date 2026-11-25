@@ -64,6 +64,19 @@ sec_edgar:
     stock_based_compensation:
       - "ShareBasedCompensation"
       - "AllocatedShareBasedCompensationExpense"
+    operating_income:
+      - "OperatingIncomeLoss"
+    rd_expense:
+      - "ResearchAndDevelopmentExpense"
+      - "ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost"
+    acquisitions_cash:
+      - "PaymentsToAcquireBusinessesNetOfCashAcquired"
+      - "PaymentsToAcquireBusinessesGross"
+    share_repurchases:
+      - "PaymentsForRepurchaseOfCommonStock"
+    dividends_paid:
+      - "PaymentsOfDividendsCommonStock"
+      - "PaymentsOfDividends"
 
   # 第一层赛道雷达关注的 SEC 表单与监控主题关键词
   radar_forms:
