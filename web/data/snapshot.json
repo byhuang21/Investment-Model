@@ -1,6 +1,6 @@
 {
   "env": "prod",
-  "generated_at": "2026-11-25T04:19:00.907402+00:00",
+  "generated_at": "2026-11-25T04:50:25.659478+00:00",
   "rules_version": "0.2.0",
   "rules": {
     "version": "0.2.0",
@@ -2302,9 +2302,9 @@
       "monitor_state": {
         "status": "WATCHING",
         "consecutive_days_below_target": 0,
-        "last_checked_at": "2026-11-24",
-        "last_market_cap_usd_m": 24691.21,
-        "last_price_usd": 303.21,
+        "last_checked_at": "2026-11-25",
+        "last_market_cap_usd_m": 26003.09,
+        "last_price_usd": 319.32,
         "last_alert_at": null,
         "last_alert_market_cap_usd_m": null
       },
@@ -2336,9 +2336,9 @@
       "monitor_state": {
         "status": "WATCHING",
         "consecutive_days_below_target": 0,
-        "last_checked_at": "2026-11-24",
-        "last_market_cap_usd_m": 19297.92,
-        "last_price_usd": 33.215,
+        "last_checked_at": "2026-11-25",
+        "last_market_cap_usd_m": 19573.89,
+        "last_price_usd": 33.69,
         "last_alert_at": null,
         "last_alert_market_cap_usd_m": null
       },
