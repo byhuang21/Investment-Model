@@ -1,0 +1,39 @@
+name: Periodic Health Audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Daily at 01:00 UTC (audits all workflows, live GitHub Pages, snapshot freshness & doctor)
+    - cron: "0 1 * * *"
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  health-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install project and dev dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Run static lint & unit tests
+        run: |
+          ruff check src scripts tests
+          pytest -v
+
+      - name: Run End-to-End Cloud & Repo Health Audit
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python scripts/health_audit.py --sync-issue

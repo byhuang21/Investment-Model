@@ -55,9 +55,12 @@ jobs:
           git checkout -B "$BRANCH"
           git add memory/ web/data/snapshot.json
           git commit -m "chore(bot): daily watchlist monitor sync ($(date -u +%Y-%m-%d))"
-          git push --force-with-lease origin "$BRANCH"
-          gh pr list --head "$BRANCH" --state open --json number --jq 'length' | grep -q '^0$' && \
+          git push --force origin "$BRANCH"
+          OPEN_PRS=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length')
+          if [ "$OPEN_PRS" = "0" ]; then
             gh pr create --base main --head "$BRANCH" \
               --title "chore(bot): daily watchlist monitor sync" \
-              --body "Automated daily update from scripts/3_watchlist_monitor.py (validated by doctor.py)." \
-            || echo "Open sync PR already updated."
+              --body "Automated daily update from scripts/3_watchlist_monitor.py (validated by doctor.py)."
+          else
+            echo "Open sync PR already exists and has been updated."
+          fi

@@ -52,9 +52,12 @@ jobs:
           git checkout -B "$BRANCH"
           git add memory/ web/data/snapshot.json
           git commit -m "chore(bot): semi-annual post-mortem report ($(date -u +%Y-%m-%d))"
-          git push --force-with-lease origin "$BRANCH"
-          gh pr list --head "$BRANCH" --state open --json number --jq 'length' | grep -q '^0$' && \
+          git push --force origin "$BRANCH"
+          OPEN_PRS=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length')
+          if [ "$OPEN_PRS" = "0" ]; then
             gh pr create --base main --head "$BRANCH" \
               --title "chore(bot): semi-annual post-mortem & calibration review" \
-              --body "Automated semi-annual post-mortem. Any rules.yaml proposals are isolated under memory/quarantine/proposals/ for human review." \
-            || echo "Open sync PR already updated."
+              --body "Automated semi-annual post-mortem. Any rules.yaml proposals are isolated under memory/quarantine/proposals/ for human review."
+          else
+            echo "Open sync PR already exists and has been updated."
+          fi
