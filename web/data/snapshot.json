@@ -1,6 +1,6 @@
 {
   "env": "prod",
-  "generated_at": "2026-11-25T02:38:24.948290+00:00",
+  "generated_at": "2026-11-25T03:56:09.321487+00:00",
   "rules_version": "0.2.0",
   "rules": {
     "version": "0.2.0",
@@ -2136,103 +2136,103 @@
     }
   ],
   "post_mortem": {
-    "as_of_date": "2026-11-24",
+    "as_of_date": "2026-11-25",
     "min_window_days": 180,
     "total_rejected_entries": 12,
     "mature_sample_count": 0,
     "immature_sample_count": 12,
     "false_negative_count": 0,
-    "overall_false_negative_rate": 0.0,
+    "overall_false_negative_rate": null,
     "samples": [
       {
         "ticker": "NET",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "market_cap_above_max_near_miss"
         ],
         "price_at_rejection": 274.96,
-        "current_price": 285.9,
-        "stock_return": 0.0398,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": 0.0016,
-        "excess_vs_qqq": -0.01,
+        "current_price": 287.29,
+        "stock_return": 0.0448,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": 0.0028,
+        "excess_vs_qqq": -0.0039,
         "is_false_negative": false
       },
       {
         "ticker": "DDOG",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "market_cap_above_max_near_miss"
         ],
         "price_at_rejection": 157.37,
-        "current_price": 165.73,
-        "stock_return": 0.0531,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": 0.0149,
-        "excess_vs_qqq": 0.0034,
+        "current_price": 165.38,
+        "stock_return": 0.0509,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": 0.0089,
+        "excess_vs_qqq": 0.0022,
         "is_false_negative": false
       },
       {
         "ticker": "TTD",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "tracks.failed_both"
         ],
         "price_at_rejection": 13.38,
-        "current_price": 14.43,
-        "stock_return": 0.0785,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": 0.0403,
-        "excess_vs_qqq": 0.0287,
+        "current_price": 14.07,
+        "stock_return": 0.0516,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": 0.0096,
+        "excess_vs_qqq": 0.0028,
         "is_false_negative": false
       },
       {
         "ticker": "MOD",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "tracks.failed_both"
         ],
         "price_at_rejection": 124.67,
-        "current_price": 134.79,
-        "stock_return": 0.0812,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": 0.043,
-        "excess_vs_qqq": 0.0314,
+        "current_price": 131.13,
+        "stock_return": 0.0518,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": 0.0098,
+        "excess_vs_qqq": 0.0031,
         "is_false_negative": false
       },
       {
         "ticker": "FIX",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "market_cap_above_max_near_miss"
         ],
         "price_at_rejection": 1042.47,
-        "current_price": 1110.1899,
-        "stock_return": 0.065,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": 0.0268,
-        "excess_vs_qqq": 0.0152,
+        "current_price": 1096.5601,
+        "stock_return": 0.0519,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": 0.0099,
+        "excess_vs_qqq": 0.0032,
         "is_false_negative": false
       },
       {
         "ticker": "AVAV",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "common_floor.max_annual_share_dilution",
@@ -2240,71 +2240,71 @@
           "tracks.failed_both"
         ],
         "price_at_rejection": 86.79,
-        "current_price": 91.4533,
-        "stock_return": 0.0537,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": 0.0155,
-        "excess_vs_qqq": 0.004,
+        "current_price": 89.4,
+        "stock_return": 0.0301,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": -0.0119,
+        "excess_vs_qqq": -0.0187,
         "is_false_negative": false
       },
       {
         "ticker": "KTOS",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "common_floor.max_annual_share_dilution",
           "tracks.failed_both"
         ],
         "price_at_rejection": 26.89,
-        "current_price": 28.32,
-        "stock_return": 0.0532,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": 0.015,
-        "excess_vs_qqq": 0.0034,
+        "current_price": 28.21,
+        "stock_return": 0.0491,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": 0.0071,
+        "excess_vs_qqq": 0.0004,
         "is_false_negative": false
       },
       {
         "ticker": "RKLB",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "common_floor.max_annual_share_dilution",
           "tracks.failed_both"
         ],
         "price_at_rejection": 45.42,
-        "current_price": 47.18,
-        "stock_return": 0.0387,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": 0.0005,
-        "excess_vs_qqq": -0.011,
+        "current_price": 45.98,
+        "stock_return": 0.0123,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": -0.0297,
+        "excess_vs_qqq": -0.0364,
         "is_false_negative": false
       },
       {
         "ticker": "WING",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "tracks.failed_both"
         ],
         "price_at_rejection": 151.53,
-        "current_price": 147.45,
-        "stock_return": -0.0269,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": -0.0651,
-        "excess_vs_qqq": -0.0767,
+        "current_price": 154.81,
+        "stock_return": 0.0216,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": -0.0204,
+        "excess_vs_qqq": -0.0271,
         "is_false_negative": false
       },
       {
         "ticker": "OKLO",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "common_floor.max_annual_share_dilution",
@@ -2314,18 +2314,18 @@
           "tracks.failed_both"
         ],
         "price_at_rejection": 19.85,
-        "current_price": 19.775,
-        "stock_return": -0.0038,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": -0.042,
-        "excess_vs_qqq": -0.0535,
+        "current_price": 19.2,
+        "stock_return": -0.0327,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": -0.0747,
+        "excess_vs_qqq": -0.0815,
         "is_false_negative": false
       },
       {
         "ticker": "PLUG",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "common_floor.max_annual_share_dilution",
@@ -2334,130 +2334,39 @@
           "tracks.failed_both"
         ],
         "price_at_rejection": 0.96,
-        "current_price": 0.958,
-        "stock_return": -0.0021,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": -0.0403,
-        "excess_vs_qqq": -0.0518,
+        "current_price": 0.93,
+        "stock_return": -0.0312,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": -0.0732,
+        "excess_vs_qqq": -0.08,
         "is_false_negative": false
       },
       {
         "ticker": "TDOC",
         "rejected_at": "2026-11-23",
-        "days_elapsed": 1,
+        "days_elapsed": 2,
         "mature": false,
         "failed_rule_keys": [
           "tracks.failed_both"
         ],
         "price_at_rejection": 7.45,
-        "current_price": 7.6675,
-        "stock_return": 0.0292,
-        "spy_return": 0.0382,
-        "qqq_return": 0.0497,
-        "excess_vs_spy": -0.009,
-        "excess_vs_qqq": -0.0206,
+        "current_price": 7.52,
+        "stock_return": 0.0094,
+        "spy_return": 0.042,
+        "qqq_return": 0.0487,
+        "excess_vs_spy": -0.0326,
+        "excess_vs_qqq": -0.0393,
         "is_false_negative": false
       }
     ],
-    "rule_attributions": [
-      {
-        "rule_key": "tracks.failed_both",
-        "sample_count": 9,
-        "false_negative_count": 0,
-        "false_negative_rate": 0.0,
-        "avg_excess_vs_spy": -0.0047,
-        "missed_tickers": [],
-        "needs_calibration": false,
-        "proposal": ""
-      },
-      {
-        "rule_key": "common_floor.max_annual_share_dilution",
-        "sample_count": 5,
-        "false_negative_count": 0,
-        "false_negative_rate": 0.0,
-        "avg_excess_vs_spy": -0.0103,
-        "missed_tickers": [],
-        "needs_calibration": false,
-        "proposal": ""
-      },
-      {
-        "rule_key": "market_cap_above_max_near_miss",
-        "sample_count": 3,
-        "false_negative_count": 0,
-        "false_negative_rate": 0.0,
-        "avg_excess_vs_spy": 0.0144,
-        "missed_tickers": [],
-        "needs_calibration": false,
-        "proposal": ""
-      },
-      {
-        "rule_key": "common_floor.max_goodwill_to_total_assets",
-        "sample_count": 1,
-        "false_negative_count": 0,
-        "false_negative_rate": 0.0,
-        "avg_excess_vs_spy": 0.0155,
-        "missed_tickers": [],
-        "needs_calibration": false,
-        "proposal": ""
-      },
-      {
-        "rule_key": "excluded_sector:Utilities",
-        "sample_count": 1,
-        "false_negative_count": 0,
-        "false_negative_rate": 0.0,
-        "avg_excess_vs_spy": -0.042,
-        "missed_tickers": [],
-        "needs_calibration": false,
-        "proposal": ""
-      },
-      {
-        "rule_key": "missing_gross_margin",
-        "sample_count": 1,
-        "false_negative_count": 0,
-        "false_negative_rate": 0.0,
-        "avg_excess_vs_spy": -0.042,
-        "missed_tickers": [],
-        "needs_calibration": false,
-        "proposal": ""
-      },
-      {
-        "rule_key": "missing_ttm_revenue",
-        "sample_count": 1,
-        "false_negative_count": 0,
-        "false_negative_rate": 0.0,
-        "avg_excess_vs_spy": -0.042,
-        "missed_tickers": [],
-        "needs_calibration": false,
-        "proposal": ""
-      },
-      {
-        "rule_key": "common_floor.min_cash_runway_months",
-        "sample_count": 1,
-        "false_negative_count": 0,
-        "false_negative_rate": 0.0,
-        "avg_excess_vs_spy": -0.0403,
-        "missed_tickers": [],
-        "needs_calibration": false,
-        "proposal": ""
-      },
-      {
-        "rule_key": "common_floor.min_gross_margin",
-        "sample_count": 1,
-        "false_negative_count": 0,
-        "false_negative_rate": 0.0,
-        "avg_excess_vs_spy": -0.0403,
-        "missed_tickers": [],
-        "needs_calibration": false,
-        "proposal": ""
-      }
-    ],
+    "rule_attributions": [],
     "dormant_checks": [
       {
         "slug": "industrial_smr_nuclear",
         "name": "微型模块化核电 (SMR) 与先进核能",
         "candidates_checked": 3,
-        "avg_180d_excess_vs_spy": -0.6615,
+        "avg_180d_excess_vs_spy": -0.6704,
         "breakout_alert": false,
         "note": ""
       }
@@ -2470,6 +2379,10 @@
     "signals": []
   },
   "reports": [
+    {
+      "filename": "20261125_035609_post_mortem.md",
+      "content": "# [INFO] Semi-Annual Post-Mortem (2026-11-25)\n\n- **复盘日期**：`2026-11-25`\n- **淘汰样本总数**：`12`（满 180 天：`0`，未满期：`12`）\n- **潜在误杀率（相对 SPY 超额 >= +30%）**：`N/A（尚无满期样本）`\n\n## 按淘汰规则归因\n_暂无可统计的超额归因样本（等待淘汰记录满 180 天后自动触发正式校准）。_\n\n## 休眠行业 (DORMANT) 股价异动复查\n- **industrial_smr_nuclear**（微型模块化核电 (SMR) 与先进核能）：180 天均值超额 `-67.0%` — 正常休眠 \n\n## `config/rules.yaml` 调参提案（严禁自动修改，须人类审批）\n- 当前无触发校准红线的规则，保持现有 `config/rules.yaml` 参数不变。\n"
+    },
     {
       "filename": "20261124_144308_post_mortem.md",
       "content": "# [INFO] Semi-Annual Post-Mortem (2026-11-24)\n\n- **复盘日期**：`2026-11-24`\n- **淘汰样本总数**：`12`（满 180 天：`0`，未满期：`12`）\n- **潜在误杀率（相对 SPY 超额 >= +30%）**：`0.0%`\n\n## 按淘汰规则归因\n| 规则键 | 样本数 | 误杀数 | 误杀率 | 平均超额 (vs SPY) | 状态 |\n|---|---:|---:|---:|---:|---|\n| `tracks.failed_both` | 9 | 0 | 0.0% | -0.5% | 保持严控 |\n| `common_floor.max_annual_share_dilution` | 5 | 0 | 0.0% | -1.0% | 保持严控 |\n| `market_cap_above_max_near_miss` | 3 | 0 | 0.0% | +1.4% | 保持严控 |\n| `common_floor.max_goodwill_to_total_assets` | 1 | 0 | 0.0% | +1.6% | 保持严控 |\n| `excluded_sector:Utilities` | 1 | 0 | 0.0% | -4.2% | 保持严控 |\n| `missing_gross_margin` | 1 | 0 | 0.0% | -4.2% | 保持严控 |\n| `missing_ttm_revenue` | 1 | 0 | 0.0% | -4.2% | 保持严控 |\n| `common_floor.min_cash_runway_months` | 1 | 0 | 0.0% | -4.0% | 保持严控 |\n| `common_floor.min_gross_margin` | 1 | 0 | 0.0% | -4.0% | 保持严控 |\n\n## 休眠行业 (DORMANT) 股价异动复查\n- **industrial_smr_nuclear**（微型模块化核电 (SMR) 与先进核能）：180 天均值超额 `-66.1%` — 正常休眠 \n\n## `config/rules.yaml` 调参提案（严禁自动修改，须人类审批）\n- 当前无触发校准红线的规则，保持现有 `config/rules.yaml` 参数不变。\n"
