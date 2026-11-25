@@ -271,3 +271,52 @@ def test_usaspending_get_surging_naics_filters_and_ranks(monkeypatch) -> None:
     assert res[0]["naics_code"] == "334511"
     assert res[0]["yoy_growth"] == 0.8
 
+
+def test_qualifies_for_auto_enroll_gates_by_channel_and_ignores_dismissed() -> None:
+    from coffee_can.radar import qualifies_for_auto_enroll
+
+    cfg = {
+        "enabled": True,
+        "naics_min_ttm_usd_m": 500.0,
+        "naics_min_yoy_growth": 0.50,
+        "s1_min_unique_filers": 5,
+        "s1_min_tickers": 3,
+        "probe_min_sec_filings_180d": 15,
+        "probe_min_tickers": 3,
+    }
+
+    ok_probe, _ = qualifies_for_auto_enroll(
+        {
+            "source": "CROSS_SECTOR_PROBE",
+            "status": "NEW",
+            "metrics": {"sec_filings_180d": 26},
+            "discovered_tickers": ["ASTS", "RKLB", "FLY"],
+        },
+        cfg,
+    )
+    assert ok_probe is True
+
+    # Dismissed signal must NEVER be auto-enrolled
+    ok_dismissed, _ = qualifies_for_auto_enroll(
+        {
+            "source": "CROSS_SECTOR_PROBE",
+            "status": "DISMISSED",
+            "metrics": {"sec_filings_180d": 99},
+            "discovered_tickers": ["ASTS", "RKLB", "FLY"],
+        },
+        cfg,
+    )
+    assert ok_dismissed is False
+
+    # Weak NAICS signal below $500M stays in quarantine
+    ok_weak_naics, _ = qualifies_for_auto_enroll(
+        {
+            "source": "USASPENDING_NAICS",
+            "status": "NEW",
+            "metrics": {"ttm_award_usd_m": 220.0, "yoy_growth": 0.80},
+        },
+        cfg,
+    )
+    assert ok_weak_naics is False
+
+

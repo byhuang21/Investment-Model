@@ -362,11 +362,58 @@ def merge_discovered_signals(
     )
 
 
+def qualifies_for_auto_enroll(
+    signal: dict[str, Any],
+    auto_cfg: dict[str, Any],
+) -> tuple[bool, str]:
+    """Determine if a NEW blind-discovery signal meets high-confidence auto-enrollment gates."""
+    if not auto_cfg.get("enabled", False):
+        return False, ""
+    if str(signal.get("status", "NEW")).upper() != "NEW":
+        return False, ""
+
+    source = str(signal.get("source", "")).upper()
+    metrics = signal.get("metrics") or {}
+    tickers = [str(t).strip() for t in (signal.get("discovered_tickers") or []) if str(t).strip()]
+
+    if source == "CROSS_SECTOR_PROBE":
+        filings = int(metrics.get("sec_filings_180d") or 0)
+        min_filings = int(auto_cfg.get("probe_min_sec_filings_180d", 15))
+        min_tkrs = int(auto_cfg.get("probe_min_tickers", 3))
+        if filings >= min_filings and len(tickers) >= min_tkrs:
+            return True, f"SEC 180d filings={filings} (>={min_filings}), tickers={len(tickers)}"
+        return False, ""
+
+    if source == "SEC_S1_CLUSTER":
+        filers = int(metrics.get("unique_s1_filers_180d") or 0)
+        min_filers = int(auto_cfg.get("s1_min_unique_filers", 5))
+        min_tkrs = int(auto_cfg.get("s1_min_tickers", 3))
+        if filers >= min_filers and len(tickers) >= min_tkrs:
+            return True, f"Unique S-1 filers={filers} (>={min_filers}), tickers={len(tickers)}"
+        return False, ""
+
+    if source == "USASPENDING_NAICS":
+        ttm_m = float(metrics.get("ttm_award_usd_m") or 0.0)
+        yoy = metrics.get("yoy_growth")
+        min_ttm = float(auto_cfg.get("naics_min_ttm_usd_m", 500.0))
+        min_yoy = float(auto_cfg.get("naics_min_yoy_growth", 0.50))
+        if ttm_m >= min_ttm and yoy is not None and float(yoy) >= min_yoy:
+            return (
+                True,
+                f"USASpending TTM=${ttm_m:,.0f}M (>={min_ttm:,.0f}M), YoY={float(yoy):+.1%}",
+            )
+        return False, ""
+
+    return False, ""
+
+
 def build_industry_record_from_signal(
     signal: dict[str, Any],
     initial_status: IndustryStatus,
     today_str: str,
     rules: dict[str, Any],
+    event_name: str = "PROMOTED_FROM_QUARANTINE",
+    allow_immediate_awaken: bool = False,
 ) -> dict[str, Any]:
     """Construct a schema-valid memory/industries/<slug>.yaml record from a quarantine signal."""
     slug = str(signal["slug"])
@@ -385,7 +432,7 @@ def build_industry_record_from_signal(
         "status": initial_status.value,
         "created_at": today_str,
         "last_scanned_at": today_str,
-        "last_state_change_at": today_str,
+        "last_state_change_at": None if allow_immediate_awaken else today_str,
         "thesis_snapshot": {
             "profit_pool_description": profit_pool,
             "demand_innovation_hypothesis": demand_hyp,
@@ -414,11 +461,11 @@ def build_industry_record_from_signal(
         "history": [
             {
                 "date": today_str,
-                "event": "PROMOTED_FROM_QUARANTINE",
+                "event": event_name,
                 "from_status": None,
                 "to_status": initial_status.value,
                 "evidence": (
-                    f"Human promoted blind-discovery signal ({signal.get('source')}: "
+                    f"Enrolled blind-discovery signal ({signal.get('source')}: "
                     f"{signal.get('headline_metric')})"
                 ),
             }

@@ -1,4 +1,4 @@
-name: Weekly Topic Radar & Earnings Diff
+name: Weekly Autonomous Research Pipeline (L1 -> L2 -> L3)
 
 on:
   workflow_dispatch:
@@ -9,7 +9,11 @@ on:
 permissions:
   contents: write
   issues: write
-  pull-requests: write
+  actions: write
+
+concurrency:
+  group: "autonomous-memory-sync"
+  cancel-in-progress: false
 
 jobs:
   weekly-research-loops:
@@ -17,6 +21,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python 3.12
         uses: actions/setup-python@v5
@@ -26,14 +32,24 @@ jobs:
       - name: Install dependencies
         run: pip install -e .
 
-      - name: Run Layer 1 Topic Radar & Blind Discovery Engine
+      - name: "[L1] Run Topic Radar, Blind Discovery & Auto-Enroll/Awaken"
         env:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python scripts/1_topic_radar.py --discover
 
-      - name: Run Quarterly Earnings Diff Check
+      - name: "[L2] Screen newly discovered ACTIVE industry tickers"
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: python scripts/2_quant_screener.py --only-new --max-tickers 15 --allow-partial-errors
+
+      - name: "[L3] Auto-collect Form 4 & 3Y 10-K evidence for new PASS dossiers"
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: python scripts/6_deep_dive_evidence.py --all-drafting
+
+      - name: "[Loop 2] Run Quarterly Earnings Diff Check on Coffee Can holdings"
         env:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           ALERT_WEBHOOK_URL: ${{ secrets.ALERT_WEBHOOK_URL }}
@@ -43,31 +59,33 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python scripts/4_earnings_diff.py
 
-      - name: Refresh static web snapshot & validate integrity
+      - name: Refresh static web snapshot & validate AGENT_RULES integrity
         run: |
           python scripts/export_web_snapshot.py
           python scripts/doctor.py
 
-      - name: Open sync Pull Request if memory changed
+      - name: Direct sync validated memory & trigger GitHub Pages refresh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -z "$(git status --porcelain memory/ web/data/snapshot.json)" ]; then
-            echo "No changes to sync."
+            echo "No memory changes to sync."
             exit 0
           fi
-          BRANCH="bot/weekly-research-sync"
           git config user.name "coffee-can-bot[bot]"
           git config user.email "coffee-can-bot@users.noreply.github.com"
-          git checkout -B "$BRANCH"
           git add memory/ web/data/snapshot.json
-          git commit -m "chore(bot): weekly topic radar, blind discovery & earnings diff sync ($(date -u +%Y-%m-%d))"
-          git push --force origin "$BRANCH"
-          OPEN_PRS=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length')
-          if [ "$OPEN_PRS" = "0" ]; then
-            gh pr create --base main --head "$BRANCH" \
-              --title "chore(bot): weekly radar, blind discovery & earnings diff sync" \
-              --body "Automated weekly scan from scripts/1_topic_radar.py --discover (including Zero-Keyword Blind Discovery -> memory/quarantine/signals/discovered_themes.yaml) and scripts/4_earnings_diff.py (validated by doctor.py)."
-          else
-            echo "Open sync PR already exists and has been updated."
+          # Hard AGENT_RULES safety check: bot must NEVER create new coffee_can holdings or touch config/
+          if [ -n "$(git diff --cached --diff-filter=A -- memory/coffee_can/)" ]; then
+            echo "ERROR: Bot attempted to create a new memory/coffee_can/ position. Aborting."
+            exit 1
           fi
+          if [ -n "$(git diff --cached -- config/ src/ scripts/ AGENT_RULES.md)" ]; then
+            echo "ERROR: Bot attempted to modify protected code/config files. Aborting."
+            exit 1
+          fi
+          git commit -m "chore(bot): autonomous weekly L1->L2->L3 research sync ($(date -u +%Y-%m-%d))"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          gh workflow run deploy_pages.yml --ref main
+

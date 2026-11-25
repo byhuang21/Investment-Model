@@ -54,3 +54,14 @@
 - **背景**：在首只正式入罐标的 `TMDX` 的人类决策复核中，用户指出 10 年后的精确市值无法可靠预测，强行填写“10 年目标市值 `>= 10x`”容易演变为虚假的精确；实战中真正具备可见度的是 1–2 年的前瞻估值与成长匹配度，以及长期天花板是否尚未封死。
 - **决定（经人类明确批准）**：将 `config/rules.yaml` 升级至 `v0.3.0`，设置 `layer3_deep_dive.valuation_gate_mode: "forward_1_2y"` 与 `require_10y_exact_multiple_veto: false`。入罐时强制记录 **掌舵人主观评分 + 1–2 年前瞻估值评估 + 长期空间未封死确认 + 三句话备忘录 + 可机读证伪红线**；原 10x 赔率沙盒保留为可选参考推演工具。
 
+---
+
+## ADR-008：全自动无人值守研究链路（L1 自动建档/唤醒 → L2 增量硬筛 → L3 自动取证 → 体检直推刷新 Pages）
+- **日期**：2026-11-25
+- **背景**：盲扫发现的新赛道停留在隔离区等人手动收编，且云端定时扫描通过 PR 等待手动合并，导致公开工作台无法自动反映最新发现的新行业与新 `PASS` 标的。
+- **决定（经人类明确批准）**：
+  1. 在 `config/data_sources.yaml` 新增 `blind_discovery.auto_enroll` 高置信度硬门槛，满足条件的新线索由 `1_topic_radar.py` 自动建档为 `DORMANT` 并立即评估状态机（达标自动唤醒为 `ACTIVE`）；弱噪声继续留守隔离区。
+  2. 为 `2_quant_screener.py` 增加 `--only-new --max-tickers --allow-partial-errors` 增量筛选能力，在每周工作流中串联 `L1 -> L2 -> L3 (6_deep_dive_evidence.py --all-drafting) -> Loop 2 (4_earnings_diff.py)`。
+  3. 经 `doctor.py` 全量体检通过后，云端机器人直推同步 `memory/` 与 `web/data/snapshot.json` 并自动触发 `deploy_pages.yml` 刷新网页；同时在工作流中硬编码拦截：严禁机器人修改 `config/`、`src/`、`scripts/` 或新建 `memory/coffee_can/` 持仓。
+
+

@@ -43,6 +43,7 @@ from coffee_can.screener import compute_near_miss_target_mcap, evaluate_snapshot
 from coffee_can.storage import (
     append_rejected_entry,
     list_active_yaml_files,
+    read_rejected_log,
     read_yaml,
     write_yaml,
 )
@@ -80,6 +81,25 @@ def build_parser() -> argparse.ArgumentParser:
         "--no-cache",
         action="store_true",
         help="Bypass local .cache/ files and fetch fresh SEC & yfinance data.",
+    )
+    parser.add_argument(
+        "--only-new",
+        action="store_true",
+        help=(
+            "Skip tickers already in coffee_can/, research/, near_miss_pool/, "
+            "rejected within 180d, or quarantined within 30d."
+        ),
+    )
+    parser.add_argument(
+        "--max-tickers",
+        type=int,
+        default=0,
+        help="Optional cap on number of tickers screened in a single run (0 = unlimited).",
+    )
+    parser.add_argument(
+        "--allow-partial-errors",
+        action="store_true",
+        help="Quarantine per-ticker data errors and still exit 0 unless every ticker fails.",
     )
     parser.add_argument(
         "--dry-run",
@@ -165,7 +185,11 @@ def route_pass(
 
     if scorecard_path.exists():
         existing = read_yaml(scorecard_path)
-        if existing.get("dimensions", {}).get("5_management", {}).get("reviewed_by_human"):
+        existing_status = str(existing.get("status", "")).upper()
+        if (
+            existing_status in {"PENDING_HUMAN_REVIEW", "APPROVED_FOR_CAN"}
+            or existing.get("dimensions", {}).get("5_management", {}).get("reviewed_by_human")
+        ):
             return scorecard_path
 
     dossier_dir.mkdir(parents=True, exist_ok=True)
@@ -389,6 +413,58 @@ def print_summary_table(decisions: list[ScreenDecision]) -> None:
         )
 
 
+def filter_unscreened_tickers(
+    ticker_map: dict[str, str | None],
+    paths: ProjectPaths,
+    today_str: str,
+    rejected_cooldown_days: int = 180,
+    anomaly_cooldown_days: int = 30,
+) -> dict[str, str | None]:
+    """Filter out tickers already tracked in memory/ or recently rejected/quarantined."""
+    skip: set[str] = set()
+    for p in list_active_yaml_files(paths.coffee_can_dir):
+        skip.add(p.stem.upper())
+    for p in list_active_yaml_files(paths.near_miss_dir):
+        skip.add(p.stem.upper())
+    if paths.research_dir.exists():
+        for entry in paths.research_dir.iterdir():
+            if entry.is_dir() and not entry.name.startswith("_"):
+                if (entry / "scorecard.yaml").exists():
+                    skip.add(entry.name.upper())
+
+    today_d = datetime.strptime(today_str[:10], "%Y-%m-%d").date()
+
+    rej_doc = read_rejected_log(paths.rejected_log_file)
+    for item in rej_doc.get("entries", []):
+        sym = str(item.get("ticker", "")).strip().upper()
+        rej_at = str(item.get("rejected_at", ""))[:10]
+        if not sym or not rej_at:
+            continue
+        try:
+            d = datetime.strptime(rej_at, "%Y-%m-%d").date()
+            if (today_d - d).days < rejected_cooldown_days:
+                skip.add(sym)
+        except ValueError:
+            continue
+
+    if paths.quarantine_anomalies_dir.exists():
+        for p in paths.quarantine_anomalies_dir.iterdir():
+            if not p.is_file() or p.suffix not in {".yaml", ".yml"} or p.name.startswith("_"):
+                continue
+            try:
+                rec = read_yaml(p)
+                sym = str(rec.get("ticker", "")).strip().upper()
+                det = str(rec.get("detected_at", ""))[:10]
+                if sym and det:
+                    d = datetime.strptime(det, "%Y-%m-%d").date()
+                    if (today_d - d).days < anomaly_cooldown_days:
+                        skip.add(sym)
+            except Exception:
+                continue
+
+    return {t: ind for t, ind in ticker_map.items() if t.upper() not in skip}
+
+
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     load_environment(ROOT_DIR)
@@ -400,6 +476,7 @@ def main(argv: list[str] | None = None) -> int:
 
     l2_cfg = rules["layer2_quant_screener"]
     mcap_cfg = l2_cfg["market_cap_usd_m"]
+    today_str = datetime.now(UTC).date().isoformat()
 
     if args.tickers:
         ticker_map: dict[str, str | None] = {
@@ -408,15 +485,23 @@ def main(argv: list[str] | None = None) -> int:
     else:
         ticker_map = collect_active_industry_tickers(paths.industries_dir, args.industry)
 
+    raw_total = len(ticker_map)
+    if args.only_new:
+        ticker_map = filter_unscreened_tickers(ticker_map, paths, today_str)
+    if args.max_tickers and args.max_tickers > 0 and len(ticker_map) > args.max_tickers:
+        ticker_map = dict(list(ticker_map.items())[: args.max_tickers])
+
     print(f"=== [Layer 2] Dual-Track Quant Screener [{env_name.upper()}] ===")
     print(f"PASS market cap range  : ${mcap_cfg['min_pass']}M - ${mcap_cfg['max_pass']}M")
     print(f"NEAR_MISS ceiling      : <= ${mcap_cfg['max_near_miss']}M")
     print(f"Max annual dilution    : {l2_cfg['common_floor']['max_annual_share_dilution']:.1%}")
+    if args.only_new:
+        print(f"Incremental mode       : {len(ticker_map)} new / {raw_total} total active")
     print(f"Candidate tickers ({len(ticker_map):d}) : {list(ticker_map.keys()) or '(none)'}")
     print(f"Dry run                : {args.dry_run}")
 
     if not ticker_map:
-        print("No candidate tickers to screen. Pass --tickers or activate an industry in memory/.")
+        print("No new candidate tickers to screen.")
         return 0
 
     try:
@@ -441,7 +526,6 @@ def main(argv: list[str] | None = None) -> int:
         use_cache=not args.no_cache,
     )
 
-    today_str = datetime.now(UTC).date().isoformat()
     spy_price = market_client.get_latest_price("SPY")
     qqq_price = market_client.get_latest_price("QQQ")
     xbrl_tags = sec_cfg["xbrl_tag_fallbacks"]
@@ -502,6 +586,8 @@ def main(argv: list[str] | None = None) -> int:
         for ticker, msg in errors:
             print(f"  - {ticker}: {msg}")
 
+    if args.allow_partial_errors and decisions:
+        return 0
     return 0 if not errors else 1
 
 

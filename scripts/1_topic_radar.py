@@ -45,11 +45,14 @@ from coffee_can.radar import (
     DiscoveredThemeSignal,
     RadarEvaluation,
     RadarMetrics,
+    build_industry_record_from_signal,
     evaluate_industry_state,
     merge_candidate_tickers,
     merge_discovered_signals,
+    qualifies_for_auto_enroll,
     scan_local_transcripts,
 )
+from coffee_can.schemas import IndustryStatus
 from coffee_can.storage import list_active_yaml_files, read_yaml, write_yaml
 
 
@@ -574,6 +577,100 @@ def main(argv: list[str] | None = None) -> int:
                 f"  - [{item['source']:<18}] {item['slug']:<30} "
                 f"{item['headline_metric']:<26} tickers={tkrs}"
             )
+
+        auto_cfg = (data_sources.get("blind_discovery") or {}).get("auto_enroll") or {}
+        if auto_cfg.get("enabled", False):
+            max_per_run = int(auto_cfg.get("max_new_industries_per_run", 3))
+            max_total = int(auto_cfg.get("max_total_tracked_industries", 20))
+            slots = max(0, min(max_per_run, max_total - len(tracked_slugs)))
+            # Prioritize high-confidence themes that already discovered listed US tickers
+            candidates_for_enroll: list[tuple[int, int, dict[str, Any], str]] = []
+            for item in merged_signals:
+                ok, reason = qualifies_for_auto_enroll(item, auto_cfg)
+                if not ok:
+                    continue
+                slug = str(item.get("slug", ""))
+                if not slug or slug in tracked_slugs:
+                    continue
+                tkrs_cnt = len(item.get("discovered_tickers") or [])
+                has_tkrs = 0 if tkrs_cnt > 0 else 1
+                candidates_for_enroll.append((has_tkrs, -tkrs_cnt, item, reason))
+            candidates_for_enroll.sort(key=lambda x: (x[0], x[1], str(x[2].get("slug", ""))))
+
+            enrolled_count = 0
+            for _, _, item, reason in candidates_for_enroll[:slots]:
+                slug = str(item["slug"])
+                ind_path = paths.industries_dir / f"{slug}.yaml"
+                if ind_path.exists():
+                    continue
+                new_rec = build_industry_record_from_signal(
+                    signal=item,
+                    initial_status=IndustryStatus.DORMANT,
+                    today_str=today_str,
+                    rules=rules,
+                    event_name="AUTO_ENROLLED_DORMANT",
+                    allow_immediate_awaken=True,
+                )
+                metrics = _scan_industry_metrics(
+                    record=new_rec,
+                    sec_client=sec_client,
+                    usa_client=usa_client,
+                    data_sources=data_sources,
+                    paths=paths,
+                    today_str=today_str,
+                )
+                ev = evaluate_industry_state(new_rec, metrics, rules, today_str)
+                merged_tkrs = merge_candidate_tickers(
+                    list(new_rec.get("candidate_tickers") or []),
+                    metrics.sec_discovered_tickers,
+                    bellwether_exclude=bellwether_set,
+                )
+                new_rec["last_scanned_at"] = today_str
+                new_rec["latest_radar_snapshot"] = metrics.to_dict()
+                new_rec["candidate_tickers"] = merged_tkrs
+                if not new_rec.get("leader_tickers") and merged_tkrs:
+                    new_rec["leader_tickers"] = merged_tkrs[:5]
+                if ev.changed:
+                    new_rec["status"] = ev.new_status.value
+                    new_rec["last_state_change_at"] = today_str
+                    new_rec["history"].append(
+                        {
+                            "date": today_str,
+                            "event": "AUTO_AWAKENED",
+                            "from_status": ev.previous_status.value,
+                            "to_status": ev.new_status.value,
+                            "evidence": ev.rationale,
+                        }
+                    )
+                    awakened_lines.append(
+                        f"- **{slug}** (自动发现并激活): {ev.rationale}"
+                    )
+                else:
+                    new_rec["last_state_change_at"] = today_str
+                    awakened_lines.append(
+                        f"- **{slug}** (自动建档为 DORMANT 休眠跟踪): {reason}"
+                    )
+
+                print(
+                    f"  [AUTO-ENROLL] {slug:<30} -> {new_rec['status']:<8} "
+                    f"(rev={_fmt_m(metrics.leaders_aggregate_revenue_usd_m)}, "
+                    f"yoy={_fmt_pct(metrics.leaders_median_yoy_growth)}, reason={reason})"
+                )
+
+                if not args.dry_run:
+                    write_yaml(ind_path, new_rec)
+                    item["status"] = "PROMOTED"
+                    item["auto_enrolled"] = True
+                    item["promoted_at"] = today_str
+                tracked_slugs.add(slug)
+                enrolled_count += 1
+
+            if enrolled_count:
+                new_count = sum(1 for item in merged_signals if item.get("status") == "NEW")
+                print(
+                    f"Auto-enrolled {enrolled_count} high-confidence industry/industries "
+                    f"into memory/industries/ ({new_count} remaining in quarantine)."
+                )
 
         if not args.dry_run:
             payload = {

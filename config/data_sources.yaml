@@ -168,6 +168,19 @@ notifications:
 # -----------------------------------------------------------------------------
 blind_discovery:
   enabled: true
+  # 自动收编规则：高置信度盲扫线索由 Agent 自动建档为 DORMANT 休眠赛道并接入状态机
+  # 满足唤醒条件时由系统自动升格为 ACTIVE（全程无需人工点击；弱噪声仍留在隔离区）
+  auto_enroll:
+    enabled: true
+    max_new_industries_per_run: 3          # 单次扫描最多自动建档 3 条新赛道，防止膨胀
+    max_total_tracked_industries: 20       # 正式赛道库总数上限，保持深度聚焦
+    naics_min_ttm_usd_m: 500.0             # NAICS 通道：年联邦合同 >= $500M
+    naics_min_yoy_growth: 0.50             # 且同比增速 >= +50%
+    s1_min_unique_filers: 5                # S-1 通道：180 天 >= 5 家独立公司递交 S-1
+    s1_min_tickers: 3                      # 且能映射出 >= 3 只真实美股代码
+    probe_min_sec_filings_180d: 15         # 跨行业探测：180 天 >= 15 条 SEC 8-K/S-1 公告
+    probe_min_tickers: 3                   # 且能识别出 >= 3 只美股关联标的
+
   # 通道 A：USASpending 全行业 6 位 NAICS 联邦采购同比暴增盲扫（零关键词）
   naics_surge:
     enabled: true
