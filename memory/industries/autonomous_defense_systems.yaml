@@ -49,6 +49,7 @@ candidate_tickers:
 - LASE
 - AMPX
 - FAC
+- HLSQ
 history:
 - date: '2026-10-01'
   event: SEEDED
@@ -65,8 +66,8 @@ latest_radar_snapshot:
   leaders_aggregate_revenue_usd_m: 7066.37
   leaders_median_yoy_growth: 0.3358
   leaders_sampled: 3
-  usaspending_12m_award_usd_m: 262.56
-  usaspending_yoy_growth: -0.1747
+  usaspending_12m_award_usd_m: 262.7
+  usaspending_yoy_growth: -0.1742
   sec_cluster_filings_180d: 103
   sec_discovered_tickers:
   - PDYN

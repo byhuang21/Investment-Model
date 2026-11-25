@@ -1,6 +1,6 @@
 {
   "env": "prod",
-  "generated_at": "2026-11-25T21:06:41.692382+00:00",
+  "generated_at": "2026-11-25T22:39:03.723398+00:00",
   "rules_version": "0.3.0",
   "rules": {
     "version": "0.3.0",
@@ -176,7 +176,8 @@
         "AIRJ",
         "CHRN",
         "CORZ",
-        "APLD"
+        "APLD",
+        "ECL"
       ],
       "history": [
         {
@@ -314,7 +315,8 @@
         "BHAI",
         "LASE",
         "AMPX",
-        "FAC"
+        "FAC",
+        "HLSQ"
       ],
       "history": [
         {
@@ -336,8 +338,8 @@
         "leaders_aggregate_revenue_usd_m": 7066.37,
         "leaders_median_yoy_growth": 0.3358,
         "leaders_sampled": 3,
-        "usaspending_12m_award_usd_m": 262.56,
-        "usaspending_yoy_growth": -0.1747,
+        "usaspending_12m_award_usd_m": 262.7,
+        "usaspending_yoy_growth": -0.1742,
         "sec_cluster_filings_180d": 103,
         "sec_discovered_tickers": [
           "PDYN",
@@ -377,6 +379,112 @@
           "PRSO",
           "SWMR",
           "WRAP"
+        ],
+        "transcript_mentions": 0
+      }
+    },
+    {
+      "slug": "edge_ai_silicon_photonics",
+      "name": "端侧 AI 芯片与硅光互联",
+      "status": "DORMANT",
+      "created_at": "2026-11-25",
+      "last_scanned_at": "2026-11-25",
+      "last_state_change_at": "2026-11-25",
+      "thesis_snapshot": {
+        "profit_pool_description": "数据中心高速光互联与边缘算力芯片替换升级市场",
+        "demand_innovation_hypothesis": "铜缆互联触及 1.6T/3.2T 物理极限，CPO 硅光与低功耗端侧 NPU 成为刚需",
+        "winner_take_all_dynamics": "Pending Layer 1/3 human thesis refinement."
+      },
+      "signals": {
+        "sec_keywords": [
+          "silicon photonics",
+          "co-packaged optics"
+        ],
+        "sic_codes": [],
+        "naics_codes": [],
+        "usaspending_keywords": [
+          "semiconductor packaging"
+        ],
+        "bellwether_mentions": []
+      },
+      "awaken_conditions": {
+        "min_leaders_aggregate_revenue_usd_m": 1000,
+        "consecutive_high_growth_quarters": 2,
+        "min_sector_yoy_revenue_growth": 0.25,
+        "usaspending_12m_award_usd_m": 250,
+        "min_sec_cluster_filings_180d": 3
+      },
+      "leader_tickers": [
+        "SEQC",
+        "AEVA",
+        "AEHR",
+        "AIFA",
+        "AXTI"
+      ],
+      "candidate_tickers": [
+        "SEQC",
+        "AEVA",
+        "AEHR",
+        "AIFA",
+        "AXTI",
+        "LITE",
+        "MRVL",
+        "QCLS",
+        "QUBT",
+        "VECO",
+        "COHR",
+        "CRDO",
+        "ENTG",
+        "FORM",
+        "LWLG",
+        "ONTO",
+        "OPTX",
+        "PALX",
+        "QNT",
+        "ESI"
+      ],
+      "history": [
+        {
+          "date": "2026-11-25",
+          "event": "AUTO_ENROLLED_DORMANT",
+          "from_status": null,
+          "to_status": "DORMANT",
+          "evidence": "Enrolled blind-discovery signal (CROSS_SECTOR_PROBE: 46 条 SEC 180天公告)"
+        }
+      ],
+      "latest_radar_snapshot": {
+        "slug": "edge_ai_silicon_photonics",
+        "as_of_date": "2026-11-25",
+        "leaders_aggregate_revenue_usd_m": 201.36,
+        "leaders_median_yoy_growth": 0.6291,
+        "leaders_sampled": 3,
+        "usaspending_12m_award_usd_m": 0.03,
+        "usaspending_yoy_growth": 0.3596,
+        "sec_cluster_filings_180d": 46,
+        "sec_discovered_tickers": [
+          "SEQC",
+          "AEVA",
+          "AEHR",
+          "AIFA",
+          "AXTI",
+          "LITE",
+          "MRVL",
+          "QCLS",
+          "QUBT",
+          "VECO",
+          "COHR",
+          "CRDO",
+          "ENTG",
+          "FORM",
+          "LWLG",
+          "ONTO",
+          "OPTX",
+          "PALX",
+          "QNT",
+          "ESI",
+          "NVDA",
+          "SOLS",
+          "VUZI"
         ],
         "transcript_mentions": 0
       }
@@ -438,7 +546,8 @@
         "LEU",
         "LIS",
         "MESH",
-        "MRCO"
+        "MRCO",
+        "NSAI"
       ],
       "history": [
         {
@@ -566,6 +675,195 @@
         ],
         "transcript_mentions": 0
       }
+    },
+    {
+      "slug": "post_quantum_cybersecurity",
+      "name": "零信任与后量子网络安全",
+      "status": "DORMANT",
+      "created_at": "2026-11-25",
+      "last_scanned_at": "2026-11-25",
+      "last_state_change_at": "2026-11-25",
+      "thesis_snapshot": {
+        "profit_pool_description": "企业云原生安全与政府关键基础设施防护的刚性订阅预算池",
+        "demand_innovation_hypothesis": "NIST 后量子加密标准落地与 AI 攻防升级，强制驱动身份与加密协议换代",
+        "winner_take_all_dynamics": "Pending Layer 1/3 human thesis refinement."
+      },
+      "signals": {
+        "sec_keywords": [
+          "post-quantum cryptography",
+          "zero trust architecture"
+        ],
+        "sic_codes": [],
+        "naics_codes": [],
+        "usaspending_keywords": [
+          "zero trust cybersecurity"
+        ],
+        "bellwether_mentions": []
+      },
+      "awaken_conditions": {
+        "min_leaders_aggregate_revenue_usd_m": 1000,
+        "consecutive_high_growth_quarters": 2,
+        "min_sector_yoy_revenue_growth": 0.25,
+        "usaspending_12m_award_usd_m": 250,
+        "min_sec_cluster_filings_180d": 3
+      },
+      "leader_tickers": [
+        "SVAQ",
+        "CHAR",
+        "BHAI",
+        "GIW",
+        "IONQ"
+      ],
+      "candidate_tickers": [
+        "SVAQ",
+        "CHAR",
+        "BHAI",
+        "GIW",
+        "IONQ",
+        "LSCC",
+        "QNME",
+        "AXIN",
+        "QNT",
+        "QUCY",
+        "WYY",
+        "XGPU",
+        "ZS",
+        "CRWD",
+        "DVLT",
+        "MOVE"
+      ],
+      "history": [
+        {
+          "date": "2026-11-25",
+          "event": "AUTO_ENROLLED_DORMANT",
+          "from_status": null,
+          "to_status": "DORMANT",
+          "evidence": "Enrolled blind-discovery signal (CROSS_SECTOR_PROBE: 36 条 SEC 180天公告)"
+        }
+      ],
+      "latest_radar_snapshot": {
+        "slug": "post_quantum_cybersecurity",
+        "as_of_date": "2026-11-25",
+        "leaders_aggregate_revenue_usd_m": 380.44,
+        "leaders_median_yoy_growth": 3.7653,
+        "leaders_sampled": 1,
+        "usaspending_12m_award_usd_m": 0.33,
+        "usaspending_yoy_growth": null,
+        "sec_cluster_filings_180d": 36,
+        "sec_discovered_tickers": [
+          "SVAQ",
+          "CHAR",
+          "BHAI",
+          "GIW",
+          "IONQ",
+          "LSCC",
+          "QNME",
+          "AXIN",
+          "QNT",
+          "QUCY",
+          "WYY",
+          "XGPU",
+          "ZS",
+          "CRWD",
+          "DVLT",
+          "MOVE"
+        ],
+        "transcript_mentions": 0
+      }
+    },
+    {
+      "slug": "surgical_robotics_medtech",
+      "name": "手术机器人与微创精准医疗",
+      "status": "ACTIVE",
+      "created_at": "2026-11-25",
+      "last_scanned_at": "2026-11-25",
+      "last_state_change_at": "2026-11-25",
+      "thesis_snapshot": {
+        "profit_pool_description": "高值微创手术器械与高频一次性耗材的刚性医疗利润池",
+        "demand_innovation_hypothesis": "骨科、腔镜与血管介入机器人渗透率爬坡，形成设备装机+耗材复购飞轮",
+        "winner_take_all_dynamics": "Pending Layer 1/3 human thesis refinement."
+      },
+      "signals": {
+        "sec_keywords": [
+          "surgical robotics",
+          "robotic-assisted surgery"
+        ],
+        "sic_codes": [],
+        "naics_codes": [],
+        "usaspending_keywords": [],
+        "bellwether_mentions": []
+      },
+      "awaken_conditions": {
+        "min_leaders_aggregate_revenue_usd_m": 1000,
+        "consecutive_high_growth_quarters": 2,
+        "min_sector_yoy_revenue_growth": 0.25,
+        "usaspending_12m_award_usd_m": 250,
+        "min_sec_cluster_filings_180d": 3
+      },
+      "leader_tickers": [
+        "SSII",
+        "MBOT",
+        "MDT",
+        "STXS",
+        "ENOV"
+      ],
+      "candidate_tickers": [
+        "SSII",
+        "MBOT",
+        "MDT",
+        "STXS",
+        "ENOV",
+        "PRCT",
+        "MOBI",
+        "TTMI",
+        "UFPT",
+        "NNBR",
+        "ISRG",
+        "OFIX",
+        "PROF"
+      ],
+      "history": [
+        {
+          "date": "2026-11-25",
+          "event": "AUTO_ENROLLED_DORMANT",
+          "from_status": null,
+          "to_status": "DORMANT",
+          "evidence": "Enrolled blind-discovery signal (CROSS_SECTOR_PROBE: 43 条 SEC 180天公告)"
+        },
+        {
+          "date": "2026-11-25",
+          "event": "AUTO_AWAKENED",
+          "from_status": "DORMANT",
+          "to_status": "ACTIVE",
+          "evidence": "AWAKENED DORMANT -> ACTIVE via: leaders_agg_rev ($39,926M >= $1,000M); sec_cluster_180d (43 >= 3)"
+        }
+      ],
+      "latest_radar_snapshot": {
+        "slug": "surgical_robotics_medtech",
+        "as_of_date": "2026-11-25",
+        "leaders_aggregate_revenue_usd_m": 39925.9,
+        "leaders_median_yoy_growth": 0.073,
+        "leaders_sampled": 4,
+        "usaspending_12m_award_usd_m": 0.0,
+        "usaspending_yoy_growth": null,
+        "sec_cluster_filings_180d": 43,
+        "sec_discovered_tickers": [
+          "SSII",
+          "MBOT",
+          "MDT",
+          "STXS",
+          "ENOV",
+          "PRCT",
+          "MOBI",
+          "TTMI",
+          "UFPT",
+          "NNBR",
+          "ISRG",
+          "OFIX",
+          "PROF"
+        ],
+        "transcript_mentions": 0
+      }
     }
   ],
   "discovered_signals": [
@@ -573,15 +871,15 @@
       "slug": "naics_238290",
       "name": "Other Building Equipment Contractors (NAICS 238290)",
       "source": "USASPENDING_NAICS",
-      "headline_metric": "+133.5% YoY ($787M TTM)",
-      "rationale": "联邦政府采购门类 NAICS 238290 近 12 个月合同额由 $337M 跃升至 $787M（同比 +133.5%）。",
+      "headline_metric": "+133.8% YoY ($788M TTM)",
+      "rationale": "联邦政府采购门类 NAICS 238290 近 12 个月合同额由 $337M 跃升至 $788M（同比 +133.8%）。",
       "discovered_at": "2026-11-25",
       "last_seen_at": "2026-11-25",
       "status": "NEW",
       "metrics": {
-        "ttm_award_usd_m": 786.59,
+        "ttm_award_usd_m": 787.63,
         "prior_ttm_award_usd_m": 336.84,
-        "yoy_growth": 1.3352
+        "yoy_growth": 1.3383
       },
       "sec_keywords": [],
       "usaspending_keywords": [],
@@ -591,7 +889,7 @@
       "sic_codes": [],
       "discovered_tickers": [],
       "profit_pool_description": "美国联邦采购门类 NAICS 238290（Other Building Equipment Contractors）的存量财政与基础设施预算池",
-      "demand_innovation_hypothesis": "近 12 个月联邦订单同比放量 +133.5%，需核查是否源于技术代际切换或政策刚需"
+      "demand_innovation_hypothesis": "近 12 个月联邦订单同比放量 +133.8%，需核查是否源于技术代际切换或政策刚需"
     },
     {
       "slug": "naics_325180",
@@ -651,9 +949,9 @@
       "last_seen_at": "2026-11-25",
       "status": "NEW",
       "metrics": {
-        "ttm_award_usd_m": 1503.9,
+        "ttm_award_usd_m": 1503.92,
         "prior_ttm_award_usd_m": 431.99,
-        "yoy_growth": 2.4813
+        "yoy_growth": 2.4814
       },
       "sec_keywords": [],
       "usaspending_keywords": [],
@@ -669,15 +967,15 @@
       "slug": "naics_541711",
       "name": "Research and Development in Biotechnology (NAICS 541711)",
       "source": "USASPENDING_NAICS",
-      "headline_metric": "+160.0% YoY ($1,316M TTM)",
-      "rationale": "联邦政府采购门类 NAICS 541711 近 12 个月合同额由 $506M 跃升至 $1,316M（同比 +160.0%）。",
+      "headline_metric": "+160.9% YoY ($1,321M TTM)",
+      "rationale": "联邦政府采购门类 NAICS 541711 近 12 个月合同额由 $506M 跃升至 $1,321M（同比 +160.9%）。",
       "discovered_at": "2026-11-25",
       "last_seen_at": "2026-11-25",
       "status": "NEW",
       "metrics": {
-        "ttm_award_usd_m": 1316.14,
+        "ttm_award_usd_m": 1320.66,
         "prior_ttm_award_usd_m": 506.18,
-        "yoy_growth": 1.6001
+        "yoy_growth": 1.6091
       },
       "sec_keywords": [],
       "usaspending_keywords": [],
@@ -687,21 +985,21 @@
       "sic_codes": [],
       "discovered_tickers": [],
       "profit_pool_description": "美国联邦采购门类 NAICS 541711（Research and Development in Biotechnology）的存量财政与基础设施预算池",
-      "demand_innovation_hypothesis": "近 12 个月联邦订单同比放量 +160.0%，需核查是否源于技术代际切换或政策刚需"
+      "demand_innovation_hypothesis": "近 12 个月联邦订单同比放量 +160.9%，需核查是否源于技术代际切换或政策刚需"
     },
     {
       "slug": "naics_621999",
       "name": "All Other Miscellaneous Ambulatory Health Care Services (NAICS 621999)",
       "source": "USASPENDING_NAICS",
-      "headline_metric": "+112.0% YoY ($537M TTM)",
-      "rationale": "联邦政府采购门类 NAICS 621999 近 12 个月合同额由 $253M 跃升至 $537M（同比 +112.0%）。",
+      "headline_metric": "+112.4% YoY ($538M TTM)",
+      "rationale": "联邦政府采购门类 NAICS 621999 近 12 个月合同额由 $253M 跃升至 $538M（同比 +112.4%）。",
       "discovered_at": "2026-11-25",
       "last_seen_at": "2026-11-25",
       "status": "NEW",
       "metrics": {
-        "ttm_award_usd_m": 537.37,
+        "ttm_award_usd_m": 538.37,
         "prior_ttm_award_usd_m": 253.47,
-        "yoy_growth": 1.1201
+        "yoy_growth": 1.124
       },
       "sec_keywords": [],
       "usaspending_keywords": [],
@@ -711,7 +1009,7 @@
       "sic_codes": [],
       "discovered_tickers": [],
       "profit_pool_description": "美国联邦采购门类 NAICS 621999（All Other Miscellaneous Ambulatory Health Care Services）的存量财政与基础设施预算池",
-      "demand_innovation_hypothesis": "近 12 个月联邦订单同比放量 +112.0%，需核查是否源于技术代际切换或政策刚需"
+      "demand_innovation_hypothesis": "近 12 个月联邦订单同比放量 +112.4%，需核查是否源于技术代际切换或政策刚需"
     },
     {
       "slug": "sic_1311",
@@ -773,13 +1071,13 @@
         "BIVI",
         "RGBP",
         "APVO",
+        "BRBM",
         "SBFM",
         "RZRA",
         "GOVX",
         "NUOX",
         "IMNN",
-        "RGNA",
-        "TRAX"
+        "RGNA"
       ],
       "profit_pool_description": "一级市场资本密集涌入的 SIC 2834（Pharmaceutical Preparations）细分行业集群",
       "demand_innovation_hypothesis": "180 天内出现 15 家独立公司集中 IPO，往往映射细分赛道商业化拐点"
@@ -821,16 +1119,47 @@
       "demand_innovation_hypothesis": "180 天内出现 7 家独立公司集中 IPO，往往映射细分赛道商业化拐点"
     },
     {
-      "slug": "sic_7372",
-      "name": "Prepackaged Software (Enterprise SaaS) (SIC 7372)",
+      "slug": "sic_3760",
+      "name": "Guided Missiles & Space Vehicles (SIC 3760)",
       "source": "SEC_S1_CLUSTER",
-      "headline_metric": "10 家公司 180天递交 S-1",
-      "rationale": "近 180 天共有 10 家独立企业在 SIC 7372 下密集递交 S-1 IPO 招股书（含 BIO KEY INTERNATIONAL INC  (BKYI)  (CIK 0001019034)、Zeno42 Inc.  (CIK 0002136881)、Glow Holdings, Inc.  (GLOH)  (CIK 0001114859)）。",
+      "headline_metric": "3 家公司 180天递交 S-1",
+      "rationale": "近 180 天共有 3 家独立企业在 SIC 3760 下密集递交 S-1 IPO 招股书（含 Rothe Development, Inc.  (CIK 0002108671)、NON INVASIVE MONITORING SYSTEMS INC /FL/  (NIMU)  (CIK 0000720762)、Helio Corp /FL/  (HLEO)  (CIK 0001953988)）。",
       "discovered_at": "2026-11-25",
       "last_seen_at": "2026-11-25",
       "status": "NEW",
       "metrics": {
-        "unique_s1_filers_180d": 10,
+        "unique_s1_filers_180d": 3,
+        "sample_filers": [
+          "Rothe Development, Inc.  (CIK 0002108671)",
+          "NON INVASIVE MONITORING SYSTEMS INC /FL/  (NIMU)  (CIK 0000720762)",
+          "Helio Corp /FL/  (HLEO)  (CIK 0001953988)"
+        ]
+      },
+      "sec_keywords": [],
+      "usaspending_keywords": [],
+      "naics_codes": [],
+      "sic_codes": [
+        "3760"
+      ],
+      "discovered_tickers": [
+        "RDEV",
+        "NIMU",
+        "HLEO"
+      ],
+      "profit_pool_description": "一级市场资本密集涌入的 SIC 3760（Guided Missiles & Space Vehicles）细分行业集群",
+      "demand_innovation_hypothesis": "180 天内出现 3 家独立公司集中 IPO，往往映射细分赛道商业化拐点"
+    },
+    {
+      "slug": "sic_7372",
+      "name": "Prepackaged Software (Enterprise SaaS) (SIC 7372)",
+      "source": "SEC_S1_CLUSTER",
+      "headline_metric": "9 家公司 180天递交 S-1",
+      "rationale": "近 180 天共有 9 家独立企业在 SIC 7372 下密集递交 S-1 IPO 招股书（含 BIO KEY INTERNATIONAL INC  (BKYI)  (CIK 0001019034)、Zeno42 Inc.  (CIK 0002136881)、Glow Holdings, Inc.  (GLOH)  (CIK 0001114859)）。",
+      "discovered_at": "2026-11-25",
+      "last_seen_at": "2026-11-25",
+      "status": "NEW",
+      "metrics": {
+        "unique_s1_filers_180d": 9,
         "sample_filers": [
           "BIO KEY INTERNATIONAL INC  (BKYI)  (CIK 0001019034)",
           "Zeno42 Inc.  (CIK 0002136881)",
@@ -847,16 +1176,16 @@
       ],
       "discovered_tickers": [
         "BKYI",
+        "ZENO",
         "GLOH",
         "ANT",
         "NSCL",
         "XLAB",
         "PARA",
-        "EAXR",
-        "FNGR"
+        "EAXR"
       ],
       "profit_pool_description": "一级市场资本密集涌入的 SIC 7372（Prepackaged Software (Enterprise SaaS)）细分行业集群",
-      "demand_innovation_hypothesis": "180 天内出现 10 家独立公司集中 IPO，往往映射细分赛道商业化拐点"
+      "demand_innovation_hypothesis": "180 天内出现 9 家独立公司集中 IPO，往往映射细分赛道商业化拐点"
     },
     {
       "slug": "sic_7374",
@@ -968,7 +1297,7 @@
       "rationale": "跨行业探测关键词（silicon photonics, co-packaged optics）在近 180 天命中 46 条 SEC 8-K/S-1 公告，识别出 22 只美股关联标的。",
       "discovered_at": "2026-11-25",
       "last_seen_at": "2026-11-25",
-      "status": "NEW",
+      "status": "PROMOTED",
       "metrics": {
         "sec_filings_180d": 46
       },
@@ -996,7 +1325,9 @@
         "CRDO"
       ],
       "profit_pool_description": "数据中心高速光互联与边缘算力芯片替换升级市场",
-      "demand_innovation_hypothesis": "铜缆互联触及 1.6T/3.2T 物理极限，CPO 硅光与低功耗端侧 NPU 成为刚需"
+      "demand_innovation_hypothesis": "铜缆互联触及 1.6T/3.2T 物理极限，CPO 硅光与低功耗端侧 NPU 成为刚需",
+      "auto_enrolled": true,
+      "promoted_at": "2026-11-25"
     },
     {
       "slug": "grid_scale_battery_storage",
@@ -1077,7 +1408,7 @@
       "rationale": "跨行业探测关键词（post-quantum cryptography, zero trust architecture）在近 180 天命中 36 条 SEC 8-K/S-1 公告，识别出 16 只美股关联标的。",
       "discovered_at": "2026-11-25",
       "last_seen_at": "2026-11-25",
-      "status": "NEW",
+      "status": "PROMOTED",
       "metrics": {
         "sec_filings_180d": 36
       },
@@ -1105,7 +1436,9 @@
         "XGPU"
       ],
       "profit_pool_description": "企业云原生安全与政府关键基础设施防护的刚性订阅预算池",
-      "demand_innovation_hypothesis": "NIST 后量子加密标准落地与 AI 攻防升级，强制驱动身份与加密协议换代"
+      "demand_innovation_hypothesis": "NIST 后量子加密标准落地与 AI 攻防升级，强制驱动身份与加密协议换代",
+      "auto_enrolled": true,
+      "promoted_at": "2026-11-25"
     },
     {
       "slug": "surgical_robotics_medtech",
@@ -1115,7 +1448,7 @@
       "rationale": "跨行业探测关键词（surgical robotics, robotic-assisted surgery）在近 180 天命中 43 条 SEC 8-K/S-1 公告，识别出 13 只美股关联标的。",
       "discovered_at": "2026-11-25",
       "last_seen_at": "2026-11-25",
-      "status": "NEW",
+      "status": "PROMOTED",
       "metrics": {
         "sec_filings_180d": 43
       },
@@ -1141,7 +1474,9 @@
         "OFIX"
       ],
       "profit_pool_description": "高值微创手术器械与高频一次性耗材的刚性医疗利润池",
-      "demand_innovation_hypothesis": "骨科、腔镜与血管介入机器人渗透率爬坡，形成设备装机+耗材复购飞轮"
+      "demand_innovation_hypothesis": "骨科、腔镜与血管介入机器人渗透率爬坡，形成设备装机+耗材复购飞轮",
+      "auto_enrolled": true,
+      "promoted_at": "2026-11-25"
     },
     {
       "slug": "synthetic_biology_gene_editing",
@@ -1217,8 +1552,8 @@
   ],
   "discovered_signals_meta": {
     "last_scanned_at": "2026-11-25",
-    "total_signals": 20,
-    "new_signals_count": 19
+    "total_signals": 21,
+    "new_signals_count": 17
   },
   "research": [
     {
@@ -2957,6 +3292,564 @@
         "filing_accession": "0001477449-26-000052"
       },
       "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "AAON",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "ai_grid_liquid_cooling",
+      "failed_rules": [
+        "tracks.failed_both (rev_yoy=72.3%, gm=25.9%, ocf_margin=7.3%)"
+      ],
+      "price_at_rejection_usd": 75.73,
+      "market_cap_at_rejection_usd_m": 6244.89,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "AAON",
+        "as_of_date": "2026-11-25",
+        "cik": "0000824142",
+        "company_name": "AAON, Inc.",
+        "price_usd": 75.73,
+        "market_cap_usd_m": 6244.89,
+        "ev_to_sales": 2.91,
+        "ttm_revenue_usd_m": 2266.3,
+        "revenue_yoy_growth": 0.7227,
+        "gross_margin": 0.2588,
+        "gross_margin_yoy_change": -0.01,
+        "ocf_usd_m": 166.21,
+        "fcf_usd_m": 70.87,
+        "cash_and_st_inv_usd_m": 0.01,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0,
+        "annual_share_dilution": 0.0112,
+        "filing_accession": "0000824142-26-000088"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "ACCV",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "ai_grid_liquid_cooling",
+      "failed_rules": [
+        "missing_ttm_revenue",
+        "missing_gross_margin",
+        "tracks.failed_both (rev_yoy=N/A, gm=N/A, ocf_margin=N/A)"
+      ],
+      "price_at_rejection_usd": 9.52,
+      "market_cap_at_rejection_usd_m": 1142.61,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "ACCV",
+        "as_of_date": "2026-11-25",
+        "cik": "0002141406",
+        "company_name": "Accelevation Holdings Corp.",
+        "price_usd": 9.52,
+        "market_cap_usd_m": 1142.61,
+        "ev_to_sales": null,
+        "ttm_revenue_usd_m": null,
+        "revenue_yoy_growth": null,
+        "gross_margin": null,
+        "gross_margin_yoy_change": null,
+        "ocf_usd_m": null,
+        "fcf_usd_m": null,
+        "cash_and_st_inv_usd_m": null,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": null,
+        "goodwill_to_total_assets": null,
+        "annual_share_dilution": null,
+        "filing_accession": "0001628280-26-073820"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "AIB",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "ai_grid_liquid_cooling",
+      "failed_rules": [
+        "missing_ttm_revenue",
+        "missing_gross_margin",
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 102.7%)",
+        "tracks.failed_both (rev_yoy=N/A, gm=N/A, ocf_margin=N/A)"
+      ],
+      "price_at_rejection_usd": 0.516,
+      "market_cap_at_rejection_usd_m": 39.4,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "AIB",
+        "as_of_date": "2026-11-25",
+        "cik": "0002070542",
+        "company_name": "AIB Data Centers Inc.",
+        "price_usd": 0.516,
+        "market_cap_usd_m": 39.4,
+        "ev_to_sales": null,
+        "ttm_revenue_usd_m": null,
+        "revenue_yoy_growth": null,
+        "gross_margin": null,
+        "gross_margin_yoy_change": null,
+        "ocf_usd_m": null,
+        "fcf_usd_m": null,
+        "cash_and_st_inv_usd_m": 15.26,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.2611,
+        "annual_share_dilution": 1.0271,
+        "filing_accession": "0001213900-26-120619"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "AIRJ",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "ai_grid_liquid_cooling",
+      "failed_rules": [
+        "missing_ttm_revenue",
+        "missing_gross_margin",
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 25.9%)",
+        "tracks.failed_both (rev_yoy=N/A, gm=N/A, ocf_margin=N/A)"
+      ],
+      "price_at_rejection_usd": 1.84,
+      "market_cap_at_rejection_usd_m": 140.62,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "AIRJ",
+        "as_of_date": "2026-11-25",
+        "cik": "0001855474",
+        "company_name": "AirJoule Technologies Corporation",
+        "price_usd": 1.84,
+        "market_cap_usd_m": 140.62,
+        "ev_to_sales": null,
+        "ttm_revenue_usd_m": null,
+        "revenue_yoy_growth": null,
+        "gross_margin": null,
+        "gross_margin_yoy_change": null,
+        "ocf_usd_m": -6.56,
+        "fcf_usd_m": -6.66,
+        "cash_and_st_inv_usd_m": 29.15,
+        "cash_runway_months": 52.5,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0621,
+        "annual_share_dilution": 0.2595,
+        "filing_accession": "0001855474-26-000006"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "AMPX",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "autonomous_defense_systems",
+      "failed_rules": [
+        "common_floor.min_cash_runway_months (< 24m, actual 11.8m)",
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 15.6%)",
+        "tracks.failed_both (rev_yoy=117.7%, gm=25.0%, ocf_margin=-40.9%)"
+      ],
+      "price_at_rejection_usd": 5.69,
+      "market_cap_at_rejection_usd_m": 834.4,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "AMPX",
+        "as_of_date": "2026-11-25",
+        "cik": "0001899287",
+        "company_name": "Amprius Technologies, Inc.",
+        "price_usd": 5.69,
+        "market_cap_usd_m": 834.4,
+        "ev_to_sales": 6.24,
+        "ttm_revenue_usd_m": 125.85,
+        "revenue_yoy_growth": 1.177,
+        "gross_margin": 0.2503,
+        "gross_margin_yoy_change": 0.2496,
+        "ocf_usd_m": -51.46,
+        "fcf_usd_m": -61.8,
+        "cash_and_st_inv_usd_m": 60.69,
+        "cash_runway_months": 11.8,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0,
+        "annual_share_dilution": 0.1556,
+        "filing_accession": "0001899287-26-000071"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "APLD",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "ai_grid_liquid_cooling",
+      "failed_rules": [
+        "common_floor.min_cash_runway_months (< 24m, actual 7.9m)",
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 13.9%)"
+      ],
+      "price_at_rejection_usd": 12.29,
+      "market_cap_at_rejection_usd_m": 3716.34,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "APLD",
+        "as_of_date": "2026-11-25",
+        "cik": "0001144879",
+        "company_name": "Applied Digital Corporation",
+        "price_usd": 12.29,
+        "market_cap_usd_m": 3716.34,
+        "ev_to_sales": 11.89,
+        "ttm_revenue_usd_m": 793.13,
+        "revenue_yoy_growth": 1.8877,
+        "gross_margin": 0.264,
+        "gross_margin_yoy_change": 0.1846,
+        "ocf_usd_m": 235.14,
+        "fcf_usd_m": -4455.41,
+        "cash_and_st_inv_usd_m": 2949.91,
+        "cash_runway_months": 7.9,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0046,
+        "annual_share_dilution": 0.1394,
+        "filing_accession": "0001144879-26-000059"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "AVEX",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "autonomous_defense_systems",
+      "failed_rules": [
+        "missing_ttm_revenue",
+        "missing_gross_margin",
+        "common_floor.max_goodwill_to_total_assets (> 35%, actual 46.7%)",
+        "tracks.failed_both (rev_yoy=N/A, gm=N/A, ocf_margin=N/A)"
+      ],
+      "price_at_rejection_usd": 12.41,
+      "market_cap_at_rejection_usd_m": 858.74,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "AVEX",
+        "as_of_date": "2026-11-25",
+        "cik": "0002096300",
+        "company_name": "AEVEX Corp.",
+        "price_usd": 12.41,
+        "market_cap_usd_m": 858.74,
+        "ev_to_sales": null,
+        "ttm_revenue_usd_m": null,
+        "revenue_yoy_growth": null,
+        "gross_margin": null,
+        "gross_margin_yoy_change": null,
+        "ocf_usd_m": null,
+        "fcf_usd_m": null,
+        "cash_and_st_inv_usd_m": 78.64,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": 0.0556,
+        "goodwill_to_total_assets": 0.467,
+        "annual_share_dilution": null,
+        "filing_accession": "0002096300-26-000030"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "BHAI",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "autonomous_defense_systems",
+      "failed_rules": [
+        "missing_ttm_revenue",
+        "missing_gross_margin",
+        "tracks.failed_both (rev_yoy=N/A, gm=N/A, ocf_margin=N/A)"
+      ],
+      "price_at_rejection_usd": null,
+      "market_cap_at_rejection_usd_m": null,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "BHAI",
+        "as_of_date": "2026-11-25",
+        "cik": "0002142627",
+        "company_name": "BHAV Acquisition Corp II",
+        "price_usd": null,
+        "market_cap_usd_m": null,
+        "ev_to_sales": null,
+        "ttm_revenue_usd_m": null,
+        "revenue_yoy_growth": null,
+        "gross_margin": null,
+        "gross_margin_yoy_change": null,
+        "ocf_usd_m": null,
+        "fcf_usd_m": null,
+        "cash_and_st_inv_usd_m": null,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": null,
+        "goodwill_to_total_assets": null,
+        "annual_share_dilution": null,
+        "filing_accession": null
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "CC",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "ai_grid_liquid_cooling",
+      "failed_rules": [
+        "common_floor.min_gross_margin (< 20%, actual 15.2%)",
+        "tracks.failed_both (rev_yoy=0.1%, gm=15.2%, ocf_margin=6.8%)"
+      ],
+      "price_at_rejection_usd": 11.41,
+      "market_cap_at_rejection_usd_m": 1717.43,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "CC",
+        "as_of_date": "2026-11-25",
+        "cik": "0001627223",
+        "company_name": "The Chemours Company",
+        "price_usd": 11.41,
+        "market_cap_usd_m": 1717.43,
+        "ev_to_sales": 0.87,
+        "ttm_revenue_usd_m": 5842.0,
+        "revenue_yoy_growth": 0.0009,
+        "gross_margin": 0.1515,
+        "gross_margin_yoy_change": -0.0217,
+        "ocf_usd_m": 400.0,
+        "fcf_usd_m": 211.0,
+        "cash_and_st_inv_usd_m": 698.0,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": 0.0716,
+        "goodwill_to_total_assets": 0.0063,
+        "annual_share_dilution": 0.0067,
+        "filing_accession": "0001627223-26-000035"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "CHGA",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "autonomous_defense_systems",
+      "failed_rules": [
+        "excluded_sector:Real Estate",
+        "common_floor.min_ttm_revenue (< $20M, actual $1.4M)",
+        "missing_gross_margin",
+        "common_floor.min_cash_runway_months (< 24m, actual 0.7m)",
+        "common_floor.max_goodwill_to_total_assets (> 35%, actual 87.1%)",
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 405.8%)",
+        "tracks.failed_both (rev_yoy=6.7%, gm=N/A, ocf_margin=-390.7%)"
+      ],
+      "price_at_rejection_usd": 0.7127,
+      "market_cap_at_rejection_usd_m": 1.17,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "CHGA",
+        "as_of_date": "2026-11-25",
+        "cik": "0001630212",
+        "company_name": "Change Agents Corporation",
+        "price_usd": 0.7127,
+        "market_cap_usd_m": 1.17,
+        "ev_to_sales": 14.08,
+        "ttm_revenue_usd_m": 1.4,
+        "revenue_yoy_growth": 0.0666,
+        "gross_margin": null,
+        "gross_margin_yoy_change": null,
+        "ocf_usd_m": -5.47,
+        "fcf_usd_m": -5.47,
+        "cash_and_st_inv_usd_m": 0.3,
+        "cash_runway_months": 0.7,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.8705,
+        "annual_share_dilution": 4.058,
+        "filing_accession": "0001213900-25-111067"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "CHRN",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "ai_grid_liquid_cooling",
+      "failed_rules": [
+        "common_floor.min_gross_margin (< 20%, actual -14.6%)",
+        "tracks.failed_both (rev_yoy=N/A, gm=-14.6%, ocf_margin=55.6%)"
+      ],
+      "price_at_rejection_usd": 9.66,
+      "market_cap_at_rejection_usd_m": 1591.36,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "CHRN",
+        "as_of_date": "2026-11-25",
+        "cik": "0001549084",
+        "company_name": "ChronoScale Holdings Corporation",
+        "price_usd": 9.66,
+        "market_cap_usd_m": 1591.36,
+        "ev_to_sales": 14.44,
+        "ttm_revenue_usd_m": 96.37,
+        "revenue_yoy_growth": null,
+        "gross_margin": -0.1461,
+        "gross_margin_yoy_change": null,
+        "ocf_usd_m": 53.6,
+        "fcf_usd_m": 24.64,
+        "cash_and_st_inv_usd_m": 15.22,
+        "cash_runway_months": null,
+        "short_term_debt_to_cash": 0.6924,
+        "goodwill_to_total_assets": 0.1841,
+        "annual_share_dilution": 0.052,
+        "filing_accession": "0001628280-26-065876"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "CORZ",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "ai_grid_liquid_cooling",
+      "failed_rules": [
+        "common_floor.min_cash_runway_months (< 24m, actual 7.3m)"
+      ],
+      "price_at_rejection_usd": 10.82,
+      "market_cap_at_rejection_usd_m": 3486.6,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "CORZ",
+        "as_of_date": "2026-11-25",
+        "cik": "0001839341",
+        "company_name": "Core Scientific, Inc.",
+        "price_usd": 10.82,
+        "market_cap_usd_m": 3486.6,
+        "ev_to_sales": 12.07,
+        "ttm_revenue_usd_m": 592.07,
+        "revenue_yoy_growth": 0.7717,
+        "gross_margin": 0.4124,
+        "gross_margin_yoy_change": 0.3469,
+        "ocf_usd_m": 453.75,
+        "fcf_usd_m": -1320.47,
+        "cash_and_st_inv_usd_m": 803.94,
+        "cash_runway_months": 7.3,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0,
+        "annual_share_dilution": 0.0287,
+        "filing_accession": "0001839341-26-000030"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "CTSO",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "organ_perfusion_medtech",
+      "failed_rules": [
+        "common_floor.min_cash_runway_months (< 24m, actual 7.2m)",
+        "common_floor.max_short_term_debt_to_cash (> 0.80x, actual 4.17x)",
+        "tracks.failed_both (rev_yoy=1.3%, gm=72.9%, ocf_margin=-18.3%)"
+      ],
+      "price_at_rejection_usd": 4.31,
+      "market_cap_at_rejection_usd_m": 21.18,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "CTSO",
+        "as_of_date": "2026-11-25",
+        "cik": "0001175151",
+        "company_name": "Cytosorbents Corporation",
+        "price_usd": 4.31,
+        "market_cap_usd_m": 21.18,
+        "ev_to_sales": 1.05,
+        "ttm_revenue_usd_m": 37.46,
+        "revenue_yoy_growth": 0.0129,
+        "gross_margin": 0.7291,
+        "gross_margin_yoy_change": 0.0275,
+        "ocf_usd_m": -6.84,
+        "fcf_usd_m": -6.99,
+        "cash_and_st_inv_usd_m": 4.21,
+        "cash_runway_months": 7.2,
+        "short_term_debt_to_cash": 4.1672,
+        "goodwill_to_total_assets": 0.0,
+        "annual_share_dilution": 0.0029,
+        "filing_accession": "0001104659-26-129935"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "DFNS",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "autonomous_defense_systems",
+      "failed_rules": [
+        "missing_ttm_revenue",
+        "missing_gross_margin",
+        "common_floor.min_cash_runway_months (< 24m, actual 2.2m)",
+        "common_floor.max_short_term_debt_to_cash (> 0.80x, actual 1.67x)",
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 3038.6%)",
+        "tracks.failed_both (rev_yoy=N/A, gm=N/A, ocf_margin=N/A)"
+      ],
+      "price_at_rejection_usd": 1.21,
+      "market_cap_at_rejection_usd_m": 6.84,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "DFNS",
+        "as_of_date": "2026-11-25",
+        "cik": "0001787518",
+        "company_name": "T3 Defense Inc.",
+        "price_usd": 1.21,
+        "market_cap_usd_m": 6.84,
+        "ev_to_sales": null,
+        "ttm_revenue_usd_m": null,
+        "revenue_yoy_growth": null,
+        "gross_margin": null,
+        "gross_margin_yoy_change": null,
+        "ocf_usd_m": -14.14,
+        "fcf_usd_m": -14.46,
+        "cash_and_st_inv_usd_m": 2.59,
+        "cash_runway_months": 2.2,
+        "short_term_debt_to_cash": 1.6692,
+        "goodwill_to_total_assets": 0.1652,
+        "annual_share_dilution": 30.3863,
+        "filing_accession": "0001185185-26-005592"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
+    },
+    {
+      "ticker": "DUKR",
+      "rejected_at": "2026-11-25",
+      "stage": "LAYER2_QUANT",
+      "industry_slug": "autonomous_defense_systems",
+      "failed_rules": [
+        "common_floor.min_ttm_revenue (< $20M, actual $0.47M)",
+        "common_floor.max_annual_share_dilution (> 6.0%, actual 56.1%)",
+        "tracks.failed_both (rev_yoy=18.0%, gm=33.9%, ocf_margin=-395.7%)"
+      ],
+      "price_at_rejection_usd": 1.83,
+      "market_cap_at_rejection_usd_m": 6.27,
+      "spy_price_at_rejection": 716.7,
+      "qqq_price_at_rejection": 633.93,
+      "metrics_snapshot": {
+        "ticker": "DUKR",
+        "as_of_date": "2026-11-25",
+        "cik": "0001638911",
+        "company_name": "DUKE Robotics Corp.",
+        "price_usd": 1.83,
+        "market_cap_usd_m": 6.27,
+        "ev_to_sales": -0.49,
+        "ttm_revenue_usd_m": 0.47,
+        "revenue_yoy_growth": 0.1797,
+        "gross_margin": 0.3391,
+        "gross_margin_yoy_change": -0.1901,
+        "ocf_usd_m": -1.86,
+        "fcf_usd_m": -1.94,
+        "cash_and_st_inv_usd_m": 6.41,
+        "cash_runway_months": 39.7,
+        "short_term_debt_to_cash": 0.0,
+        "goodwill_to_total_assets": 0.0,
+        "annual_share_dilution": 0.5608,
+        "filing_accession": "0001213900-26-120105"
+      },
+      "notes": "Failed fundamental or financial floor hard filters."
     }
   ],
   "post_mortem": {
@@ -3296,6 +4189,10 @@
     ]
   },
   "reports": [
+    {
+      "filename": "20261125_223850_topic_radar.md",
+      "content": "# [TRIGGER] Layer 1 Radar: 3 Industry Awakening(s)\n\n- **edge_ai_silicon_photonics** (自动建档为 DORMANT 休眠跟踪): SEC 180d filings=46 (>=15), tickers=12\n- **post_quantum_cybersecurity** (自动建档为 DORMANT 休眠跟踪): SEC 180d filings=36 (>=15), tickers=12\n- **surgical_robotics_medtech** (自动发现并激活): AWAKENED DORMANT -> ACTIVE via: leaders_agg_rev ($39,926M >= $1,000M); sec_cluster_180d (43 >= 3)\n"
+    },
     {
       "filename": "20261125_210641_earnings_diff.md",
       "content": "# [GREEN] Quarterly Earnings Diff (1 holding(s))\n\n- **TMDX** [GREEN] (10-Q 2026-09-30 / `0001193125-26-449827`): GREEN: All 3 falsification line(s) intact on 10-Q (2026-09-30).\n"

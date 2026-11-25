@@ -54,6 +54,7 @@ candidate_tickers:
 - CHRN
 - CORZ
 - APLD
+- ECL
 history:
 - date: '2026-10-01'
   event: SEEDED

@@ -1,0 +1,81 @@
+slug: post_quantum_cybersecurity
+name: 零信任与后量子网络安全
+status: DORMANT
+created_at: '2026-11-25'
+last_scanned_at: '2026-11-25'
+last_state_change_at: '2026-11-25'
+thesis_snapshot:
+  profit_pool_description: 企业云原生安全与政府关键基础设施防护的刚性订阅预算池
+  demand_innovation_hypothesis: NIST 后量子加密标准落地与 AI 攻防升级，强制驱动身份与加密协议换代
+  winner_take_all_dynamics: Pending Layer 1/3 human thesis refinement.
+signals:
+  sec_keywords:
+  - post-quantum cryptography
+  - zero trust architecture
+  sic_codes: []
+  naics_codes: []
+  usaspending_keywords:
+  - zero trust cybersecurity
+  bellwether_mentions: []
+awaken_conditions:
+  min_leaders_aggregate_revenue_usd_m: 1000
+  consecutive_high_growth_quarters: 2
+  min_sector_yoy_revenue_growth: 0.25
+  usaspending_12m_award_usd_m: 250
+  min_sec_cluster_filings_180d: 3
+leader_tickers:
+- SVAQ
+- CHAR
+- BHAI
+- GIW
+- IONQ
+candidate_tickers:
+- SVAQ
+- CHAR
+- BHAI
+- GIW
+- IONQ
+- LSCC
+- QNME
+- AXIN
+- QNT
+- QUCY
+- WYY
+- XGPU
+- ZS
+- CRWD
+- DVLT
+- MOVE
+history:
+- date: '2026-11-25'
+  event: AUTO_ENROLLED_DORMANT
+  from_status: null
+  to_status: DORMANT
+  evidence: 'Enrolled blind-discovery signal (CROSS_SECTOR_PROBE: 36 条 SEC 180天公告)'
+latest_radar_snapshot:
+  slug: post_quantum_cybersecurity
+  as_of_date: '2026-11-25'
+  leaders_aggregate_revenue_usd_m: 380.44
+  leaders_median_yoy_growth: 3.7653
+  leaders_sampled: 1
+  usaspending_12m_award_usd_m: 0.33
+  usaspending_yoy_growth: null
+  sec_cluster_filings_180d: 36
+  sec_discovered_tickers:
+  - SVAQ
+  - CHAR
+  - BHAI
+  - GIW
+  - IONQ
+  - LSCC
+  - QNME
+  - AXIN
+  - QNT
+  - QUCY
+  - WYY
+  - XGPU
+  - ZS
+  - CRWD
+  - DVLT
+  - MOVE
+  transcript_mentions: 0

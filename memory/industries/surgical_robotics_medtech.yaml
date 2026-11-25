@@ -1,0 +1,80 @@
+slug: surgical_robotics_medtech
+name: 手术机器人与微创精准医疗
+status: ACTIVE
+created_at: '2026-11-25'
+last_scanned_at: '2026-11-25'
+last_state_change_at: '2026-11-25'
+thesis_snapshot:
+  profit_pool_description: 高值微创手术器械与高频一次性耗材的刚性医疗利润池
+  demand_innovation_hypothesis: 骨科、腔镜与血管介入机器人渗透率爬坡，形成设备装机+耗材复购飞轮
+  winner_take_all_dynamics: Pending Layer 1/3 human thesis refinement.
+signals:
+  sec_keywords:
+  - surgical robotics
+  - robotic-assisted surgery
+  sic_codes: []
+  naics_codes: []
+  usaspending_keywords: []
+  bellwether_mentions: []
+awaken_conditions:
+  min_leaders_aggregate_revenue_usd_m: 1000
+  consecutive_high_growth_quarters: 2
+  min_sector_yoy_revenue_growth: 0.25
+  usaspending_12m_award_usd_m: 250
+  min_sec_cluster_filings_180d: 3
+leader_tickers:
+- SSII
+- MBOT
+- MDT
+- STXS
+- ENOV
+candidate_tickers:
+- SSII
+- MBOT
+- MDT
+- STXS
+- ENOV
+- PRCT
+- MOBI
+- TTMI
+- UFPT
+- NNBR
+- ISRG
+- OFIX
+- PROF
+history:
+- date: '2026-11-25'
+  event: AUTO_ENROLLED_DORMANT
+  from_status: null
+  to_status: DORMANT
+  evidence: 'Enrolled blind-discovery signal (CROSS_SECTOR_PROBE: 43 条 SEC 180天公告)'
+- date: '2026-11-25'
+  event: AUTO_AWAKENED
+  from_status: DORMANT
+  to_status: ACTIVE
+  evidence: 'AWAKENED DORMANT -> ACTIVE via: leaders_agg_rev ($39,926M >= $1,000M);
+    sec_cluster_180d (43 >= 3)'
+latest_radar_snapshot:
+  slug: surgical_robotics_medtech
+  as_of_date: '2026-11-25'
+  leaders_aggregate_revenue_usd_m: 39925.9
+  leaders_median_yoy_growth: 0.073
+  leaders_sampled: 4
+  usaspending_12m_award_usd_m: 0.0
+  usaspending_yoy_growth: null
+  sec_cluster_filings_180d: 43
+  sec_discovered_tickers:
+  - SSII
+  - MBOT
+  - MDT
+  - STXS
+  - ENOV
+  - PRCT
+  - MOBI
+  - TTMI
+  - UFPT
+  - NNBR
+  - ISRG
+  - OFIX
+  - PROF
+  transcript_mentions: 0

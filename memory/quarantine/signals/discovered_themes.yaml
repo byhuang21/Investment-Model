@@ -1,19 +1,19 @@
 last_scanned_at: '2026-11-25'
-total_signals: 20
-new_signals_count: 19
+total_signals: 21
+new_signals_count: 17
 signals:
 - slug: naics_238290
   name: Other Building Equipment Contractors (NAICS 238290)
   source: USASPENDING_NAICS
-  headline_metric: +133.5% YoY ($787M TTM)
-  rationale: 联邦政府采购门类 NAICS 238290 近 12 个月合同额由 $337M 跃升至 $787M（同比 +133.5%）。
+  headline_metric: +133.8% YoY ($788M TTM)
+  rationale: 联邦政府采购门类 NAICS 238290 近 12 个月合同额由 $337M 跃升至 $788M（同比 +133.8%）。
   discovered_at: '2026-11-25'
   last_seen_at: '2026-11-25'
   status: NEW
   metrics:
-    ttm_award_usd_m: 786.59
+    ttm_award_usd_m: 787.63
     prior_ttm_award_usd_m: 336.84
-    yoy_growth: 1.3352
+    yoy_growth: 1.3383
   sec_keywords: []
   usaspending_keywords: []
   naics_codes:
@@ -21,7 +21,7 @@ signals:
   sic_codes: []
   discovered_tickers: []
   profit_pool_description: 美国联邦采购门类 NAICS 238290（Other Building Equipment Contractors）的存量财政与基础设施预算池
-  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +133.5%，需核查是否源于技术代际切换或政策刚需
+  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +133.8%，需核查是否源于技术代际切换或政策刚需
 - slug: naics_325180
   name: Other Basic Inorganic Chemical Manufacturing (NAICS 325180)
   source: USASPENDING_NAICS
@@ -73,9 +73,9 @@ signals:
   last_seen_at: '2026-11-25'
   status: NEW
   metrics:
-    ttm_award_usd_m: 1503.9
+    ttm_award_usd_m: 1503.92
     prior_ttm_award_usd_m: 431.99
-    yoy_growth: 2.4813
+    yoy_growth: 2.4814
   sec_keywords: []
   usaspending_keywords: []
   naics_codes:
@@ -87,15 +87,15 @@ signals:
 - slug: naics_541711
   name: Research and Development in Biotechnology (NAICS 541711)
   source: USASPENDING_NAICS
-  headline_metric: +160.0% YoY ($1,316M TTM)
-  rationale: 联邦政府采购门类 NAICS 541711 近 12 个月合同额由 $506M 跃升至 $1,316M（同比 +160.0%）。
+  headline_metric: +160.9% YoY ($1,321M TTM)
+  rationale: 联邦政府采购门类 NAICS 541711 近 12 个月合同额由 $506M 跃升至 $1,321M（同比 +160.9%）。
   discovered_at: '2026-11-25'
   last_seen_at: '2026-11-25'
   status: NEW
   metrics:
-    ttm_award_usd_m: 1316.14
+    ttm_award_usd_m: 1320.66
     prior_ttm_award_usd_m: 506.18
-    yoy_growth: 1.6001
+    yoy_growth: 1.6091
   sec_keywords: []
   usaspending_keywords: []
   naics_codes:
@@ -103,19 +103,19 @@ signals:
   sic_codes: []
   discovered_tickers: []
   profit_pool_description: 美国联邦采购门类 NAICS 541711（Research and Development in Biotechnology）的存量财政与基础设施预算池
-  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +160.0%，需核查是否源于技术代际切换或政策刚需
+  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +160.9%，需核查是否源于技术代际切换或政策刚需
 - slug: naics_621999
   name: All Other Miscellaneous Ambulatory Health Care Services (NAICS 621999)
   source: USASPENDING_NAICS
-  headline_metric: +112.0% YoY ($537M TTM)
-  rationale: 联邦政府采购门类 NAICS 621999 近 12 个月合同额由 $253M 跃升至 $537M（同比 +112.0%）。
+  headline_metric: +112.4% YoY ($538M TTM)
+  rationale: 联邦政府采购门类 NAICS 621999 近 12 个月合同额由 $253M 跃升至 $538M（同比 +112.4%）。
   discovered_at: '2026-11-25'
   last_seen_at: '2026-11-25'
   status: NEW
   metrics:
-    ttm_award_usd_m: 537.37
+    ttm_award_usd_m: 538.37
     prior_ttm_award_usd_m: 253.47
-    yoy_growth: 1.1201
+    yoy_growth: 1.124
   sec_keywords: []
   usaspending_keywords: []
   naics_codes:
@@ -124,7 +124,7 @@ signals:
   discovered_tickers: []
   profit_pool_description: 美国联邦采购门类 NAICS 621999（All Other Miscellaneous Ambulatory
     Health Care Services）的存量财政与基础设施预算池
-  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +112.0%，需核查是否源于技术代际切换或政策刚需
+  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +112.4%，需核查是否源于技术代际切换或政策刚需
 - slug: sic_1311
   name: Crude Petroleum & Natural Gas (SIC 1311)
   source: SEC_S1_CLUSTER
@@ -179,13 +179,13 @@ signals:
   - BIVI
   - RGBP
   - APVO
+  - BRBM
   - SBFM
   - RZRA
   - GOVX
   - NUOX
   - IMNN
   - RGNA
-  - TRAX
   profit_pool_description: 一级市场资本密集涌入的 SIC 2834（Pharmaceutical Preparations）细分行业集群
   demand_innovation_hypothesis: 180 天内出现 15 家独立公司集中 IPO，往往映射细分赛道商业化拐点
 - slug: sic_2836
@@ -219,18 +219,45 @@ signals:
   - BCAB
   profit_pool_description: 一级市场资本密集涌入的 SIC 2836（Biological Products (Biotech)）细分行业集群
   demand_innovation_hypothesis: 180 天内出现 7 家独立公司集中 IPO，往往映射细分赛道商业化拐点
+- slug: sic_3760
+  name: Guided Missiles & Space Vehicles (SIC 3760)
+  source: SEC_S1_CLUSTER
+  headline_metric: 3 家公司 180天递交 S-1
+  rationale: 近 180 天共有 3 家独立企业在 SIC 3760 下密集递交 S-1 IPO 招股书（含 Rothe Development, Inc.  (CIK
+    0002108671)、NON INVASIVE MONITORING SYSTEMS INC /FL/  (NIMU)  (CIK 0000720762)、Helio
+    Corp /FL/  (HLEO)  (CIK 0001953988)）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    unique_s1_filers_180d: 3
+    sample_filers:
+    - Rothe Development, Inc.  (CIK 0002108671)
+    - NON INVASIVE MONITORING SYSTEMS INC /FL/  (NIMU)  (CIK 0000720762)
+    - Helio Corp /FL/  (HLEO)  (CIK 0001953988)
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes: []
+  sic_codes:
+  - '3760'
+  discovered_tickers:
+  - RDEV
+  - NIMU
+  - HLEO
+  profit_pool_description: 一级市场资本密集涌入的 SIC 3760（Guided Missiles & Space Vehicles）细分行业集群
+  demand_innovation_hypothesis: 180 天内出现 3 家独立公司集中 IPO，往往映射细分赛道商业化拐点
 - slug: sic_7372
   name: Prepackaged Software (Enterprise SaaS) (SIC 7372)
   source: SEC_S1_CLUSTER
-  headline_metric: 10 家公司 180天递交 S-1
-  rationale: 近 180 天共有 10 家独立企业在 SIC 7372 下密集递交 S-1 IPO 招股书（含 BIO KEY INTERNATIONAL
+  headline_metric: 9 家公司 180天递交 S-1
+  rationale: 近 180 天共有 9 家独立企业在 SIC 7372 下密集递交 S-1 IPO 招股书（含 BIO KEY INTERNATIONAL
     INC  (BKYI)  (CIK 0001019034)、Zeno42 Inc.  (CIK 0002136881)、Glow Holdings, Inc.  (GLOH)  (CIK
     0001114859)）。
   discovered_at: '2026-11-25'
   last_seen_at: '2026-11-25'
   status: NEW
   metrics:
-    unique_s1_filers_180d: 10
+    unique_s1_filers_180d: 9
     sample_filers:
     - BIO KEY INTERNATIONAL INC  (BKYI)  (CIK 0001019034)
     - Zeno42 Inc.  (CIK 0002136881)
@@ -244,15 +271,15 @@ signals:
   - '7372'
   discovered_tickers:
   - BKYI
+  - ZENO
   - GLOH
   - ANT
   - NSCL
   - XLAB
   - PARA
   - EAXR
-  - FNGR
   profit_pool_description: 一级市场资本密集涌入的 SIC 7372（Prepackaged Software (Enterprise SaaS)）细分行业集群
-  demand_innovation_hypothesis: 180 天内出现 10 家独立公司集中 IPO，往往映射细分赛道商业化拐点
+  demand_innovation_hypothesis: 180 天内出现 9 家独立公司集中 IPO，往往映射细分赛道商业化拐点
 - slug: sic_7374
   name: Computer Processing & Cloud Infrastructure (SIC 7374)
   source: SEC_S1_CLUSTER
@@ -349,7 +376,7 @@ signals:
     公告，识别出 22 只美股关联标的。
   discovered_at: '2026-11-25'
   last_seen_at: '2026-11-25'
-  status: NEW
+  status: PROMOTED
   metrics:
     sec_filings_180d: 46
   sec_keywords:
@@ -374,6 +401,8 @@ signals:
   - CRDO
   profit_pool_description: 数据中心高速光互联与边缘算力芯片替换升级市场
   demand_innovation_hypothesis: 铜缆互联触及 1.6T/3.2T 物理极限，CPO 硅光与低功耗端侧 NPU 成为刚需
+  auto_enrolled: true
+  promoted_at: '2026-11-25'
 - slug: grid_scale_battery_storage
   name: 电网级储能与微电网调峰
   source: CROSS_SECTOR_PROBE
@@ -443,7 +472,7 @@ signals:
     36 条 SEC 8-K/S-1 公告，识别出 16 只美股关联标的。
   discovered_at: '2026-11-25'
   last_seen_at: '2026-11-25'
-  status: NEW
+  status: PROMOTED
   metrics:
     sec_filings_180d: 36
   sec_keywords:
@@ -468,6 +497,8 @@ signals:
   - XGPU
   profit_pool_description: 企业云原生安全与政府关键基础设施防护的刚性订阅预算池
   demand_innovation_hypothesis: NIST 后量子加密标准落地与 AI 攻防升级，强制驱动身份与加密协议换代
+  auto_enrolled: true
+  promoted_at: '2026-11-25'
 - slug: surgical_robotics_medtech
   name: 手术机器人与微创精准医疗
   source: CROSS_SECTOR_PROBE
@@ -476,7 +507,7 @@ signals:
     SEC 8-K/S-1 公告，识别出 13 只美股关联标的。
   discovered_at: '2026-11-25'
   last_seen_at: '2026-11-25'
-  status: NEW
+  status: PROMOTED
   metrics:
     sec_filings_180d: 43
   sec_keywords:
@@ -500,6 +531,8 @@ signals:
   - OFIX
   profit_pool_description: 高值微创手术器械与高频一次性耗材的刚性医疗利润池
   demand_innovation_hypothesis: 骨科、腔镜与血管介入机器人渗透率爬坡，形成设备装机+耗材复购飞轮
+  auto_enrolled: true
+  promoted_at: '2026-11-25'
 - slug: synthetic_biology_gene_editing
   name: 基因编辑与合成生物制造
   source: CROSS_SECTOR_PROBE
