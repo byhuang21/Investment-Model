@@ -88,12 +88,19 @@ python scripts/4_earnings_diff.py
 python scripts/5_post_mortem.py
 ```
 
+## 文档索引
+
+- [docs/PROJECT_INTRO.md](./docs/PROJECT_INTRO.md) — 一页纸项目介绍、常用命令速查与云端上线 2 步清单
+- [docs/GOVERNANCE.md](./docs/GOVERNANCE.md) — 沙盒隔离（`sandbox/`）、隔离暂存区（`memory/quarantine/`）与分支治理规范
+- [docs/DECISIONS.md](./docs/DECISIONS.md) — 架构与投研规则决策日志（ADR）
+- [AGENT_RULES.md](./AGENT_RULES.md) — 永久系统指令与投研宪法
+
 ## 开发路线图
 
 - [x] Phase 0：目录结构、永久指令、配置文件、核心 Schema 与脚本骨架初始化
-- [x] Phase 1：公共数据客户端（`sec_edgar.py` XBRL/EFTS/CapEx、`market_data.py`、`usaspending.py`）
+- [x] Phase 1：公共数据客户端（`sec_edgar.py` XBRL/EFTS/CapEx/Form 4、`market_data.py`、`usaspending.py`）
 - [x] Phase 2：`scripts/2_quant_screener.py` 双轨硬过滤（A1/A2/B）与三向分流实测校准（`rules.yaml v0.2.0`）
 - [x] Phase 3：`scripts/1_topic_radar.py` 主动赛道扫描与 `DORMANT ↔ ACTIVE` 状态机唤醒
 - [x] Phase 4：`scripts/3_watchlist_monitor.py` 防抖盯盘、`scripts/4_earnings_diff.py` 季报红绿灯体检与多通道 `Notifier`
 - [x] Phase 5：`scripts/5_post_mortem.py` 误杀率回测校准 + 交互式 Web 工作台（`web/` + FastAPI 读写后端）
-- [ ] Phase 6：第三层自动化取证增强（SEC Form 4 内部人交易与管理层指引兑现率抽取）+ 首批正式入罐实战
+- [x] Phase 6：第三层 SEC Form 4 与 3 年资本配置自动取证（`scripts/6_deep_dive_evidence.py`）+ 沙盒闭环演练 + 云端 GitHub Actions（bot PR 同步 & GitHub Pages 静态看板）

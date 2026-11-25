@@ -92,3 +92,28 @@ def test_snapshot_and_human_gate_enforcement(tmp_path: Path) -> None:
     )
     assert ind_resp.status_code == 200
     assert ind_resp.json()["industry"]["status"] == "DORMANT"
+
+    # 7. End-to-end closed loop: promoted Coffee Can holding passes doctor & earnings diff
+    from coffee_can.doctor import run_doctor
+    from coffee_can.earnings_diff import evaluate_earnings_diff
+    from coffee_can.schemas import TrafficLight
+
+    doc_report = run_doctor(ws)
+    assert doc_report.ok is True, f"Doctor failed after promotion: {doc_report.errors}"
+
+    chk = evaluate_earnings_diff(
+        position=pos_data,
+        fundamentals={
+            "ttm_revenue_usd_m": 1500.0,
+            "revenue_yoy_growth": 0.25,
+            "gross_margin": 0.45,
+            "gross_margin_yoy_change": 0.01,
+            "annual_share_dilution": 0.015,
+            "filing_accession": "0009-26-000001",
+            "latest_period_end": "2026-09-30",
+        },
+        rules=snap["rules"],
+        filing_meta={"form": "10-Q", "accession": "0009-26-000001", "report_date": "2026-09-30"},
+    )
+    assert chk.is_new_filing is True
+    assert chk.traffic_light == TrafficLight.GREEN

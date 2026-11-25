@@ -2,9 +2,9 @@ ticker: CELH
 company_name: Celsius Holdings, Inc.
 cik: '0001341766'
 industry_slug: initial_calibration_cohort
-status: DRAFTING_EVIDENCE
+status: PENDING_HUMAN_REVIEW
 created_at: '2026-11-23'
-updated_at: '2026-11-23'
+updated_at: '2026-11-25'
 layer2_track_qualified: profitable_compounder
 odds_check:
   current_market_cap_usd_m: 7130.83
@@ -42,11 +42,80 @@ dimensions:
   5_management:
     objective_evidence:
       guidance_delivery_rate_note: ''
-      capital_allocation_record: ''
-      form4_net_insider_activity_24m: ''
+      capital_allocation_record: 近 3 财年累计：FCF $686.7M | CapEx $76.9M | 现金并购 $75.3M
+        | 股票回购 $8.0M
+      form4_net_insider_activity_24m: 解析 40 份 Form 4：公开买入 7 笔 ($2.55M) | 自主卖出 1 笔
+        ($147.8K) | 10b5-1 计划卖出 0 笔 ($0)
       founder_led: null
       insider_ownership_pct: null
-      evidence_refs: []
+      evidence_refs:
+      - 0001341766-26-000062
+      - 0001341766-26-000059
+      - 0001193125-26-342430
+      - 0001341766-26-000050
+      - 0001341766-26-000047
+      - 0001193125-26-304791
+      capital_allocation_3y:
+      - fiscal_year: 2023
+        period_end: '2023-12-31'
+        filing_accession: 0001341766-26-000024
+        revenue_usd_m: 1318.01
+        revenue_yoy_growth: 1.0165
+        gross_margin: 0.4804
+        operating_margin: 0.2021
+        ocf_usd_m: 141.22
+        capex_usd_m: 17.43
+        fcf_usd_m: 123.78
+        rd_usd_m: 1.7
+        rd_pct_of_rev: 0.0013
+        acquisitions_cash_usd_m: 0.0
+        share_repurchases_usd_m: 0.0
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 21.23
+        sbc_pct_of_rev: 0.0161
+      - fiscal_year: 2024
+        period_end: '2024-12-31'
+        filing_accession: 0001341766-26-000024
+        revenue_usd_m: 1355.63
+        revenue_yoy_growth: 0.0285
+        gross_margin: 0.5018
+        operating_margin: 0.1149
+        ocf_usd_m: 262.9
+        capex_usd_m: 23.39
+        fcf_usd_m: 239.51
+        rd_usd_m: 1.0
+        rd_pct_of_rev: 0.0007
+        acquisitions_cash_usd_m: 75.34
+        share_repurchases_usd_m: 2.26
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 19.59
+        sbc_pct_of_rev: 0.0145
+      - fiscal_year: 2025
+        period_end: '2025-12-31'
+        filing_accession: 0001341766-26-000024
+        revenue_usd_m: 2515.27
+        revenue_yoy_growth: 0.8554
+        gross_margin: 0.5039
+        operating_margin: 0.0561
+        ocf_usd_m: 359.44
+        capex_usd_m: 36.07
+        fcf_usd_m: 323.38
+        rd_usd_m: 2.4
+        rd_pct_of_rev: 0.001
+        acquisitions_cash_usd_m: 0.0
+        share_repurchases_usd_m: 5.73
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 28.05
+        sbc_pct_of_rev: 0.0112
+      form4_summary:
+        filings_parsed: 40
+        open_market_buy_count: 7
+        open_market_buy_usd: 2546400.6
+        discretionary_sell_count: 1
+        discretionary_sell_usd: 147772.8
+        plan_10b5_1_sell_count: 0
+        plan_10b5_1_sell_usd: 0
+        net_open_market_usd: 2398627.8
     human_subjective_score: null
     human_notes: ''
     reviewed_by_human: false

@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   issues: write
+  pull-requests: write
 
 jobs:
   post-mortem:
@@ -29,4 +30,31 @@ jobs:
         env:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: python scripts/5_post_mortem.py
+
+      - name: Refresh static web snapshot & validate integrity
+        run: |
+          python scripts/export_web_snapshot.py
+          python scripts/doctor.py
+
+      - name: Open sync Pull Request if reports or proposals changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -z "$(git status --porcelain memory/ web/data/snapshot.json)" ]; then
+            echo "No changes to sync."
+            exit 0
+          fi
+          BRANCH="bot/post-mortem-sync"
+          git config user.name "coffee-can-bot[bot]"
+          git config user.email "coffee-can-bot@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add memory/ web/data/snapshot.json
+          git commit -m "chore(bot): semi-annual post-mortem report ($(date -u +%Y-%m-%d))"
+          git push --force-with-lease origin "$BRANCH"
+          gh pr list --head "$BRANCH" --state open --json number --jq 'length' | grep -q '^0$' && \
+            gh pr create --base main --head "$BRANCH" \
+              --title "chore(bot): semi-annual post-mortem & calibration review" \
+              --body "Automated semi-annual post-mortem. Any rules.yaml proposals are isolated under memory/quarantine/proposals/ for human review." \
+            || echo "Open sync PR already updated."

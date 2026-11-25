@@ -2,9 +2,9 @@ ticker: DUOL
 company_name: Duolingo, Inc.
 cik: 0001562088
 industry_slug: initial_calibration_cohort
-status: DRAFTING_EVIDENCE
+status: PENDING_HUMAN_REVIEW
 created_at: '2026-11-23'
-updated_at: '2026-11-23'
+updated_at: '2026-11-25'
 layer2_track_qualified: profitable_compounder
 odds_check:
   current_market_cap_usd_m: 6841.79
@@ -42,11 +42,80 @@ dimensions:
   5_management:
     objective_evidence:
       guidance_delivery_rate_note: ''
-      capital_allocation_record: ''
-      form4_net_insider_activity_24m: ''
+      capital_allocation_record: 近 3 财年累计：FCF $793.5M | CapEx $33.4M | 现金并购 $39.7M
+        | 股票回购 $0.0M
+      form4_net_insider_activity_24m: 解析 40 份 Form 4：公开买入 0 笔 ($0) | 自主卖出 4 笔 ($674.2K)
+        | 10b5-1 计划卖出 48 笔 ($41.60M)
       founder_led: null
       insider_ownership_pct: null
-      evidence_refs: []
+      evidence_refs:
+      - 0001628280-26-069692
+      - 0001628280-26-069474
+      - 0001628280-26-057818
+      - 0001628280-26-055015
+      - 0001628280-26-053603
+      - 0001628280-26-053299
+      capital_allocation_3y:
+      - fiscal_year: 2023
+        period_end: '2023-12-31'
+        filing_accession: 0001628280-26-012494
+        revenue_usd_m: 531.11
+        revenue_yoy_growth: 0.4374
+        gross_margin: 0.7324
+        operating_margin: -0.025
+        ocf_usd_m: 153.61
+        capex_usd_m: 3.19
+        fcf_usd_m: 150.42
+        rd_usd_m: 194.35
+        rd_pct_of_rev: 0.3659
+        acquisitions_cash_usd_m: 0.0
+        share_repurchases_usd_m: 0.0
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 95.22
+        sbc_pct_of_rev: 0.1793
+      - fiscal_year: 2024
+        period_end: '2024-12-31'
+        filing_accession: 0001628280-26-012494
+        revenue_usd_m: 748.02
+        revenue_yoy_growth: 0.4084
+        gross_margin: 0.7278
+        operating_margin: 0.0837
+        ocf_usd_m: 285.51
+        capex_usd_m: 12.12
+        fcf_usd_m: 273.4
+        rd_usd_m: 235.3
+        rd_pct_of_rev: 0.3146
+        acquisitions_cash_usd_m: 6.59
+        share_repurchases_usd_m: 0.0
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 110.48
+        sbc_pct_of_rev: 0.1477
+      - fiscal_year: 2025
+        period_end: '2025-12-31'
+        filing_accession: 0001628280-26-012494
+        revenue_usd_m: 1037.59
+        revenue_yoy_growth: 0.3871
+        gross_margin: 0.7223
+        operating_margin: 0.1307
+        ocf_usd_m: 387.82
+        capex_usd_m: 18.1
+        fcf_usd_m: 369.73
+        rd_usd_m: 306.32
+        rd_pct_of_rev: 0.2952
+        acquisitions_cash_usd_m: 33.1
+        share_repurchases_usd_m: 0.0
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 137.44
+        sbc_pct_of_rev: 0.1325
+      form4_summary:
+        filings_parsed: 40
+        open_market_buy_count: 0
+        open_market_buy_usd: 0
+        discretionary_sell_count: 4
+        discretionary_sell_usd: 674212.76
+        plan_10b5_1_sell_count: 48
+        plan_10b5_1_sell_usd: 41604387.96
+        net_open_market_usd: -42278600.72
     human_subjective_score: null
     human_notes: ''
     reviewed_by_human: false

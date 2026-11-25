@@ -2,9 +2,9 @@ ticker: ELF
 company_name: e.l.f. Beauty, Inc.
 cik: '0001600033'
 industry_slug: initial_calibration_cohort
-status: DRAFTING_EVIDENCE
+status: PENDING_HUMAN_REVIEW
 created_at: '2026-11-23'
-updated_at: '2026-11-23'
+updated_at: '2026-11-25'
 layer2_track_qualified: profitable_compounder
 odds_check:
   current_market_cap_usd_m: 6120.01
@@ -42,11 +42,80 @@ dimensions:
   5_management:
     objective_evidence:
       guidance_delivery_rate_note: ''
-      capital_allocation_record: ''
-      form4_net_insider_activity_24m: ''
+      capital_allocation_record: 近 3 财年累计：FCF $367.9M | CapEx $49.6M | 现金并购 $856.6M
+        | 股票回购 $117.1M
+      form4_net_insider_activity_24m: 解析 40 份 Form 4：公开买入 0 笔 ($0) | 自主卖出 19 笔 ($7.38M)
+        | 10b5-1 计划卖出 21 笔 ($16.54M)
       founder_led: null
       insider_ownership_pct: null
-      evidence_refs: []
+      evidence_refs:
+      - 0001600033-26-000052
+      - 0001600033-26-000050
+      - 0001600033-26-000048
+      - 0001600033-26-000044
+      - 0001600033-26-000040
+      - 0001600033-26-000036
+      capital_allocation_3y:
+      - fiscal_year: 2024
+        period_end: '2024-03-31'
+        filing_accession: 0001600033-26-000020
+        revenue_usd_m: 1023.93
+        revenue_yoy_growth: 0.7689
+        gross_margin: 0.7072
+        operating_margin: 0.1462
+        ocf_usd_m: 71.15
+        capex_usd_m: 8.66
+        fcf_usd_m: 62.49
+        rd_usd_m: null
+        rd_pct_of_rev: null
+        acquisitions_cash_usd_m: 274.97
+        share_repurchases_usd_m: 0.0
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 40.62
+        sbc_pct_of_rev: 0.0397
+      - fiscal_year: 2025
+        period_end: '2025-03-31'
+        filing_accession: 0001600033-26-000020
+        revenue_usd_m: 1313.52
+        revenue_yoy_growth: 0.2828
+        gross_margin: 0.7124
+        operating_margin: 0.1203
+        ocf_usd_m: 133.84
+        capex_usd_m: 18.52
+        fcf_usd_m: 115.32
+        rd_usd_m: null
+        rd_pct_of_rev: null
+        acquisitions_cash_usd_m: 0.0
+        share_repurchases_usd_m: 67.06
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 71.79
+        sbc_pct_of_rev: 0.0547
+      - fiscal_year: 2026
+        period_end: '2026-03-31'
+        filing_accession: 0001600033-26-000020
+        revenue_usd_m: 1636.47
+        revenue_yoy_growth: 0.2459
+        gross_margin: 0.7072
+        operating_margin: 0.045
+        ocf_usd_m: 212.51
+        capex_usd_m: 22.45
+        fcf_usd_m: 190.06
+        rd_usd_m: null
+        rd_pct_of_rev: null
+        acquisitions_cash_usd_m: 581.68
+        share_repurchases_usd_m: 49.99
+        dividends_paid_usd_m: 0.0
+        sbc_usd_m: 86.92
+        sbc_pct_of_rev: 0.0531
+      form4_summary:
+        filings_parsed: 40
+        open_market_buy_count: 0
+        open_market_buy_usd: 0
+        discretionary_sell_count: 19
+        discretionary_sell_usd: 7377441.12
+        plan_10b5_1_sell_count: 21
+        plan_10b5_1_sell_usd: 16539685.5
+        net_open_market_usd: -23917126.62
     human_subjective_score: null
     human_notes: ''
     reviewed_by_human: false
