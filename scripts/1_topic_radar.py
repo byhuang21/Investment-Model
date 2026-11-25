@@ -42,10 +42,12 @@ from coffee_can.config import (
 )
 from coffee_can.notifier import AlertMessage, Notifier
 from coffee_can.radar import (
+    DiscoveredThemeSignal,
     RadarEvaluation,
     RadarMetrics,
     evaluate_industry_state,
     merge_candidate_tickers,
+    merge_discovered_signals,
     scan_local_transcripts,
 )
 from coffee_can.storage import list_active_yaml_files, read_yaml, write_yaml
@@ -70,7 +72,15 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--discover",
         action="store_true",
-        help="Also scan bellwether mega-cap CapEx acceleration (MSFT/AMZN/GOOGL/META/NVDA/etc.).",
+        help=(
+            "Also run Bellwether CapEx radar + Zero-Keyword Blind Discovery Engine "
+            "(writes candidate themes to memory/quarantine/signals/discovered_themes.yaml)."
+        ),
+    )
+    parser.add_argument(
+        "--discover-only",
+        action="store_true",
+        help="Run only Bellwether CapEx + Blind Discovery Engine without rescanning industries.",
     )
     parser.add_argument(
         "--sec-user-agent",
@@ -191,6 +201,186 @@ def _scan_bellwether_capex(
     return rows
 
 
+def _run_blind_discovery(
+    sec_client: SecEdgarClient,
+    usa_client: UsaSpendingClient,
+    data_sources: dict[str, Any],
+    bellwether_set: set[str],
+    tracked_slugs: set[str],
+    today_str: str,
+) -> list[DiscoveredThemeSignal]:
+    """Run the 3-channel Blind Discovery Engine (NAICS surge, SEC S-1 clusters, cross-sector)."""
+    cfg = data_sources.get("blind_discovery") or {}
+    if not cfg.get("enabled", True):
+        return []
+
+    fresh: list[DiscoveredThemeSignal] = []
+
+    # Channel A: Zero-keyword USASpending 6-digit NAICS YoY surge
+    naics_cfg = cfg.get("naics_surge") or {}
+    if naics_cfg.get("enabled", True) and data_sources.get("usaspending", {}).get("enabled", True):
+        try:
+            surging = usa_client.get_surging_naics_categories(
+                min_ttm_usd_m=float(naics_cfg.get("min_ttm_usd_m", 100.0)),
+                min_prior_usd_m=float(naics_cfg.get("min_prior_usd_m", 25.0)),
+                min_yoy_growth=float(naics_cfg.get("min_yoy_growth", 0.25)),
+                pages=int(naics_cfg.get("pages", 2)),
+                top_n=int(naics_cfg.get("top_n", 6)),
+                exclude_naics_prefixes=tuple(naics_cfg.get("exclude_naics_prefixes") or ()),
+            )
+            for row in surging:
+                code = str(row["naics_code"])
+                name = str(row["naics_name"])
+                ttm_m = float(row["ttm_usd_m"])
+                prior_m = float(row["prior_ttm_usd_m"])
+                yoy = float(row["yoy_growth"])
+                fresh.append(
+                    DiscoveredThemeSignal(
+                        slug=f"naics_{code}",
+                        name=f"{name} (NAICS {code})",
+                        source="USASPENDING_NAICS",
+                        headline_metric=f"{yoy:+.1%} YoY (${ttm_m:,.0f}M TTM)",
+                        rationale=(
+                            f"联邦政府采购门类 NAICS {code} 近 12 个月合同额由 "
+                            f"${prior_m:,.0f}M 跃升至 ${ttm_m:,.0f}M（同比 {yoy:+.1%}）。"
+                        ),
+                        discovered_at=today_str,
+                        last_seen_at=today_str,
+                        metrics={
+                            "ttm_award_usd_m": ttm_m,
+                            "prior_ttm_award_usd_m": prior_m,
+                            "yoy_growth": yoy,
+                        },
+                        naics_codes=[code],
+                        profit_pool_description=(
+                            f"美国联邦采购门类 NAICS {code}（{name}）的存量财政与基础设施预算池"
+                        ),
+                        demand_innovation_hypothesis=(
+                            f"近 12 个月联邦订单同比放量 {yoy:+.1%}，"
+                            "需核查是否源于技术代际切换或政策刚需"
+                        ),
+                    )
+                )
+        except Exception as exc:
+            print(f"  [WARN] USASpending NAICS blind scan skipped: {exc}")
+
+    # Channel B: Zero-keyword SEC EDGAR S-1 IPO SIC cluster sweep
+    s1_cfg = cfg.get("sec_s1_clusters") or {}
+    if s1_cfg.get("enabled", True):
+        try:
+            clusters = sec_client.discover_s1_clusters(
+                lookback_days=int(s1_cfg.get("lookback_days", 180)),
+                max_hits=int(s1_cfg.get("max_hits", 200)),
+                min_unique_filers=int(s1_cfg.get("min_unique_filers", 2)),
+                top_n=int(s1_cfg.get("top_n", 6)),
+                exclude_sic_prefixes=tuple(s1_cfg.get("exclude_sic_prefixes") or ()),
+            )
+            for cl in clusters:
+                sic = str(cl["sic_code"])
+                sic_name = str(cl["sic_name"])
+                cnt = int(cl["unique_filers"])
+                filers = list(cl.get("filers") or [])
+                tickers = [
+                    t
+                    for t in (cl.get("discovered_tickers") or [])
+                    if str(t).upper() not in bellwether_set
+                ]
+                filer_preview = "、".join(filers[:3])
+                fresh.append(
+                    DiscoveredThemeSignal(
+                        slug=f"sic_{sic}",
+                        name=f"{sic_name} (SIC {sic})",
+                        source="SEC_S1_CLUSTER",
+                        headline_metric=f"{cnt} 家公司 180天递交 S-1",
+                        rationale=(
+                            f"近 {int(s1_cfg.get('lookback_days', 180))} 天共有 {cnt} 家独立企业"
+                            f"在 SIC {sic} 下密集递交 S-1 IPO 招股书"
+                            + (f"（含 {filer_preview}）。" if filer_preview else "。")
+                        ),
+                        discovered_at=today_str,
+                        last_seen_at=today_str,
+                        metrics={
+                            "unique_s1_filers_180d": cnt,
+                            "sample_filers": filers[:5],
+                        },
+                        sic_codes=[sic],
+                        discovered_tickers=tickers[:10],
+                        profit_pool_description=(
+                            f"一级市场资本密集涌入的 SIC {sic}（{sic_name}）细分行业集群"
+                        ),
+                        demand_innovation_hypothesis=(
+                            f"180 天内出现 {cnt} 家独立公司集中 IPO，往往映射细分赛道商业化拐点"
+                        ),
+                    )
+                )
+        except Exception as exc:
+            print(f"  [WARN] SEC S-1 SIC blind scan skipped: {exc}")
+
+    # Channel C: Cross-sector emerging theme probes (non-B2G commercial/tech/consumer/medtech)
+    probe_cfg = cfg.get("sector_probes") or {}
+    if probe_cfg.get("enabled", True):
+        lookback = int(probe_cfg.get("lookback_days", 180))
+        min_filings = int(probe_cfg.get("min_sec_filings_180d", 5))
+        max_themes = int(probe_cfg.get("max_themes", 8))
+        probe_hits: list[tuple[int, DiscoveredThemeSignal]] = []
+        for probe in probe_cfg.get("probes") or []:
+            slug = str(probe.get("slug") or "").strip()
+            if not slug or slug in tracked_slugs:
+                continue
+            sec_kws = [str(k).strip() for k in (probe.get("sec_keywords") or []) if str(k).strip()]
+            usa_kws = [
+                str(k).strip()
+                for k in (probe.get("usaspending_keywords") or [])
+                if str(k).strip()
+            ]
+            if not sec_kws:
+                continue
+            total_filings = 0
+            found_tickers: list[str] = []
+            for kw in sec_kws[:2]:
+                try:
+                    res = sec_client.search_efts(
+                        query=kw,
+                        forms=["S-1", "8-K"],
+                        lookback_days=lookback,
+                        limit=20,
+                    )
+                    total_filings += int(res.get("total_hits", 0))
+                    for t in res.get("discovered_tickers", []):
+                        tu = str(t).upper()
+                        if tu not in bellwether_set and tu not in found_tickers:
+                            found_tickers.append(tu)
+                except Exception:
+                    continue
+            if total_filings < min_filings:
+                continue
+            sig = DiscoveredThemeSignal(
+                slug=slug,
+                name=str(probe.get("name") or slug),
+                source="CROSS_SECTOR_PROBE",
+                headline_metric=f"{total_filings} 条 SEC 180天公告",
+                rationale=(
+                    f"跨行业探测关键词（{', '.join(sec_kws[:2])}）在近 {lookback} 天命中 "
+                    f"{total_filings} 条 SEC 8-K/S-1 公告，"
+                    f"识别出 {len(found_tickers)} 只美股关联标的。"
+                ),
+                discovered_at=today_str,
+                last_seen_at=today_str,
+                metrics={"sec_filings_180d": total_filings},
+                sec_keywords=sec_kws,
+                usaspending_keywords=usa_kws,
+                discovered_tickers=found_tickers[:12],
+                profit_pool_description=str(probe.get("profit_pool_description") or ""),
+                demand_innovation_hypothesis=str(probe.get("demand_innovation_hypothesis") or ""),
+            )
+            probe_hits.append((total_filings, sig))
+
+        probe_hits.sort(key=lambda pair: (-pair[0], pair[1].slug))
+        fresh.extend(sig for _, sig in probe_hits[:max_themes])
+
+    return fresh
+
+
 def _fmt_m(val: float | None) -> str:
     return f"${val:,.0f}M" if val is not None else "N/A"
 
@@ -208,8 +398,20 @@ def main(argv: list[str] | None = None) -> int:
     rules = load_rules(ws_root)
     data_sources = load_data_sources(ws_root)
 
-    industries = list_active_yaml_files(paths.industries_dir)
-    if args.industry:
+    all_industry_files = list_active_yaml_files(paths.industries_dir)
+    tracked_slugs: set[str] = set()
+    tracked_naics: set[str] = set()
+    tracked_sics: set[str] = set()
+    for p in all_industry_files:
+        rec = read_yaml(p)
+        tracked_slugs.add(str(rec.get("slug", p.stem)))
+        sigs = rec.get("signals") or {}
+        tracked_naics.update(str(c) for c in (sigs.get("naics_codes") or []))
+        tracked_sics.update(str(c) for c in (sigs.get("sic_codes") or []))
+
+    run_discover = bool(args.discover or args.discover_only)
+    industries = [] if args.discover_only else list(all_industry_files)
+    if args.industry and not args.discover_only:
         industries = [
             p for p in industries if read_yaml(p).get("slug", p.stem) == args.industry
         ]
@@ -218,9 +420,10 @@ def main(argv: list[str] | None = None) -> int:
     print(f"=== [Layer 1] Topic Radar & Industry State Machine [{env_name.upper()}] ===")
     print(f"Tracked industries     : {len(industries)}")
     print(f"Global awaken revenue  : ${awaken_cfg['min_leaders_aggregate_revenue_usd_m']}M")
+    print(f"Blind discovery        : {run_discover}")
     print(f"Dry run                : {args.dry_run}")
 
-    if not industries and not args.discover:
+    if not industries and not run_discover:
         print(
             "No tracked industry files in memory/industries/. Add a YAML file or pass --discover."
         )
@@ -325,7 +528,7 @@ def main(argv: list[str] | None = None) -> int:
                 record["history"] = history
             write_yaml(path, record)
 
-    if args.discover:
+    if run_discover:
         print("\n=== Bellwether CapEx Radar (SEC XBRL TTM) ===")
         capex_rows = _scan_bellwether_capex(sec_client, data_sources)
         for row in capex_rows:
@@ -337,6 +540,49 @@ def main(argv: list[str] | None = None) -> int:
                     f"YoY={_fmt_pct(row['capex_yoy_growth']):>8} "
                     f"(period={row.get('latest_period_end')})"
                 )
+
+        print("\n=== Zero-Keyword Blind Discovery Engine (Quarantine Signals) ===")
+        fresh_signals = _run_blind_discovery(
+            sec_client=sec_client,
+            usa_client=usa_client,
+            data_sources=data_sources,
+            bellwether_set=bellwether_set,
+            tracked_slugs=tracked_slugs,
+            today_str=today_str,
+        )
+        signals_path = paths.quarantine_signals_dir / "discovered_themes.yaml"
+        existing_doc = read_yaml(signals_path) if signals_path.exists() else {}
+        existing_items = list(existing_doc.get("signals") or [])
+        merged_signals = merge_discovered_signals(
+            existing_items=existing_items,
+            fresh_items=fresh_signals,
+            tracked_slugs=tracked_slugs,
+            tracked_naics=tracked_naics,
+            tracked_sics=tracked_sics,
+            today_str=today_str,
+        )
+        new_count = sum(1 for item in merged_signals if item.get("status") == "NEW")
+        print(
+            f"Discovered {len(fresh_signals)} raw signal(s) -> "
+            f"{new_count} NEW waiting in quarantine/signals/discovered_themes.yaml"
+        )
+        for item in merged_signals:
+            if item.get("status") != "NEW":
+                continue
+            tkrs = ",".join(item.get("discovered_tickers", [])[:5]) or "-"
+            print(
+                f"  - [{item['source']:<18}] {item['slug']:<30} "
+                f"{item['headline_metric']:<26} tickers={tkrs}"
+            )
+
+        if not args.dry_run:
+            payload = {
+                "last_scanned_at": today_str,
+                "total_signals": len(merged_signals),
+                "new_signals_count": new_count,
+                "signals": merged_signals,
+            }
+            write_yaml(signals_path, payload)
 
     if awakened_lines and not args.dry_run:
         notifier = Notifier(data_sources, paths.reports_dir)

@@ -160,3 +160,116 @@ notifications:
     enabled: false                         # 设置 TELEGRAM_BOT_TOKEN & CHAT_ID 并改为 true 后启用
     bot_token_env: "TELEGRAM_BOT_TOKEN"
     chat_id_env: "TELEGRAM_CHAT_ID"
+
+# -----------------------------------------------------------------------------
+# 6. 第一层零关键词主动盲扫发现引擎 (Blind Discovery Engine)
+# 说明：不依赖人工预设 4 个赛道，自动从三大通道扫描潜在新赛道并写入
+#       memory/quarantine/signals/discovered_themes.yaml 等待人工审阅晋升
+# -----------------------------------------------------------------------------
+blind_discovery:
+  enabled: true
+  # 通道 A：USASpending 全行业 6 位 NAICS 联邦采购同比暴增盲扫（零关键词）
+  naics_surge:
+    enabled: true
+    min_ttm_usd_m: 100.0                   # 近 12M 联邦合同总额 >= $100M
+    min_prior_usd_m: 25.0                  # 上一年基数 >= $25M（过滤极小基数噪声）
+    min_yoy_growth: 0.25                   # 同比增速 >= +25%
+    pages: 2                               # 扫描前 200 大 NAICS 门类
+    top_n: 6
+    exclude_naics_prefixes:
+      - "236"                              # 通用建筑施工
+      - "237"                              # 传统市政基建
+      - "424"                              # 非耐用品批发
+      - "445"                              # 食品零售
+      - "52"                               # 金融与保险
+      - "53"                               # 房地产租赁
+      - "561"                              # 通用行政/外包服务
+      - "624"                              # 社会救助
+      - "72"                               # 住宿餐饮
+      - "813"                              # 宗教/公益组织
+      - "92"                               # 公共行政
+
+  # 通道 B：SEC EDGAR 近 180 天 S-1 IPO 扎堆聚类盲扫（零关键词，按 4 位 SIC 聚类）
+  sec_s1_clusters:
+    enabled: true
+    lookback_days: 180
+    max_hits: 200
+    min_unique_filers: 2                   # 至少 2 家不同公司递交 S-1（按 CIK 去重 S-1/A）
+    top_n: 6
+    exclude_sic_prefixes:
+      - "60"
+      - "61"
+      - "62"
+      - "63"
+      - "64"
+      - "65"
+      - "67"                               # 排除 SPAC 空壳 (6770) 与纯金融/REITs
+
+  # 通道 C：跨行业新兴结构性赛道探测网（覆盖非 B2G 的商业/科技/医疗/消费/能源前沿）
+  sector_probes:
+    enabled: true
+    lookback_days: 180
+    min_sec_filings_180d: 5                # 180 天内 SEC 8-K/S-1 公告集群 >= 5 条才浮出水面
+    max_themes: 8
+    probes:
+      - slug: "humanoid_industrial_robotics"
+        name: "人形与工业协作机器人"
+        sec_keywords: ["humanoid robot", "warehouse robotics"]
+        usaspending_keywords: ["autonomous robotics"]
+        profit_pool_description: "全球制造业与仓储物流人工替代的万亿级劳动力成本存量池"
+        demand_innovation_hypothesis: "端到端具身智能模型突破泛化瓶颈，推动工业与物流机器人规模商业化"
+      - slug: "commercial_space_launch_leo"
+        name: "商业航天发射与低轨卫星"
+        sec_keywords: ["orbital launch", "low earth orbit satellite"]
+        usaspending_keywords: ["space launch", "satellite constellation"]
+        profit_pool_description: "全球宽带通信、遥感与国防天基互联基础设施市场"
+        demand_innovation_hypothesis: "可回收火箭将单位载荷成本压低一个数量级，解锁直连手机与国防低轨星座"
+      - slug: "grid_scale_battery_storage"
+        name: "电网级储能与微电网调峰"
+        sec_keywords: ["utility-scale battery storage", "grid-scale energy storage"]
+        usaspending_keywords: ["battery energy storage", "microgrid"]
+        profit_pool_description: "风光并网波动与 AI 数据中心用电峰值催生的千亿级电力调峰池"
+        demand_innovation_hypothesis: "LFP 储能度电成本跌破燃机调峰线，公用事业与园区进入强制配储周期"
+      - slug: "surgical_robotics_medtech"
+        name: "手术机器人与微创精准医疗"
+        sec_keywords: ["surgical robotics", "robotic-assisted surgery"]
+        usaspending_keywords: []
+        profit_pool_description: "高值微创手术器械与高频一次性耗材的刚性医疗利润池"
+        demand_innovation_hypothesis: "骨科、腔镜与血管介入机器人渗透率爬坡，形成设备装机+耗材复购飞轮"
+      - slug: "edge_ai_silicon_photonics"
+        name: "端侧 AI 芯片与硅光互联"
+        sec_keywords: ["silicon photonics", "co-packaged optics"]
+        usaspending_keywords: ["semiconductor packaging"]
+        profit_pool_description: "数据中心高速光互联与边缘算力芯片替换升级市场"
+        demand_innovation_hypothesis: "铜缆互联触及 1.6T/3.2T 物理极限，CPO 硅光与低功耗端侧 NPU 成为刚需"
+      - slug: "autonomous_freight_logistics"
+        name: "无人货运与自动驾驶物流"
+        sec_keywords: ["autonomous trucking", "autonomous freight"]
+        usaspending_keywords: ["autonomous ground vehicle"]
+        profit_pool_description: "北美干线卡车运输与矿区港口封闭场景的高人力成本池"
+        demand_innovation_hypothesis: "L4 干线无人卡车进入商业化无安全员试运营，单公里成本具结构性优势"
+      - slug: "next_gen_geothermal_baseload"
+        name: "新一代增强地热基荷能源"
+        sec_keywords: ["enhanced geothermal", "geothermal power purchase"]
+        usaspending_keywords: ["geothermal energy"]
+        profit_pool_description: "24/7 零碳基荷电力与超大规模数据中心长期购电协议市场"
+        demand_innovation_hypothesis: "水平钻井压裂技术跨界应用于深层地热，解锁可复制的全天候清洁基荷"
+      - slug: "post_quantum_cybersecurity"
+        name: "零信任与后量子网络安全"
+        sec_keywords: ["post-quantum cryptography", "zero trust architecture"]
+        usaspending_keywords: ["zero trust cybersecurity"]
+        profit_pool_description: "企业云原生安全与政府关键基础设施防护的刚性订阅预算池"
+        demand_innovation_hypothesis: "NIST 后量子加密标准落地与 AI 攻防升级，强制驱动身份与加密协议换代"
+      - slug: "synthetic_biology_gene_editing"
+        name: "基因编辑与合成生物制造"
+        sec_keywords: ["CRISPR gene editing", "synthetic biology"]
+        usaspending_keywords: ["biomanufacturing"]
+        profit_pool_description: "罕见病根治型疗法与高附加值生物基材料替代池"
+        demand_innovation_hypothesis: "体内递送技术与 AI 蛋白设计突破研发成功率瓶颈，商业化产品开始放量"
+      - slug: "specialty_fast_casual_consumer"
+        name: "高坪效连锁餐饮与功能饮品"
+        sec_keywords: ["same-restaurant sales", "energy drink distribution"]
+        usaspending_keywords: []
+        profit_pool_description: "北美万亿级高频餐饮与健康功能饮料存量消费池"
+        demand_innovation_hypothesis: "单店 UE 极优的垂直连锁与健康无糖功能饮品通过跨区域展店实现长坡厚雪复利"
+

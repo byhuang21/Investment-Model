@@ -248,3 +248,180 @@ def evaluate_industry_state(
             else f"Remains {prev_status.value} (below awakening thresholds)."
         ),
     )
+
+
+@dataclass
+class DiscoveredThemeSignal:
+    """Candidate emerging industry surfaced by the Layer 1 Blind Discovery Engine."""
+
+    slug: str
+    name: str
+    source: str  # "USASPENDING_NAICS" | "SEC_S1_CLUSTER" | "CROSS_SECTOR_PROBE"
+    headline_metric: str
+    rationale: str
+    discovered_at: str
+    last_seen_at: str
+    status: str = "NEW"  # "NEW" | "PROMOTED" | "DISMISSED"
+    metrics: dict[str, Any] = field(default_factory=dict)
+    sec_keywords: list[str] = field(default_factory=list)
+    usaspending_keywords: list[str] = field(default_factory=list)
+    naics_codes: list[str] = field(default_factory=list)
+    sic_codes: list[str] = field(default_factory=list)
+    discovered_tickers: list[str] = field(default_factory=list)
+    profit_pool_description: str = ""
+    demand_innovation_hypothesis: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+def slugify_theme(raw: str, prefix: str = "") -> str:
+    """Convert an industry title or code into a safe lowercase snake_case slug."""
+    cleaned = []
+    prev_us = False
+    for ch in raw.lower():
+        if ch.isalnum():
+            cleaned.append(ch)
+            prev_us = False
+        elif not prev_us:
+            cleaned.append("_")
+            prev_us = True
+    body = "".join(cleaned).strip("_")[:48]
+    if prefix:
+        return f"{prefix}_{body}" if body else prefix
+    return body or "discovered_theme"
+
+
+def merge_discovered_signals(
+    existing_items: list[dict[str, Any]],
+    fresh_items: list[DiscoveredThemeSignal],
+    tracked_slugs: set[str],
+    tracked_naics: set[str],
+    tracked_sics: set[str],
+    today_str: str,
+) -> list[dict[str, Any]]:
+    """Idempotently merge fresh blind-discovery signals with prior quarantine history.
+
+    Preserves human `DISMISSED` and `PROMOTED` decisions so ignored themes do not re-appear
+    as `NEW` on subsequent weekly scans, and automatically marks already-tracked industries.
+    """
+    existing_by_slug: dict[str, dict[str, Any]] = {}
+    for row in existing_items:
+        if isinstance(row, dict) and row.get("slug"):
+            existing_by_slug[str(row["slug"])] = dict(row)
+
+    merged: dict[str, dict[str, Any]] = {}
+
+    # Carry forward previously acted-upon items (DISMISSED / PROMOTED)
+    for slug, prev in existing_by_slug.items():
+        prev_status = str(prev.get("status", "NEW")).upper()
+        if slug in tracked_slugs:
+            prev["status"] = "PROMOTED"
+            merged[slug] = prev
+        elif prev_status in {"DISMISSED", "PROMOTED"}:
+            merged[slug] = prev
+
+    # Apply fresh discoveries
+    for sig in fresh_items:
+        slug = sig.slug
+        already_tracked = (
+            slug in tracked_slugs
+            or bool(set(sig.naics_codes) & tracked_naics)
+            or bool(set(sig.sic_codes) & tracked_sics)
+        )
+        prev = existing_by_slug.get(slug)
+        prev_status = str(prev.get("status", "NEW")).upper() if prev else "NEW"
+
+        entry = sig.to_dict()
+        if prev and prev.get("discovered_at"):
+            entry["discovered_at"] = prev["discovered_at"]
+        entry["last_seen_at"] = today_str
+
+        if already_tracked:
+            entry["status"] = "PROMOTED"
+        elif prev_status in {"DISMISSED", "PROMOTED"}:
+            entry["status"] = prev_status
+        else:
+            entry["status"] = "NEW"
+
+        merged[slug] = entry
+
+    status_rank = {"NEW": 0, "PROMOTED": 1, "DISMISSED": 2}
+    source_rank = {
+        "USASPENDING_NAICS": 0,
+        "SEC_S1_CLUSTER": 1,
+        "CROSS_SECTOR_PROBE": 2,
+    }
+    return sorted(
+        merged.values(),
+        key=lambda r: (
+            status_rank.get(str(r.get("status", "NEW")).upper(), 9),
+            source_rank.get(str(r.get("source", "")).upper(), 9),
+            str(r.get("slug", "")),
+        ),
+    )
+
+
+def build_industry_record_from_signal(
+    signal: dict[str, Any],
+    initial_status: IndustryStatus,
+    today_str: str,
+    rules: dict[str, Any],
+) -> dict[str, Any]:
+    """Construct a schema-valid memory/industries/<slug>.yaml record from a quarantine signal."""
+    slug = str(signal["slug"])
+    name = str(signal.get("name") or slug)
+    awaken_defaults = rules["layer1_industry_radar"]["state_machine"]["awaken_thresholds"]
+    tickers = [str(t).upper() for t in (signal.get("discovered_tickers") or []) if str(t).strip()]
+    profit_pool = str(signal.get("profit_pool_description") or "").strip() or (
+        f"Discovered via {signal.get('source', 'RADAR')}: {signal.get('rationale', '')}"
+    )
+    demand_hyp = str(signal.get("demand_innovation_hypothesis") or "").strip() or (
+        f"Quantified signal ({signal.get('headline_metric', 'N/A')}) flagged by Layer 1 radar."
+    )
+    return {
+        "slug": slug,
+        "name": name,
+        "status": initial_status.value,
+        "created_at": today_str,
+        "last_scanned_at": today_str,
+        "last_state_change_at": today_str,
+        "thesis_snapshot": {
+            "profit_pool_description": profit_pool,
+            "demand_innovation_hypothesis": demand_hyp,
+            "winner_take_all_dynamics": "Pending Layer 1/3 human thesis refinement.",
+        },
+        "signals": {
+            "sec_keywords": list(signal.get("sec_keywords") or []),
+            "sic_codes": [str(c) for c in (signal.get("sic_codes") or [])],
+            "naics_codes": [str(c) for c in (signal.get("naics_codes") or [])],
+            "usaspending_keywords": list(signal.get("usaspending_keywords") or []),
+            "bellwether_mentions": [],
+        },
+        "awaken_conditions": {
+            "min_leaders_aggregate_revenue_usd_m": awaken_defaults[
+                "min_leaders_aggregate_revenue_usd_m"
+            ],
+            "consecutive_high_growth_quarters": awaken_defaults[
+                "consecutive_high_growth_quarters"
+            ],
+            "min_sector_yoy_revenue_growth": awaken_defaults["min_sector_yoy_revenue_growth"],
+            "usaspending_12m_award_usd_m": awaken_defaults["usaspending_12m_award_usd_m"],
+            "min_sec_cluster_filings_180d": awaken_defaults["min_sec_cluster_filings_180d"],
+        },
+        "leader_tickers": tickers[:5],
+        "candidate_tickers": tickers[:20],
+        "history": [
+            {
+                "date": today_str,
+                "event": "PROMOTED_FROM_QUARANTINE",
+                "from_status": None,
+                "to_status": initial_status.value,
+                "evidence": (
+                    f"Human promoted blind-discovery signal ({signal.get('source')}: "
+                    f"{signal.get('headline_metric')})"
+                ),
+            }
+        ],
+    }
+

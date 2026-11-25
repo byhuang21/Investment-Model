@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: pip install -e .
 
-      - name: Run Layer 1 Topic Radar
+      - name: Run Layer 1 Topic Radar & Blind Discovery Engine
         env:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,13 +61,13 @@ jobs:
           git config user.email "coffee-can-bot@users.noreply.github.com"
           git checkout -B "$BRANCH"
           git add memory/ web/data/snapshot.json
-          git commit -m "chore(bot): weekly topic radar & earnings diff sync ($(date -u +%Y-%m-%d))"
+          git commit -m "chore(bot): weekly topic radar, blind discovery & earnings diff sync ($(date -u +%Y-%m-%d))"
           git push --force origin "$BRANCH"
           OPEN_PRS=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length')
           if [ "$OPEN_PRS" = "0" ]; then
             gh pr create --base main --head "$BRANCH" \
-              --title "chore(bot): weekly radar & earnings diff sync" \
-              --body "Automated weekly scan from scripts/1_topic_radar.py and scripts/4_earnings_diff.py (validated by doctor.py)."
+              --title "chore(bot): weekly radar, blind discovery & earnings diff sync" \
+              --body "Automated weekly scan from scripts/1_topic_radar.py --discover (including Zero-Keyword Blind Discovery -> memory/quarantine/signals/discovered_themes.yaml) and scripts/4_earnings_diff.py (validated by doctor.py)."
           else
             echo "Open sync PR already exists and has been updated."
           fi

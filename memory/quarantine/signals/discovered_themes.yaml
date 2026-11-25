@@ -1,0 +1,564 @@
+last_scanned_at: '2026-11-25'
+total_signals: 20
+new_signals_count: 19
+signals:
+- slug: naics_238290
+  name: Other Building Equipment Contractors (NAICS 238290)
+  source: USASPENDING_NAICS
+  headline_metric: +133.5% YoY ($787M TTM)
+  rationale: 联邦政府采购门类 NAICS 238290 近 12 个月合同额由 $337M 跃升至 $787M（同比 +133.5%）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    ttm_award_usd_m: 786.59
+    prior_ttm_award_usd_m: 336.84
+    yoy_growth: 1.3352
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes:
+  - '238290'
+  sic_codes: []
+  discovered_tickers: []
+  profit_pool_description: 美国联邦采购门类 NAICS 238290（Other Building Equipment Contractors）的存量财政与基础设施预算池
+  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +133.5%，需核查是否源于技术代际切换或政策刚需
+- slug: naics_325180
+  name: Other Basic Inorganic Chemical Manufacturing (NAICS 325180)
+  source: USASPENDING_NAICS
+  headline_metric: +885.2% YoY ($3,111M TTM)
+  rationale: 联邦政府采购门类 NAICS 325180 近 12 个月合同额由 $316M 跃升至 $3,111M（同比 +885.2%）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    ttm_award_usd_m: 3110.62
+    prior_ttm_award_usd_m: 315.74
+    yoy_growth: 8.8519
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes:
+  - '325180'
+  sic_codes: []
+  discovered_tickers: []
+  profit_pool_description: 美国联邦采购门类 NAICS 325180（Other Basic Inorganic Chemical Manufacturing）的存量财政与基础设施预算池
+  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +885.2%，需核查是否源于技术代际切换或政策刚需
+- slug: naics_331491
+  name: Nonferrous Metal (except Copper and Aluminum) Rolling, Drawing, and Extruding
+    (NAICS 331491)
+  source: USASPENDING_NAICS
+  headline_metric: +126.0% YoY ($1,096M TTM)
+  rationale: 联邦政府采购门类 NAICS 331491 近 12 个月合同额由 $485M 跃升至 $1,096M（同比 +126.0%）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    ttm_award_usd_m: 1095.82
+    prior_ttm_award_usd_m: 484.77
+    yoy_growth: 1.2605
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes:
+  - '331491'
+  sic_codes: []
+  discovered_tickers: []
+  profit_pool_description: 美国联邦采购门类 NAICS 331491（Nonferrous Metal (except Copper and
+    Aluminum) Rolling, Drawing, and Extruding）的存量财政与基础设施预算池
+  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +126.0%，需核查是否源于技术代际切换或政策刚需
+- slug: naics_334210
+  name: Telephone Apparatus Manufacturing (NAICS 334210)
+  source: USASPENDING_NAICS
+  headline_metric: +248.1% YoY ($1,504M TTM)
+  rationale: 联邦政府采购门类 NAICS 334210 近 12 个月合同额由 $432M 跃升至 $1,504M（同比 +248.1%）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    ttm_award_usd_m: 1503.9
+    prior_ttm_award_usd_m: 431.99
+    yoy_growth: 2.4813
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes:
+  - '334210'
+  sic_codes: []
+  discovered_tickers: []
+  profit_pool_description: 美国联邦采购门类 NAICS 334210（Telephone Apparatus Manufacturing）的存量财政与基础设施预算池
+  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +248.1%，需核查是否源于技术代际切换或政策刚需
+- slug: naics_541711
+  name: Research and Development in Biotechnology (NAICS 541711)
+  source: USASPENDING_NAICS
+  headline_metric: +160.0% YoY ($1,316M TTM)
+  rationale: 联邦政府采购门类 NAICS 541711 近 12 个月合同额由 $506M 跃升至 $1,316M（同比 +160.0%）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    ttm_award_usd_m: 1316.14
+    prior_ttm_award_usd_m: 506.18
+    yoy_growth: 1.6001
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes:
+  - '541711'
+  sic_codes: []
+  discovered_tickers: []
+  profit_pool_description: 美国联邦采购门类 NAICS 541711（Research and Development in Biotechnology）的存量财政与基础设施预算池
+  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +160.0%，需核查是否源于技术代际切换或政策刚需
+- slug: naics_621999
+  name: All Other Miscellaneous Ambulatory Health Care Services (NAICS 621999)
+  source: USASPENDING_NAICS
+  headline_metric: +112.0% YoY ($537M TTM)
+  rationale: 联邦政府采购门类 NAICS 621999 近 12 个月合同额由 $253M 跃升至 $537M（同比 +112.0%）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    ttm_award_usd_m: 537.37
+    prior_ttm_award_usd_m: 253.47
+    yoy_growth: 1.1201
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes:
+  - '621999'
+  sic_codes: []
+  discovered_tickers: []
+  profit_pool_description: 美国联邦采购门类 NAICS 621999（All Other Miscellaneous Ambulatory
+    Health Care Services）的存量财政与基础设施预算池
+  demand_innovation_hypothesis: 近 12 个月联邦订单同比放量 +112.0%，需核查是否源于技术代际切换或政策刚需
+- slug: sic_1311
+  name: Crude Petroleum & Natural Gas (SIC 1311)
+  source: SEC_S1_CLUSTER
+  headline_metric: 3 家公司 180天递交 S-1
+  rationale: 近 180 天共有 3 家独立企业在 SIC 1311 下密集递交 S-1 IPO 招股书（含 EON Resources Inc.  (EONR,
+    EONR-WT)  (CIK 0001842556)、Phoenix Energy One, LLC  (PHXE-P)  (CIK 0001818643)、WhiteHawk
+    Minerals Corp.  (WHK)  (CIK 0001921603)）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    unique_s1_filers_180d: 3
+    sample_filers:
+    - EON Resources Inc.  (EONR, EONR-WT)  (CIK 0001842556)
+    - Phoenix Energy One, LLC  (PHXE-P)  (CIK 0001818643)
+    - WhiteHawk Minerals Corp.  (WHK)  (CIK 0001921603)
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes: []
+  sic_codes:
+  - '1311'
+  discovered_tickers:
+  - EONR
+  - PHXE-P
+  - WHK
+  profit_pool_description: 一级市场资本密集涌入的 SIC 1311（Crude Petroleum & Natural Gas）细分行业集群
+  demand_innovation_hypothesis: 180 天内出现 3 家独立公司集中 IPO，往往映射细分赛道商业化拐点
+- slug: sic_2834
+  name: Pharmaceutical Preparations (SIC 2834)
+  source: SEC_S1_CLUSTER
+  headline_metric: 15 家公司 180天递交 S-1
+  rationale: 近 180 天共有 15 家独立企业在 SIC 2834 下密集递交 S-1 IPO 招股书（含 BIOVIE INC.  (BIVI,
+    BIVIW)  (CIK 0001580149)、Regen BioPharma Inc  (RGBP, RGBPP)  (CIK 0001589150)、Aptevo
+    Therapeutics Inc.  (APVO)  (CIK 0001671584)）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    unique_s1_filers_180d: 15
+    sample_filers:
+    - BIOVIE INC.  (BIVI, BIVIW)  (CIK 0001580149)
+    - Regen BioPharma Inc  (RGBP, RGBPP)  (CIK 0001589150)
+    - Aptevo Therapeutics Inc.  (APVO)  (CIK 0001671584)
+    - BirchBioMed Inc.  (CIK 0001670747)
+    - Sunshine Biopharma Inc.  (SBFM, SBFMW)  (CIK 0001402328)
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes: []
+  sic_codes:
+  - '2834'
+  discovered_tickers:
+  - BIVI
+  - RGBP
+  - APVO
+  - SBFM
+  - RZRA
+  - GOVX
+  - NUOX
+  - IMNN
+  - RGNA
+  - TRAX
+  profit_pool_description: 一级市场资本密集涌入的 SIC 2834（Pharmaceutical Preparations）细分行业集群
+  demand_innovation_hypothesis: 180 天内出现 15 家独立公司集中 IPO，往往映射细分赛道商业化拐点
+- slug: sic_2836
+  name: Biological Products (Biotech) (SIC 2836)
+  source: SEC_S1_CLUSTER
+  headline_metric: 7 家公司 180天递交 S-1
+  rationale: 近 180 天共有 7 家独立企业在 SIC 2836 下密集递交 S-1 IPO 招股书（含 Alopexx, Inc.  (CIK 0001880995)、Inmune
+    Bio Inc.  (INMB)  (CIK 0001711754)、EXOZYMES INC.  (EXOZ)  (CIK 0002010788)）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    unique_s1_filers_180d: 7
+    sample_filers:
+    - Alopexx, Inc.  (CIK 0001880995)
+    - Inmune Bio Inc.  (INMB)  (CIK 0001711754)
+    - EXOZYMES INC.  (EXOZ)  (CIK 0002010788)
+    - Bambusa Therapeutics, Inc.  (CIK 0002044950)
+    - Greenland Mines Ltd  (GRML, GRMLW)  (CIK 0001907223)
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes: []
+  sic_codes:
+  - '2836'
+  discovered_tickers:
+  - INMB
+  - EXOZ
+  - BBTX
+  - GRML
+  - LYCA
+  - BCAB
+  profit_pool_description: 一级市场资本密集涌入的 SIC 2836（Biological Products (Biotech)）细分行业集群
+  demand_innovation_hypothesis: 180 天内出现 7 家独立公司集中 IPO，往往映射细分赛道商业化拐点
+- slug: sic_7372
+  name: Prepackaged Software (Enterprise SaaS) (SIC 7372)
+  source: SEC_S1_CLUSTER
+  headline_metric: 10 家公司 180天递交 S-1
+  rationale: 近 180 天共有 10 家独立企业在 SIC 7372 下密集递交 S-1 IPO 招股书（含 BIO KEY INTERNATIONAL
+    INC  (BKYI)  (CIK 0001019034)、Zeno42 Inc.  (CIK 0002136881)、Glow Holdings, Inc.  (GLOH)  (CIK
+    0001114859)）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    unique_s1_filers_180d: 10
+    sample_filers:
+    - BIO KEY INTERNATIONAL INC  (BKYI)  (CIK 0001019034)
+    - Zeno42 Inc.  (CIK 0002136881)
+    - Glow Holdings, Inc.  (GLOH)  (CIK 0001114859)
+    - Anthropic, PBC  (ANT)  (CIK 0002130357)
+    - Nscale plc  (CIK 0002110365)
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes: []
+  sic_codes:
+  - '7372'
+  discovered_tickers:
+  - BKYI
+  - GLOH
+  - ANT
+  - NSCL
+  - XLAB
+  - PARA
+  - EAXR
+  - FNGR
+  profit_pool_description: 一级市场资本密集涌入的 SIC 7372（Prepackaged Software (Enterprise SaaS)）细分行业集群
+  demand_innovation_hypothesis: 180 天内出现 10 家独立公司集中 IPO，往往映射细分赛道商业化拐点
+- slug: sic_7374
+  name: Computer Processing & Cloud Infrastructure (SIC 7374)
+  source: SEC_S1_CLUSTER
+  headline_metric: 4 家公司 180天递交 S-1
+  rationale: 近 180 天共有 4 家独立企业在 SIC 7374 下密集递交 S-1 IPO 招股书（含 SeeQC, Inc.  (SEQC)  (CIK
+    0001779977)、Onfolio Holdings, Inc  (ONFO, ONFOP, ONFOW)  (CIK 0001825452)、POWERDYNE
+    INTERNATIONAL, INC.  (PWDY)  (CIK 0001435617)）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    unique_s1_filers_180d: 4
+    sample_filers:
+    - SeeQC, Inc.  (SEQC)  (CIK 0001779977)
+    - Onfolio Holdings, Inc  (ONFO, ONFOP, ONFOW)  (CIK 0001825452)
+    - POWERDYNE INTERNATIONAL, INC.  (PWDY)  (CIK 0001435617)
+    - AIAI Holdings Corp  (AIAI)  (CIK 0002096362)
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes: []
+  sic_codes:
+  - '7374'
+  discovered_tickers:
+  - SEQC
+  - ONFO
+  - PWDY
+  - AIAI
+  profit_pool_description: 一级市场资本密集涌入的 SIC 7374（Computer Processing & Cloud Infrastructure）细分行业集群
+  demand_innovation_hypothesis: 180 天内出现 4 家独立公司集中 IPO，往往映射细分赛道商业化拐点
+- slug: autonomous_freight_logistics
+  name: 无人货运与自动驾驶物流
+  source: CROSS_SECTOR_PROBE
+  headline_metric: 20 条 SEC 180天公告
+  rationale: 跨行业探测关键词（autonomous trucking, autonomous freight）在近 180 天命中 20 条 SEC
+    8-K/S-1 公告，识别出 7 只美股关联标的。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    sec_filings_180d: 20
+  sec_keywords:
+  - autonomous trucking
+  - autonomous freight
+  usaspending_keywords:
+  - autonomous ground vehicle
+  naics_codes: []
+  sic_codes: []
+  discovered_tickers:
+  - TVA
+  - AUR
+  - KDK
+  - SAIA
+  - AEVA
+  - OSS
+  - TFIN
+  profit_pool_description: 北美干线卡车运输与矿区港口封闭场景的高人力成本池
+  demand_innovation_hypothesis: L4 干线无人卡车进入商业化无安全员试运营，单公里成本具结构性优势
+- slug: commercial_space_launch_leo
+  name: 商业航天发射与低轨卫星
+  source: CROSS_SECTOR_PROBE
+  headline_metric: 26 条 SEC 180天公告
+  rationale: 跨行业探测关键词（orbital launch, low earth orbit satellite）在近 180 天命中 26 条 SEC
+    8-K/S-1 公告，识别出 9 只美股关联标的。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    sec_filings_180d: 26
+  sec_keywords:
+  - orbital launch
+  - low earth orbit satellite
+  usaspending_keywords:
+  - space launch
+  - satellite constellation
+  naics_codes: []
+  sic_codes: []
+  discovered_tickers:
+  - ASTS
+  - SPCX
+  - FLY
+  - MOBX
+  - FJET
+  - BKSY
+  - INSG
+  - KVHI
+  - OPTX
+  profit_pool_description: 全球宽带通信、遥感与国防天基互联基础设施市场
+  demand_innovation_hypothesis: 可回收火箭将单位载荷成本压低一个数量级，解锁直连手机与国防低轨星座
+- slug: edge_ai_silicon_photonics
+  name: 端侧 AI 芯片与硅光互联
+  source: CROSS_SECTOR_PROBE
+  headline_metric: 46 条 SEC 180天公告
+  rationale: 跨行业探测关键词（silicon photonics, co-packaged optics）在近 180 天命中 46 条 SEC 8-K/S-1
+    公告，识别出 22 只美股关联标的。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    sec_filings_180d: 46
+  sec_keywords:
+  - silicon photonics
+  - co-packaged optics
+  usaspending_keywords:
+  - semiconductor packaging
+  naics_codes: []
+  sic_codes: []
+  discovered_tickers:
+  - SEQC
+  - AEVA
+  - AEHR
+  - AIFA
+  - AXTI
+  - LITE
+  - MRVL
+  - QCLS
+  - QUBT
+  - VECO
+  - COHR
+  - CRDO
+  profit_pool_description: 数据中心高速光互联与边缘算力芯片替换升级市场
+  demand_innovation_hypothesis: 铜缆互联触及 1.6T/3.2T 物理极限，CPO 硅光与低功耗端侧 NPU 成为刚需
+- slug: grid_scale_battery_storage
+  name: 电网级储能与微电网调峰
+  source: CROSS_SECTOR_PROBE
+  headline_metric: 20 条 SEC 180天公告
+  rationale: 跨行业探测关键词（utility-scale battery storage, grid-scale energy storage）在近
+    180 天命中 20 条 SEC 8-K/S-1 公告，识别出 9 只美股关联标的。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    sec_filings_180d: 20
+  sec_keywords:
+  - utility-scale battery storage
+  - grid-scale energy storage
+  usaspending_keywords:
+  - battery energy storage
+  - microgrid
+  naics_codes: []
+  sic_codes: []
+  discovered_tickers:
+  - CNTM
+  - SPCX
+  - ARRY
+  - BAM
+  - OSPR
+  - IRHO
+  - NRGV
+  - AETN
+  - LAC
+  profit_pool_description: 风光并网波动与 AI 数据中心用电峰值催生的千亿级电力调峰池
+  demand_innovation_hypothesis: LFP 储能度电成本跌破燃机调峰线，公用事业与园区进入强制配储周期
+- slug: humanoid_industrial_robotics
+  name: 人形与工业协作机器人
+  source: CROSS_SECTOR_PROBE
+  headline_metric: 38 条 SEC 180天公告
+  rationale: 跨行业探测关键词（humanoid robot, warehouse robotics）在近 180 天命中 38 条 SEC 8-K/S-1
+    公告，识别出 9 只美股关联标的。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    sec_filings_180d: 38
+  sec_keywords:
+  - humanoid robot
+  - warehouse robotics
+  usaspending_keywords:
+  - autonomous robotics
+  naics_codes: []
+  sic_codes: []
+  discovered_tickers:
+  - AGLT
+  - FFAI
+  - VTIX
+  - DIOD
+  - FFR
+  - INOD
+  - NTWO
+  - UUUU
+  - KULR
+  profit_pool_description: 全球制造业与仓储物流人工替代的万亿级劳动力成本存量池
+  demand_innovation_hypothesis: 端到端具身智能模型突破泛化瓶颈，推动工业与物流机器人规模商业化
+- slug: post_quantum_cybersecurity
+  name: 零信任与后量子网络安全
+  source: CROSS_SECTOR_PROBE
+  headline_metric: 36 条 SEC 180天公告
+  rationale: 跨行业探测关键词（post-quantum cryptography, zero trust architecture）在近 180 天命中
+    36 条 SEC 8-K/S-1 公告，识别出 16 只美股关联标的。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    sec_filings_180d: 36
+  sec_keywords:
+  - post-quantum cryptography
+  - zero trust architecture
+  usaspending_keywords:
+  - zero trust cybersecurity
+  naics_codes: []
+  sic_codes: []
+  discovered_tickers:
+  - SVAQ
+  - CHAR
+  - BHAI
+  - GIW
+  - IONQ
+  - LSCC
+  - QNME
+  - AXIN
+  - QNT
+  - QUCY
+  - WYY
+  - XGPU
+  profit_pool_description: 企业云原生安全与政府关键基础设施防护的刚性订阅预算池
+  demand_innovation_hypothesis: NIST 后量子加密标准落地与 AI 攻防升级，强制驱动身份与加密协议换代
+- slug: surgical_robotics_medtech
+  name: 手术机器人与微创精准医疗
+  source: CROSS_SECTOR_PROBE
+  headline_metric: 43 条 SEC 180天公告
+  rationale: 跨行业探测关键词（surgical robotics, robotic-assisted surgery）在近 180 天命中 43 条
+    SEC 8-K/S-1 公告，识别出 13 只美股关联标的。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    sec_filings_180d: 43
+  sec_keywords:
+  - surgical robotics
+  - robotic-assisted surgery
+  usaspending_keywords: []
+  naics_codes: []
+  sic_codes: []
+  discovered_tickers:
+  - SSII
+  - MBOT
+  - MDT
+  - STXS
+  - ENOV
+  - PRCT
+  - MOBI
+  - TTMI
+  - UFPT
+  - NNBR
+  - ISRG
+  - OFIX
+  profit_pool_description: 高值微创手术器械与高频一次性耗材的刚性医疗利润池
+  demand_innovation_hypothesis: 骨科、腔镜与血管介入机器人渗透率爬坡，形成设备装机+耗材复购飞轮
+- slug: synthetic_biology_gene_editing
+  name: 基因编辑与合成生物制造
+  source: CROSS_SECTOR_PROBE
+  headline_metric: 45 条 SEC 180天公告
+  rationale: 跨行业探测关键词（CRISPR gene editing, synthetic biology）在近 180 天命中 45 条 SEC 8-K/S-1
+    公告，识别出 14 只美股关联标的。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: NEW
+  metrics:
+    sec_filings_180d: 45
+  sec_keywords:
+  - CRISPR gene editing
+  - synthetic biology
+  usaspending_keywords:
+  - biomanufacturing
+  naics_codes: []
+  sic_codes: []
+  discovered_tickers:
+  - NTLA
+  - MGX
+  - SCTX
+  - ALLO
+  - ABSI
+  - CNTM
+  - EXOZ
+  - AZTA
+  - AZTR
+  - DNA
+  - ENHA
+  - OBX
+  profit_pool_description: 罕见病根治型疗法与高附加值生物基材料替代池
+  demand_innovation_hypothesis: 体内递送技术与 AI 蛋白设计突破研发成功率瓶颈，商业化产品开始放量
+- slug: sic_3841
+  name: Surgical & Medical Instruments (SIC 3841)
+  source: SEC_S1_CLUSTER
+  headline_metric: 4 家公司 180天递交 S-1
+  rationale: 近 180 天共有 4 家独立企业在 SIC 3841 下密集递交 S-1 IPO 招股书（含 Medline Inc.  (MDLN)  (CIK
+    0002046386)、Encore Medical, Inc.  (EMI)  (CIK 0001838003)、INTERPACE BIOSCIENCES,
+    INC.  (IDXG)  (CIK 0001054102)）。
+  discovered_at: '2026-11-25'
+  last_seen_at: '2026-11-25'
+  status: PROMOTED
+  metrics:
+    unique_s1_filers_180d: 4
+    sample_filers:
+    - Medline Inc.  (MDLN)  (CIK 0002046386)
+    - Encore Medical, Inc.  (EMI)  (CIK 0001838003)
+    - INTERPACE BIOSCIENCES, INC.  (IDXG)  (CIK 0001054102)
+    - Glucotrack, Inc.  (GCTK)  (CIK 0001506983)
+  sec_keywords: []
+  usaspending_keywords: []
+  naics_codes: []
+  sic_codes:
+  - '3841'
+  discovered_tickers:
+  - MDLN
+  - EMI
+  - IDXG
+  - GCTK
+  profit_pool_description: 一级市场资本密集涌入的 SIC 3841（Surgical & Medical Instruments）细分行业集群
+  demand_innovation_hypothesis: 180 天内出现 4 家独立公司集中 IPO，往往映射细分赛道商业化拐点

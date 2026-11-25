@@ -2,7 +2,7 @@ slug: organ_perfusion_medtech
 name: 器官灌注与精准医疗器械
 status: ACTIVE
 created_at: '2026-11-24'
-last_scanned_at: '2026-11-24'
+last_scanned_at: '2026-11-25'
 last_state_change_at: '2026-11-24'
 thesis_snapshot:
   profit_pool_description: 全球实体器官移植长期受限于冷保存时间短与高弃用率的庞大医疗刚需
@@ -46,7 +46,7 @@ leader_tickers:
 - TMDX
 latest_radar_snapshot:
   slug: organ_perfusion_medtech
-  as_of_date: '2026-11-24'
+  as_of_date: '2026-11-25'
   leaders_aggregate_revenue_usd_m: 727.65
   leaders_median_yoy_growth: 0.2848
   leaders_sampled: 1

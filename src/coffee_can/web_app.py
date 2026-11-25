@@ -17,6 +17,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from coffee_can.config import ProjectPaths, get_project_root, load_rules
+from coffee_can.radar import build_industry_record_from_signal
 from coffee_can.schemas import IndustryStatus
 from coffee_can.snapshot import build_workbench_snapshot
 from coffee_can.storage import read_yaml, write_yaml
@@ -49,6 +50,10 @@ class IndustryStatusPayload(BaseModel):
 
 class WatchlistTargetPayload(BaseModel):
     target_market_cap_usd_m: float = Field(..., gt=0)
+
+
+class PromoteSignalPayload(BaseModel):
+    status: IndustryStatus = IndustryStatus.DORMANT
 
 
 def create_app(
@@ -252,6 +257,76 @@ def create_app(
         rec["updated_at"] = datetime.now(UTC).date().isoformat()
         write_yaml(nm_path, rec)
         return {"updated": True, "near_miss": rec}
+
+    def _safe_signal_slug(raw_slug: str) -> str:
+        slug = raw_slug.strip().lower()
+        if not slug or not all(ch.isalnum() or ch in {"_", "-"} for ch in slug):
+            raise HTTPException(status_code=400, detail="Invalid signal slug.")
+        return slug
+
+    @app.post("/api/quarantine/signals/{slug}/promote")
+    def promote_discovered_signal(slug: str, payload: PromoteSignalPayload) -> dict[str, Any]:
+        """Promote a blind-discovery signal from quarantine into memory/industries/<slug>.yaml."""
+        clean_slug = _safe_signal_slug(slug)
+        signals_path = paths.quarantine_signals_dir / "discovered_themes.yaml"
+        if not signals_path.exists():
+            raise HTTPException(status_code=404, detail="No discovered_themes.yaml in quarantine.")
+
+        doc = read_yaml(signals_path)
+        signals = list(doc.get("signals") or [])
+        target = next((s for s in signals if str(s.get("slug", "")).lower() == clean_slug), None)
+        if target is None:
+            raise HTTPException(
+                status_code=404, detail=f"Discovered signal '{clean_slug}' not found."
+            )
+
+        ind_path = paths.industries_dir / f"{clean_slug}.yaml"
+        today_str = datetime.now(UTC).date().isoformat()
+        rules = load_rules(repo_root)
+        if ind_path.exists():
+            industry_rec = read_yaml(ind_path)
+        else:
+            industry_rec = build_industry_record_from_signal(
+                signal=target,
+                initial_status=payload.status,
+                today_str=today_str,
+                rules=rules,
+            )
+            write_yaml(ind_path, industry_rec)
+
+        target["status"] = "PROMOTED"
+        target["promoted_at"] = today_str
+        doc["signals"] = signals
+        doc["new_signals_count"] = sum(
+            1 for s in signals if str(s.get("status", "NEW")).upper() == "NEW"
+        )
+        write_yaml(signals_path, doc)
+        return {"promoted": True, "industry": industry_rec}
+
+    @app.post("/api/quarantine/signals/{slug}/dismiss")
+    def dismiss_discovered_signal(slug: str) -> dict[str, Any]:
+        """Dismiss a blind-discovery signal so future weekly scans do not re-flag it."""
+        clean_slug = _safe_signal_slug(slug)
+        signals_path = paths.quarantine_signals_dir / "discovered_themes.yaml"
+        if not signals_path.exists():
+            raise HTTPException(status_code=404, detail="No discovered_themes.yaml in quarantine.")
+
+        doc = read_yaml(signals_path)
+        signals = list(doc.get("signals") or [])
+        target = next((s for s in signals if str(s.get("slug", "")).lower() == clean_slug), None)
+        if target is None:
+            raise HTTPException(
+                status_code=404, detail=f"Discovered signal '{clean_slug}' not found."
+            )
+
+        target["status"] = "DISMISSED"
+        target["dismissed_at"] = datetime.now(UTC).date().isoformat()
+        doc["signals"] = signals
+        doc["new_signals_count"] = sum(
+            1 for s in signals if str(s.get("status", "NEW")).upper() == "NEW"
+        )
+        write_yaml(signals_path, doc)
+        return {"dismissed": True, "slug": clean_slug}
 
     if static_web_dir.exists():
         @app.get("/")

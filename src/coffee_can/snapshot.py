@@ -78,12 +78,39 @@ def build_workbench_snapshot(
         "signals": _list_lane(paths.quarantine_signals_dir),
     }
 
+    discovered_signals: list[dict[str, Any]] = []
+    discovered_meta: dict[str, Any] = {
+        "last_scanned_at": None,
+        "total_signals": 0,
+        "new_signals_count": 0,
+    }
+    signals_yaml = paths.quarantine_signals_dir / "discovered_themes.yaml"
+    if signals_yaml.exists():
+        try:
+            sig_doc = read_yaml(signals_yaml)
+            raw_sigs = sig_doc.get("signals") or []
+            if isinstance(raw_sigs, list):
+                discovered_signals = [item for item in raw_sigs if isinstance(item, dict)]
+            discovered_meta = {
+                "last_scanned_at": sig_doc.get("last_scanned_at"),
+                "total_signals": len(discovered_signals),
+                "new_signals_count": sum(
+                    1
+                    for item in discovered_signals
+                    if str(item.get("status", "NEW")).upper() == "NEW"
+                ),
+            }
+        except Exception:
+            discovered_signals = []
+
     return {
         "env": env_name,
         "generated_at": datetime.now(UTC).isoformat(),
         "rules_version": rules.get("version", "0.2.0"),
         "rules": rules,
         "industries": industries,
+        "discovered_signals": discovered_signals,
+        "discovered_signals_meta": discovered_meta,
         "research": research,
         "near_miss": near_miss,
         "coffee_can": coffee_can,

@@ -2,7 +2,7 @@ slug: industrial_smr_nuclear
 name: 微型模块化核电 (SMR) 与先进核能
 status: DORMANT
 created_at: '2026-11-24'
-last_scanned_at: '2026-11-24'
+last_scanned_at: '2026-11-25'
 last_state_change_at: '2026-10-01'
 thesis_snapshot:
   profit_pool_description: AI 数据中心与重工业 24/7 零碳基荷电力长期替代空间
@@ -48,6 +48,7 @@ candidate_tickers:
 - LEU
 - LIS
 - MESH
+- MRCO
 history:
 - date: '2026-10-01'
   event: SEEDED
@@ -60,7 +61,7 @@ leader_tickers:
 - NNE
 latest_radar_snapshot:
   slug: industrial_smr_nuclear
-  as_of_date: '2026-11-24'
+  as_of_date: '2026-11-25'
   leaders_aggregate_revenue_usd_m: 2.73
   leaders_median_yoy_growth: -0.9573
   leaders_sampled: 1
@@ -69,12 +70,12 @@ latest_radar_snapshot:
   sec_cluster_filings_180d: 45
   sec_discovered_tickers:
   - NUCL
+  - GRDX
   - LPBB
   - ONEN
   - AP
   - BHAI
   - D
-  - GRDX
   - MIR
   - NEE
   - SMR
@@ -82,7 +83,6 @@ latest_radar_snapshot:
   - FISN
   - GFUZ
   - GHM
-  - KEYY
   - LEU
   - LIS
   - MESH

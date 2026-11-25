@@ -2,7 +2,7 @@ slug: ai_grid_liquid_cooling
 name: AI 数据中心液冷与高压配电
 status: ACTIVE
 created_at: '2026-11-24'
-last_scanned_at: '2026-11-24'
+last_scanned_at: '2026-11-25'
 last_state_change_at: '2026-10-01'
 thesis_snapshot:
   profit_pool_description: 北美老旧电网升级与 AI 高密度算力机房供配电/散热改造的千亿级存量基础设施池
@@ -53,6 +53,7 @@ candidate_tickers:
 - AIRJ
 - CHRN
 - CORZ
+- APLD
 history:
 - date: '2026-10-01'
   event: SEEDED
@@ -67,13 +68,13 @@ leader_tickers:
 - FIX
 latest_radar_snapshot:
   slug: ai_grid_liquid_cooling
-  as_of_date: '2026-11-24'
+  as_of_date: '2026-11-25'
   leaders_aggregate_revenue_usd_m: 35022.02
   leaders_median_yoy_growth: 0.3508
   leaders_sampled: 5
-  usaspending_12m_award_usd_m: 332.64
-  usaspending_yoy_growth: -0.0581
-  sec_cluster_filings_180d: 136
+  usaspending_12m_award_usd_m: 332.12
+  usaspending_yoy_growth: -0.061
+  sec_cluster_filings_180d: 138
   sec_discovered_tickers:
   - NNBR
   - WOR
@@ -84,6 +85,7 @@ latest_radar_snapshot:
   - SMCI
   - SPKLF
   - AIB
+  - APLD
   - CC
   - IREN
   - ACCV
@@ -96,12 +98,9 @@ latest_radar_snapshot:
   - WYFI
   - ADVI
   - ALIS
-  - APLD
   - APUR
-  - APXT
   - BACC
   - BGDE
-  - CRWV
   - DGXX
   - EQIX
   - ESI

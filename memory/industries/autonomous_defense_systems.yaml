@@ -2,7 +2,7 @@ slug: autonomous_defense_systems
 name: 自主国防与低成本无人集群系统
 status: ACTIVE
 created_at: '2026-11-24'
-last_scanned_at: '2026-11-24'
+last_scanned_at: '2026-11-25'
 last_state_change_at: '2026-10-01'
 thesis_snapshot:
   profit_pool_description: 美国与盟国国防装备采购预算从昂贵传统平台向软件定义低成本无人集群迁移
@@ -48,6 +48,7 @@ candidate_tickers:
 - BHAI
 - LASE
 - AMPX
+- FAC
 history:
 - date: '2026-10-01'
   event: SEEDED
@@ -60,7 +61,7 @@ leader_tickers:
 - AXON
 latest_radar_snapshot:
   slug: autonomous_defense_systems
-  as_of_date: '2026-11-24'
+  as_of_date: '2026-11-25'
   leaders_aggregate_revenue_usd_m: 7066.37
   leaders_median_yoy_growth: 0.3358
   leaders_sampled: 3

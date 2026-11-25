@@ -117,3 +117,72 @@ def test_snapshot_and_human_gate_enforcement(tmp_path: Path) -> None:
     )
     assert chk.is_new_filing is True
     assert chk.traffic_light == TrafficLight.GREEN
+
+
+def test_quarantine_signal_promote_and_dismiss(tmp_path: Path) -> None:
+    from coffee_can.doctor import run_doctor
+    from coffee_can.storage import write_yaml
+
+    ws = _copy_minimal_workspace(tmp_path)
+    paths = ProjectPaths.from_root(ws)
+    write_yaml(
+        paths.quarantine_signals_dir / "discovered_themes.yaml",
+        {
+            "last_scanned_at": "2026-11-24",
+            "total_signals": 2,
+            "new_signals_count": 2,
+            "signals": [
+                {
+                    "slug": "commercial_space_launch_leo",
+                    "name": "商业航天发射与低轨卫星",
+                    "source": "CROSS_SECTOR_PROBE",
+                    "status": "NEW",
+                    "headline_metric": "18 条 SEC 180天公告",
+                    "rationale": "Test probe signal",
+                    "discovered_at": "2026-11-24",
+                    "last_seen_at": "2026-11-24",
+                    "sec_keywords": ["orbital launch"],
+                    "usaspending_keywords": ["space launch"],
+                    "naics_codes": [],
+                    "sic_codes": [],
+                    "discovered_tickers": ["RKLB", "ASTS"],
+                },
+                {
+                    "slug": "naics_999999",
+                    "name": "Noise Sector",
+                    "source": "USASPENDING_NAICS",
+                    "status": "NEW",
+                    "headline_metric": "+30.0% YoY",
+                    "rationale": "Noise",
+                    "discovered_at": "2026-11-24",
+                    "last_seen_at": "2026-11-24",
+                    "naics_codes": ["999999"],
+                },
+            ],
+        },
+    )
+
+    app = create_app(ws)
+    client = TestClient(app)
+
+    snap = client.get("/api/snapshot").json()
+    assert snap["discovered_signals_meta"]["new_signals_count"] == 2
+
+    # Promote first signal into memory/industries/ as DORMANT
+    prom = client.post(
+        "/api/quarantine/signals/commercial_space_launch_leo/promote",
+        json={"status": "DORMANT"},
+    )
+    assert prom.status_code == 200
+    assert prom.json()["promoted"] is True
+    assert (paths.industries_dir / "commercial_space_launch_leo.yaml").exists()
+
+    # Dismiss second signal
+    dis = client.post("/api/quarantine/signals/naics_999999/dismiss")
+    assert dis.status_code == 200
+    assert dis.json()["dismissed"] is True
+
+    snap2 = client.get("/api/snapshot").json()
+    assert snap2["discovered_signals_meta"]["new_signals_count"] == 0
+    assert run_doctor(ws).ok is True
+

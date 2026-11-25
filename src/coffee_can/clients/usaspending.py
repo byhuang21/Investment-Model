@@ -269,3 +269,108 @@ class UsaSpendingClient:
             "prior_ttm_award_usd_m": round(prior_usd / 1_000_000.0, 2),
             "yoy_growth": round(yoy, 4) if yoy is not None else None,
         }
+
+    def _fetch_naics_category_window(
+        self,
+        start_date: date,
+        end_date: date,
+        limit: int = 100,
+        pages: int = 2,
+    ) -> dict[str, dict[str, Any]]:
+        """Fetch top NAICS federal contract spending totals for a date window."""
+        award_types = self.defaults.get("award_type_codes", ["A", "B", "C", "D"])
+        totals: dict[str, dict[str, Any]] = {}
+        for page in range(1, max(1, pages) + 1):
+            payload = {
+                "filters": {
+                    "award_type_codes": award_types,
+                    "time_period": [
+                        {
+                            "start_date": start_date.isoformat(),
+                            "end_date": end_date.isoformat(),
+                        }
+                    ],
+                },
+                "limit": limit,
+                "page": page,
+            }
+            data = self._post_json("search/spending_by_category/naics/", payload)
+            rows = data.get("results", [])
+            if not rows:
+                break
+            for row in rows:
+                if not isinstance(row, dict):
+                    continue
+                code = str(row.get("code") or "").strip()
+                if not code:
+                    continue
+                amt = float(row.get("amount") or 0.0)
+                totals[code] = {
+                    "naics_code": code,
+                    "naics_name": str(row.get("name") or f"NAICS {code}").strip(),
+                    "amount_usd": amt,
+                }
+            if len(rows) < limit:
+                break
+        return totals
+
+    def get_surging_naics_categories(
+        self,
+        min_ttm_usd_m: float = 100.0,
+        min_prior_usd_m: float = 25.0,
+        min_yoy_growth: float = 0.25,
+        pages: int = 2,
+        limit: int = 100,
+        top_n: int = 8,
+        exclude_naics_prefixes: tuple[str, ...] = (
+            "236",
+            "237",
+            "424",
+            "445",
+            "52",
+            "53",
+            "561",
+            "624",
+            "72",
+            "813",
+            "92",
+        ),
+        as_of: date | None = None,
+    ) -> list[dict[str, Any]]:
+        """Blindly discover 6-digit NAICS industries with surging TTM federal contract spend."""
+        end_d = as_of or datetime.now(UTC).date()
+        cur_start = end_d - timedelta(days=365)
+        prior_end = cur_start - timedelta(days=1)
+        prior_start = prior_end - timedelta(days=365)
+
+        cur_map = self._fetch_naics_category_window(cur_start, end_d, limit=limit, pages=pages)
+        prior_map = self._fetch_naics_category_window(
+            prior_start, prior_end, limit=limit, pages=pages
+        )
+
+        prefixes = tuple(str(p).strip() for p in exclude_naics_prefixes if str(p).strip())
+        surging: list[dict[str, Any]] = []
+        for code, cur_row in cur_map.items():
+            if prefixes and any(code.startswith(pfx) for pfx in prefixes):
+                continue
+            cur_m = cur_row["amount_usd"] / 1_000_000.0
+            prior_row = prior_map.get(code)
+            prior_m = (prior_row["amount_usd"] / 1_000_000.0) if prior_row else 0.0
+            if cur_m < min_ttm_usd_m or prior_m < min_prior_usd_m:
+                continue
+            yoy = (cur_m / prior_m) - 1.0
+            if yoy < min_yoy_growth:
+                continue
+            surging.append(
+                {
+                    "naics_code": code,
+                    "naics_name": cur_row["naics_name"],
+                    "ttm_usd_m": round(cur_m, 2),
+                    "prior_ttm_usd_m": round(prior_m, 2),
+                    "yoy_growth": round(yoy, 4),
+                }
+            )
+
+        surging.sort(key=lambda item: (-item["yoy_growth"], -item["ttm_usd_m"], item["naics_code"]))
+        return surging[:top_n]
+

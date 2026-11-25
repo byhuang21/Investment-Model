@@ -424,6 +424,160 @@ class SecEdgarClient:
             "discovered_tickers": discovered_tickers,
         }
 
+    def discover_s1_clusters(
+        self,
+        lookback_days: int = 180,
+        max_hits: int = 200,
+        min_unique_filers: int = 2,
+        top_n: int = 8,
+        exclude_sic_prefixes: tuple[str, ...] = ("60", "61", "62", "63", "64", "65", "67"),
+        as_of: date | None = None,
+    ) -> list[dict[str, Any]]:
+        """Sweep recent S-1 IPO filings via EFTS and cluster unique filers by 4-digit SIC."""
+        end_d = as_of or datetime.now(UTC).date()
+        start_d = end_d - timedelta(days=lookback_days)
+        base_url = self.endpoints.get("efts_search", "https://efts.sec.gov/LATEST/search-index")
+
+        raw_hits: list[dict[str, Any]] = []
+        page_size = min(100, max(1, max_hits))
+        offset = 0
+        while offset < max_hits:
+            params = {
+                "forms": "S-1",
+                "dateRange": "custom",
+                "startdt": start_d.isoformat(),
+                "enddt": end_d.isoformat(),
+                "from": offset,
+                "size": min(page_size, max_hits - offset),
+            }
+            url = f"{base_url}?{urlencode(params)}"
+            digest = hashlib.sha256(url.encode("utf-8")).hexdigest()[:16]
+            raw = self._get_json(url, f"efts_s1_blind_{digest}")
+            hits_block = raw.get("hits", {})
+            batch = hits_block.get("hits", [])
+            if not batch:
+                break
+            raw_hits.extend(batch)
+            total_raw = hits_block.get("total", 0)
+            total_hits = (
+                int(total_raw.get("value", 0)) if isinstance(total_raw, dict) else int(total_raw)
+            )
+            offset += len(batch)
+            if offset >= total_hits:
+                break
+
+        return cluster_s1_hits_by_sic(
+            raw_hits=raw_hits,
+            ticker_resolver=self.lookup_ticker_by_cik,
+            min_unique_filers=min_unique_filers,
+            top_n=top_n,
+            exclude_sic_prefixes=exclude_sic_prefixes,
+        )
+
+
+SIC_INDUSTRY_NAMES: dict[str, str] = {
+    "1311": "Crude Petroleum & Natural Gas",
+    "2834": "Pharmaceutical Preparations",
+    "2835": "In Vitro & In Vivo Diagnostic Substances",
+    "2836": "Biological Products (Biotech)",
+    "3559": "Special Industry Machinery",
+    "3571": "Electronic Computers & AI Servers",
+    "3576": "Computer Communications Equipment",
+    "3577": "Computer Peripheral Equipment",
+    "3612": "Power & Distribution Transformers",
+    "3613": "Switchgear & Switchboard Apparatus",
+    "3663": "Radio & Satellite Communications Equipment",
+    "3674": "Semiconductors & Related Devices",
+    "3679": "Electronic Components",
+    "3690": "Miscellaneous Electrical Machinery & Batteries",
+    "3711": "Motor Vehicles & Autonomous Mobility",
+    "3721": "Aircraft & Aerospace",
+    "3728": "Aircraft Parts & Defense Auxiliary Equipment",
+    "3760": "Guided Missiles & Space Vehicles",
+    "3812": "Search, Detection, Navigation & Defense Systems",
+    "3825": "Instruments for Measuring Electricity & Test",
+    "3826": "Laboratory Analytical Instruments",
+    "3841": "Surgical & Medical Instruments",
+    "3842": "Orthopedic, Prosthetic & Surgical Appliances",
+    "3845": "Electromedical & Electrotherapeutic Apparatus",
+    "4512": "Air Transportation & Aviation",
+    "4899": "Communications & Satellite Services",
+    "4911": "Electric Services & Power Generation",
+    "4991": "Cogeneration & Next-Gen Power",
+    "5812": "Retail Eating Places & Fast-Casual",
+    "7370": "Computer Programming & Data Processing",
+    "7371": "Custom Computer Programming Services",
+    "7372": "Prepackaged Software (Enterprise SaaS)",
+    "7373": "Computer Integrated Systems Design",
+    "7374": "Computer Processing & Cloud Infrastructure",
+    "7389": "Business Services & Digital Marketplaces",
+    "8071": "Medical Laboratories & Diagnostics",
+    "8090": "Specialty Healthcare Services",
+    "8711": "Engineering Services",
+    "8731": "Commercial Physical & Biological Research",
+}
+
+
+def cluster_s1_hits_by_sic(
+    raw_hits: list[dict[str, Any]],
+    ticker_resolver: Any | None = None,
+    min_unique_filers: int = 2,
+    top_n: int = 8,
+    exclude_sic_prefixes: tuple[str, ...] = ("60", "61", "62", "63", "64", "65", "67"),
+) -> list[dict[str, Any]]:
+    """Group EFTS S-1 hits by 4-digit SIC code, deduplicating multiple S-1/A amendments per CIK."""
+    prefixes = tuple(str(p).strip() for p in exclude_sic_prefixes if str(p).strip())
+    by_sic: dict[str, dict[str, dict[str, Any]]] = {}
+
+    for item in raw_hits:
+        if not isinstance(item, dict):
+            continue
+        src = item.get("_source", {})
+        if not isinstance(src, dict):
+            continue
+        ciks = src.get("ciks") or []
+        sics = src.get("sics") or []
+        if not ciks or not sics:
+            continue
+        cik = str(ciks[0]).zfill(10)
+        sic = str(sics[0]).strip()
+        if not sic or sic == "6770":
+            continue
+        if prefixes and any(sic.startswith(pfx) for pfx in prefixes):
+            continue
+
+        display_name = str((src.get("display_names") or [""])[0]).strip()
+        file_date = str(src.get("file_date") or "")
+        bucket = by_sic.setdefault(sic, {})
+        if cik not in bucket or file_date > bucket[cik]["file_date"]:
+            ticker = ticker_resolver(cik) if callable(ticker_resolver) else None
+            bucket[cik] = {
+                "cik": cik,
+                "display_name": display_name,
+                "ticker": ticker,
+                "file_date": file_date,
+            }
+
+    clusters: list[dict[str, Any]] = []
+    for sic, filers_map in by_sic.items():
+        if len(filers_map) < min_unique_filers:
+            continue
+        filers = sorted(filers_map.values(), key=lambda f: f["file_date"], reverse=True)
+        tickers = [f["ticker"] for f in filers if f.get("ticker")]
+        clusters.append(
+            {
+                "sic_code": sic,
+                "sic_name": SIC_INDUSTRY_NAMES.get(sic, f"SIC {sic}"),
+                "unique_filers": len(filers),
+                "filers": [f["display_name"] for f in filers[:6] if f.get("display_name")],
+                "discovered_tickers": list(dict.fromkeys(tickers)),
+            }
+        )
+
+    clusters.sort(key=lambda c: (-c["unique_filers"], c["sic_code"]))
+    return clusters[:top_n]
+
+
 
 # =============================================================================
 # US-GAAP XBRL Fundamental Extraction Helpers (Pure & Unit-Testable)

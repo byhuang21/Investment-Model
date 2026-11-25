@@ -6,6 +6,7 @@ const appState = {
   activeTab: "overview",
   loopsSubTab: "can",
   radarFilter: "ALL",
+  signalFilter: "NEW",
   screenerFilter: "ALL",
   screenerQuery: "",
   expandedScreenerTicker: null,
@@ -245,6 +246,9 @@ function renderOverview() {
   const inCan = s.coffee_can || [];
   const nearMiss = s.near_miss || [];
   const rejected = s.rejected_log || [];
+  const newSignals = (s.discovered_signals || []).filter(
+    (sig) => String(sig.status || "NEW").toUpperCase() === "NEW"
+  );
 
   const actionItems = [];
   if (pendingResearch.length) {
@@ -258,6 +262,20 @@ function renderOverview() {
           <div class="card-desc">标的：${pendingResearch.map((r) => esc(r.ticker)).join(" · ")}</div>
         </div>
         <button type="button" class="btn btn-primary btn-sm" data-goto-tab="deepdive">进入审阅台 →</button>
+      </div>
+    `);
+  }
+  if (newSignals.length) {
+    actionItems.push(`
+      <div class="action-row">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span class="badge badge-success mono">BLIND RADAR</span>
+            <strong>机器盲扫新发现 ${newSignals.length} 条潜在赛道线索在隔离区待审阅</strong>
+          </div>
+          <div class="card-desc">示例：${newSignals.slice(0, 4).map((sig) => esc(sig.name)).join(" · ")}</div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm" data-goto-tab="radar">去 L1 审阅新线索 →</button>
       </div>
     `);
   }
@@ -302,7 +320,7 @@ function renderOverview() {
           <span class="badge badge-success mono">ACTIVE</span>
           <span class="muted mono" style="font-size:12px;">/ ${dormantInd} DORMANT</span>
         </div>
-        <div class="kpi-foot">USASpending + SEC EFTS 实时扫描</div>
+        <div class="kpi-foot">隔离区另发现 ${newSignals.length} 条盲扫新赛道线索</div>
       </div>
 
       <div class="kpi-card">
@@ -348,7 +366,7 @@ function renderOverview() {
             <span class="muted">主动发现</span>
           </div>
           <div class="funnel-step-title">选市场与行业</div>
-          <div class="funnel-step-desc">${activeInd} 活跃 / ${dormantInd} 休眠赛道，自动映射候选股池</div>
+          <div class="funnel-step-desc">${activeInd} 活跃 / ${dormantInd} 休眠 + ${newSignals.length} 条盲扫新线索</div>
         </button>
 
         <button type="button" class="funnel-step" data-goto-tab="screener">
@@ -491,12 +509,132 @@ function renderRadar() {
     })
     .join("");
 
+  const allSignals = appState.snapshot.discovered_signals || [];
+  const sigMeta = appState.snapshot.discovered_signals_meta || {};
+  const newSignalsCount = allSignals.filter(
+    (s) => String(s.status || "NEW").toUpperCase() === "NEW"
+  ).length;
+
+  const filteredSignals = allSignals.filter((sig) => {
+    const st = String(sig.status || "NEW").toUpperCase();
+    const src = String(sig.source || "").toUpperCase();
+    if (appState.signalFilter === "NEW") return st === "NEW";
+    if (appState.signalFilter === "HANDLED") return st !== "NEW";
+    if (appState.signalFilter === "ALL") return true;
+    return src === appState.signalFilter && st === "NEW";
+  });
+
+  const signalFilters = [
+    ["NEW", `待审新线索 (${newSignalsCount})`],
+    ["USASPENDING_NAICS", "联邦采购暴增 (NAICS)"],
+    ["SEC_S1_CLUSTER", "IPO 扎堆聚类 (S-1)"],
+    ["CROSS_SECTOR_PROBE", "跨行业探测网"],
+    ["HANDLED", "已晋升 / 已忽略"],
+  ]
+    .map(
+      ([val, label]) =>
+        `<button type="button" class="pill-btn ${appState.signalFilter === val ? "is-active" : ""}" data-signal-filter="${val}">${label}</button>`
+    )
+    .join("");
+
+  const sourceLabelMap = {
+    USASPENDING_NAICS: ["USASpending NAICS", "badge-primary"],
+    SEC_S1_CLUSTER: ["SEC S-1 聚类", "badge-warning"],
+    CROSS_SECTOR_PROBE: ["跨行业探测器", "badge-success"],
+  };
+
+  const signalCards = filteredSignals
+    .map((sig) => {
+      const st = String(sig.status || "NEW").toUpperCase();
+      const [srcLabel, srcCls] = sourceLabelMap[sig.source] || [sig.source || "RADAR", "badge-muted"];
+      const tickers = sig.discovered_tickers || [];
+      const codes = [...(sig.naics_codes || []).map((c) => `NAICS ${c}`), ...(sig.sic_codes || []).map((c) => `SIC ${c}`)];
+      const disabledAttr = appState.mode !== "live-rw" ? "disabled" : "";
+      const actionBar =
+        st === "NEW"
+          ? `
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="btn btn-primary btn-sm" data-promote-signal="${esc(sig.slug)}" data-promote-status="DORMANT" ${disabledAttr}>收编为休眠赛道</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-promote-signal="${esc(sig.slug)}" data-promote-status="ACTIVE" ${disabledAttr}>直接激活</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss-signal="${esc(sig.slug)}" ${disabledAttr}>忽略</button>
+            </div>
+          `
+          : `<span class="badge ${st === "PROMOTED" ? "badge-success" : "badge-muted"} mono">${esc(st)}</span>`;
+
+      return `
+        <article class="card" style="display:flex;flex-direction:column;justify-content:space-between;gap:12px;">
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                  <span class="badge ${srcCls} mono">${esc(srcLabel)}</span>
+                  <span class="mono muted" style="font-size:12px;">${esc(sig.slug)}</span>
+                </div>
+                <h3 style="margin:6px 0 0;font-size:15px;font-weight:600;">${esc(sig.name)}</h3>
+              </div>
+              <span class="meta-chip mono">${esc(sig.headline_metric || "—")}</span>
+            </div>
+
+            <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.55;">
+              ${esc(sig.rationale || "—")}
+            </div>
+
+            ${
+              codes.length
+                ? `<div class="mono muted" style="font-size:11.5px;">行业编码：${esc(codes.join(" · "))}</div>`
+                : ""
+            }
+          </div>
+
+          <div style="padding-top:10px;border-top:1px solid var(--border-subtle);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;">
+            <div class="ticker-tags">
+              ${
+                tickers.length
+                  ? tickers
+                      .slice(0, 8)
+                      .map((t) => `<span class="ticker-tag">${esc(t)}</span>`)
+                      .join("")
+                  : '<span class="muted" style="font-size:12px;">待二层或人工补充龙头股</span>'
+              }
+            </div>
+            ${actionBar}
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+
   return `
     <div class="filter-bar">
       <div class="pill-group">${filters}</div>
-      <span class="muted" style="font-size:12px;">带高亮边框的 Ticker 为核心龙头（用于计算行业营收与中位增速）</span>
+      <span class="muted" style="font-size:12px;">已正式建档赛道（带高亮边框 Ticker 为核心龙头）</span>
     </div>
     <div class="grid-2">${cards || '<div class="empty-state">当前筛选条件下暂无赛道</div>'}</div>
+
+    <section class="card" style="margin-top:24px;">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">机器盲扫新发现赛道线索（隔离暂存区）</h2>
+          <p class="card-desc">
+            每周日自动从 USASpending 全门类 NAICS 增速、SEC S-1 IPO 扎堆聚类与跨行业探测网扫描新机会，先落盘至 <code>memory/quarantine/signals/</code>，经你确认后再收编进正式赛道库
+          </p>
+        </div>
+        <span class="meta-chip mono">最近盲扫：${esc(sigMeta.last_scanned_at || "未扫描")} · 每周日定时刷新</span>
+      </div>
+
+      <div class="filter-bar" style="margin-top:8px;">
+        <div class="pill-group">${signalFilters}</div>
+        ${
+          appState.mode !== "live-rw"
+            ? '<span class="muted" style="font-size:12px;">当前为 GitHub Pages 只读预览，如需点击“收编/忽略”请连接本地工作台</span>'
+            : '<span class="muted" style="font-size:12px;">点击“收编”会自动生成 memory/industries/&lt;slug&gt;.yaml</span>'
+        }
+      </div>
+
+      <div class="grid-2" style="margin-top:12px;">
+        ${signalCards || '<div class="empty-state">当前筛选下暂无盲扫线索。运行 <code>python scripts/1_topic_radar.py --discover</code> 可立即刷新。</div>'}
+      </div>
+    </section>
   `;
 }
 
@@ -1193,6 +1331,11 @@ function bindGlobalEvents() {
       renderCurrentView();
       return;
     }
+    if (btn.dataset.signalFilter) {
+      appState.signalFilter = btn.dataset.signalFilter;
+      renderCurrentView();
+      return;
+    }
     if (btn.dataset.screenerFilter) {
       appState.screenerFilter = btn.dataset.screenerFilter;
       renderCurrentView();
@@ -1278,6 +1421,36 @@ function bindGlobalEvents() {
         await loadSnapshot();
       } else {
         showToast("切换状态失败");
+      }
+      return;
+    }
+    if (btn.dataset.promoteSignal) {
+      const slug = btn.dataset.promoteSignal;
+      const status = btn.dataset.promoteStatus || "DORMANT";
+      const resp = await fetch(`/api/quarantine/signals/${encodeURIComponent(slug)}/promote`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (resp.ok) {
+        showToast(`已收编新赛道 ${slug} (${status}) -> memory/industries/${slug}.yaml`);
+        await loadSnapshot();
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        showToast(`收编失败：${err.detail || resp.status}`);
+      }
+      return;
+    }
+    if (btn.dataset.dismissSignal) {
+      const slug = btn.dataset.dismissSignal;
+      const resp = await fetch(`/api/quarantine/signals/${encodeURIComponent(slug)}/dismiss`, {
+        method: "POST",
+      });
+      if (resp.ok) {
+        showToast(`已忽略盲扫线索 ${slug}（后续周扫不再重复打扰）`);
+        await loadSnapshot();
+      } else {
+        showToast("忽略失败");
       }
       return;
     }
