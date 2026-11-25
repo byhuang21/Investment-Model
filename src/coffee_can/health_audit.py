@@ -158,7 +158,8 @@ def check_github_workflows(
         wf_id = wf["id"]
         try:
             runs_resp = requests.get(
-                f"https://api.github.com/repos/{repo}/actions/workflows/{wf_id}/runs?per_page=5",
+                f"https://api.github.com/repos/{repo}/actions/workflows/{wf_id}/runs"
+                "?branch=main&per_page=5",
                 headers=headers,
                 timeout=timeout,
             )
