@@ -771,12 +771,15 @@ function getOrInitDraft(researchItem) {
             },
           ];
 
+    const savedOdds = sc.odds_check || {};
     appState.drafts[ticker] = {
       currentMcapM: mcapM,
       tamB: defaultTamB,
       sharePct: 12,
       netMarginPct: 18,
       exitPe: 25,
+      forwardValuationNote: savedOdds.forward_1_2y_valuation_note || "",
+      longTermRunwayIntact: savedOdds.long_term_runway_intact !== false,
       humanScore: sc.dimensions?.["5_management"]?.human_subjective_score ?? null,
       humanNotes: sc.dimensions?.["5_management"]?.human_notes || "",
       memo: [savedMemo[0] || "", savedMemo[1] || "", savedMemo[2] || ""],
@@ -805,8 +808,13 @@ function renderDeepDive() {
   const f4 = sc.dimensions?.["4_financial_floor"] || {};
   const draft = getOrInitDraft(current);
   const odds = calcDraftOdds(draft);
-  const minMultiple = Number(appState.snapshot.rules?.layer3_deep_dive?.min_target_upside_multiple || 10);
+  const l3Rules = appState.snapshot.rules?.layer3_deep_dive || {};
+  const minMultiple = Number(l3Rules.min_target_upside_multiple || 10);
+  const require10yVeto = Boolean(l3Rules.require_10y_exact_multiple_veto);
   const oddsPassed = odds.multiple >= minMultiple;
+  const forwardGatePassed =
+    Boolean(String(draft.forwardValuationNote || "").trim()) && draft.longTermRunwayIntact;
+  const valuationPassed = require10yVeto ? oddsPassed : forwardGatePassed || oddsPassed;
   const alreadyInCan = sc.status === "APPROVED_FOR_CAN";
   const isLive = appState.mode === "live-rw";
 
@@ -841,7 +849,7 @@ function renderDeepDive() {
     <div class="ticker-ribbon">${ribbon}</div>
 
     <div class="deepdive-layout">
-      <!-- Left: Objective Evidence & 10x Odds Sandbox -->
+      <!-- Left: Objective Evidence & Valuation Sandbox -->
       <div style="display:flex;flex-direction:column;gap:18px;">
         <section class="card">
           <div class="card-header">
@@ -887,16 +895,16 @@ function renderDeepDive() {
           </div>
         </section>
 
-        <!-- 10x Odds Interactive Pressure Test -->
+        <!-- Optional Long-Term Ceiling Reference Sandbox -->
         <section class="card">
           <div class="card-header">
             <div>
-              <h2 class="card-title">市值赔率沙盒（>= ${minMultiple}x 一票否决门控）</h2>
-              <p class="card-desc">拖动保守假设，验证当前市值下是否具备 10 年 10 倍复利空间</p>
+              <h2 class="card-title">终局天花板参考沙盒（可选推演 · 不再强制填 10 年精确估值）</h2>
+              <p class="card-desc">v0.3.0 规则以右侧「1–2 年前瞻估值 + 长期空间不设限」为准，此处仅供感性检验天花板是否够大</p>
             </div>
             <div style="text-align:right;">
-              <div class="mono strong" style="font-size:24px;color:${oddsPassed ? "var(--success)" : "var(--danger)"};">${odds.multiple.toFixed(1)}x</div>
-              <div style="font-size:12px;color:${oddsPassed ? "var(--success)" : "var(--danger)"};">${oddsPassed ? "通过 10x 赔率门控" : "不足 10x · 触发否决"}</div>
+              <div class="mono strong" style="font-size:22px;color:${oddsPassed ? "var(--success)" : "var(--text-secondary)"};">${odds.multiple.toFixed(1)}x</div>
+              <div style="font-size:12px;" class="muted">理论天花板参考倍数</div>
             </div>
           </div>
 
@@ -911,7 +919,7 @@ function renderDeepDive() {
 
             <label class="slider-field">
               <div style="display:flex;justify-content:space-between;">
-                <span class="muted">10 年保守市占率</span>
+                <span class="muted">终局保守市占率</span>
                 <span class="mono strong">${draft.sharePct}%</span>
               </div>
               <input type="range" min="2" max="35" step="1" value="${draft.sharePct}" data-odds-slider="sharePct" />
@@ -927,7 +935,7 @@ function renderDeepDive() {
 
             <label class="slider-field">
               <div style="display:flex;justify-content:space-between;">
-                <span class="muted">终局合理 PE</span>
+                <span class="muted">稳态合理 PE</span>
                 <span class="mono strong">${draft.exitPe}x</span>
               </div>
               <input type="range" min="12" max="40" step="1" value="${draft.exitPe}" data-odds-slider="exitPe" />
@@ -963,6 +971,19 @@ function renderDeepDive() {
           <span class="badge badge-warning mono">${isLive ? "可写回 YAML" : "只读模式"}</span>
         </div>
 
+        <!-- 1-2Y Forward Valuation & Long-Term Runway -->
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;">
+            <span class="strong">1–2 年前瞻估值评估（v0.3.0）</span>
+            <span class="badge ${valuationPassed ? "badge-success" : "badge-warning"} mono">${valuationPassed ? "已确认" : "待填写"}</span>
+          </div>
+          <textarea rows="2" class="textarea" data-draft-field="forwardValuationNote" placeholder="记录当前 1–2 年前瞻估值（如 EV/S、Forward P/E 与增速匹配度），不强行预测 10 年精确市值...">${esc(draft.forwardValuationNote)}</textarea>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);cursor:pointer;">
+            <input type="checkbox" id="chk-runway-intact" ${draft.longTermRunwayIntact ? "checked" : ""} />
+            <span>确认行业长期天花板未封死（具备长坡厚雪空间）</span>
+          </label>
+        </div>
+
         <!-- Subjective Management Score -->
         <div style="display:flex;flex-direction:column;gap:8px;">
           <div style="display:flex;justify-content:space-between;font-size:12.5px;">
@@ -987,7 +1008,7 @@ function renderDeepDive() {
           <div class="strong" style="font-size:12.5px;">三句话买入备忘录</div>
           <input type="text" class="input" data-memo-idx="0" placeholder="第 1 句：瞄准的存量利润池与数量级需求创新" value="${esc(draft.memo[0])}" />
           <input type="text" class="input" data-memo-idx="1" placeholder="第 2 句：Why Now 拐点与护城河雏形" value="${esc(draft.memo[1])}" />
-          <input type="text" class="input" data-memo-idx="2" placeholder="第 3 句：10 倍赔率逻辑与掌舵人托付理由" value="${esc(draft.memo[2])}" />
+          <input type="text" class="input" data-memo-idx="2" placeholder="第 3 句：1–2 年估值匹配度、长期空间与掌舵人理由" value="${esc(draft.memo[2])}" />
         </div>
 
         <!-- Falsification Lines -->
@@ -1020,7 +1041,7 @@ function renderDeepDive() {
           <button type="button" class="btn btn-secondary" id="btn-save-review" ${!isLive ? "disabled" : ""}>
             保存审阅草稿至 scorecard.yaml
           </button>
-          <button type="button" class="btn btn-primary" id="btn-promote-can" ${!isLive || alreadyInCan || !oddsPassed || !draft.humanScore ? "disabled" : ""}>
+          <button type="button" class="btn btn-primary" id="btn-promote-can" ${!isLive || alreadyInCan || !valuationPassed || !draft.humanScore ? "disabled" : ""}>
             ${alreadyInCan ? "已正式装入咖啡罐" : "保存并批准装入咖啡罐 →"}
           </button>
         </div>
@@ -1052,7 +1073,7 @@ function renderLoops() {
       body = `
         <div class="card empty-state">
           <p style="margin:0 0 12px;">咖啡罐当前为空（严格遵守 AGENT_RULES.md，所有标的须经你本人在第三层填完掌舵人主观分与证伪线后方可入罐）。</p>
-          <button type="button" class="btn btn-primary btn-sm" data-goto-tab="deepdive">前往第三层审阅 7 只 PASS 标的 →</button>
+          <button type="button" class="btn btn-primary btn-sm" data-goto-tab="deepdive">前往第三层审阅 PASS 标的 →</button>
         </div>
       `;
     } else {
@@ -1061,20 +1082,34 @@ function renderLoops() {
           const light = pos.earnings_check_history?.last_traffic_light || "GREEN";
           const lightCls =
             light === "GREEN" ? "badge-success" : light === "YELLOW" ? "badge-warning" : "badge-danger";
+          const ent = pos.entry || {};
+          const valBadge =
+            ent.valuation_basis === "1-2y_forward"
+              ? `1–2Y 前瞻估值${ent.ev_to_sales_at_entry ? ` (EV/S ${ent.ev_to_sales_at_entry}x` : ""}${ent.forward_pe_at_entry ? `, Fwd PE ${ent.forward_pe_at_entry}x)` : ent.ev_to_sales_at_entry ? ")" : ""}`
+              : `预期赔率 ${ent.target_upside_multiple ?? "—"}x`;
+          const priceStr = ent.entry_price_usd ? ` · 入罐价 $${Number(ent.entry_price_usd).toFixed(2)}` : "";
+          const checkedStr = pos.earnings_check_history?.last_checked_period_end
+            ? ` · 最近季报核验 ${pos.earnings_check_history.last_checked_period_end}`
+            : "";
           return `
             <article class="card" style="display:flex;flex-direction:column;gap:14px;">
               <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;">
                 <div>
-                  <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                     <span class="mono strong" style="font-size:17px;">${esc(pos.ticker)}</span>
                     <span class="secondary">${esc(pos.company_name)}</span>
                     <span class="badge ${lightCls} mono">季报红绿灯：${esc(light)}</span>
                   </div>
                   <div class="card-desc mono">
-                    入罐日 ${esc(pos.entry?.entered_at)} · 入罐市值 ${fmtM(pos.entry?.entry_market_cap_usd_m)} · 预期赔率 ${pos.entry?.target_upside_multiple ?? "—"}x · 掌舵人分 ${pos.entry?.management_human_score ?? "—"}/10
+                    入罐日 ${esc(ent.entered_at)}${priceStr} · 入罐市值 ${fmtM(ent.entry_market_cap_usd_m)} · ${esc(valBadge)} · 掌舵人分 ${ent.management_human_score ?? "—"}/10${esc(checkedStr)}
                   </div>
                 </div>
               </div>
+              ${
+                ent.forward_1_2y_valuation_note
+                  ? `<div style="padding:10px 12px;border-radius:8px;background:var(--bg-subtle);border:1px solid var(--border-subtle);font-size:12.5px;color:var(--text-secondary);"><strong style="color:var(--text-primary);">1–2 年前瞻估值与空间记录：</strong>${esc(ent.forward_1_2y_valuation_note)}</div>`
+                  : ""
+              }
               <div class="grid-2">
                 <div style="padding:12px;border-radius:8px;background:var(--bg-subtle);border:1px solid var(--border-subtle);font-size:12.5px;">
                   <div class="strong" style="margin-bottom:6px;">三句话买入备忘录</div>
@@ -1253,6 +1288,9 @@ async function handleSaveReview(promoteAfter = false) {
   const odds = calcDraftOdds(draft);
 
   const payload = {
+    valuation_horizon: "1-2y_forward",
+    forward_1_2y_valuation_note: draft.forwardValuationNote,
+    long_term_runway_intact: draft.longTermRunwayIntact,
     conservative_10y_target_market_cap_usd_m: odds.targetMcapM,
     implied_upside_multiple: odds.multiple,
     assumptions_summary: `TAM $${draft.tamB}B × ${draft.sharePct}% share × ${draft.netMarginPct}% net margin × ${draft.exitPe}x PE`,
@@ -1493,10 +1531,27 @@ function bindGlobalEvents() {
     }
     if (el.dataset.draftField) {
       draft[el.dataset.draftField] = el.value;
+      if (el.dataset.draftField === "forwardValuationNote") {
+        const promBtn = document.getElementById("btn-promote-can");
+        if (promBtn && appState.mode === "live-rw" && draft.humanScore) {
+          promBtn.disabled = !(String(el.value || "").trim() && draft.longTermRunwayIntact);
+        }
+      }
       return;
     }
     if (el.dataset.memoIdx !== undefined) {
       draft.memo[Number(el.dataset.memoIdx)] = el.value;
+    }
+  });
+
+  root.addEventListener("change", (e) => {
+    const el = e.target;
+    if (el.id === "chk-runway-intact") {
+      const draft = appState.drafts[appState.selectedResearchTicker];
+      if (draft) {
+        draft.longTermRunwayIntact = Boolean(el.checked);
+        renderCurrentView();
+      }
     }
   });
 }

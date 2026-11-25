@@ -39,13 +39,13 @@ def test_snapshot_and_human_gate_enforcement(tmp_path: Path) -> None:
     assert resp_block.status_code == 400
     assert "human_subjective_score" in resp_block.json()["detail"]
 
-    # 3. Save valid human review with >= 10x odds, score, memo, and falsification line
+    # 3. Save valid human review using v0.3.0 1-2Y forward valuation + human score (no fake 10Y DCF)
     review_resp = client.post(
         f"/api/research/{ticker}/human-review",
         json={
-            "conservative_10y_target_market_cap_usd_m": 80000.0,
-            "implied_upside_multiple": 12.5,
-            "assumptions_summary": "Conservative 10y compounder case",
+            "valuation_horizon": "1-2y_forward",
+            "forward_1_2y_valuation_note": "EV/S 5.0x vs 30%+ YoY; 1-2Y valuation reasonable.",
+            "long_term_runway_intact": True,
             "human_subjective_score": 8,
             "human_notes": "Disciplined capital allocator",
             "three_sentence_memo": ["Sentence 1", "Sentence 2", "Sentence 3"],

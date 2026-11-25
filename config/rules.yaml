@@ -2,7 +2,7 @@
 # Coffee Can 自主投研系统 — 核心投研规则与阈值配置 (rules.yaml)
 # 警告：任何自动化脚本禁止直接覆盖本文件；调参须由 5_post_mortem.py 提出建议并经人类审核
 # =============================================================================
-version: "0.2.0"
+version: "0.3.0"
 last_calibrated: "2026-11-22"
 
 # -----------------------------------------------------------------------------
@@ -91,7 +91,10 @@ layer2_quant_screener:
 # 第三层：五维深度研究与入罐纪律
 # -----------------------------------------------------------------------------
 layer3_deep_dive:
-  min_target_upside_multiple: 10.0         # 一票否决：至少具备 10 倍长期赔率空间
+  valuation_gate_mode: "forward_1_2y"      # v0.3.0: 评估 1-2 年前瞻估值 + 长期空间不设限（替代硬填 10 年精确市值）
+  require_10y_exact_multiple_veto: false   # 不再强行要求捏造 10 年精确目标市值
+  require_long_term_runway_check: true     # 需确认长期行业天花板未封死
+  min_target_upside_multiple: 10.0         # 可选 10x 赔率沙盒参考线（兼容历史测算）
   min_holding_horizon_years: 5             # 咖啡罐最低持有周期视角（5-10 年）
   require_human_approval: true             # 强制人类审核掌舵人主观分与证伪线
   required_falsification_lines_min: 1

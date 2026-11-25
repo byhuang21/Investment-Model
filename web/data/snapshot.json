@@ -1,9 +1,9 @@
 {
   "env": "prod",
-  "generated_at": "2026-11-25T04:19:00.907402+00:00",
-  "rules_version": "0.2.0",
+  "generated_at": "2026-11-25T21:06:41.692382+00:00",
+  "rules_version": "0.3.0",
   "rules": {
-    "version": "0.2.0",
+    "version": "0.3.0",
     "last_calibrated": "2026-11-22",
     "universe": {
       "primary_market": "US",
@@ -70,6 +70,9 @@
       }
     },
     "layer3_deep_dive": {
+      "valuation_gate_mode": "forward_1_2y",
+      "require_10y_exact_multiple_veto": false,
+      "require_long_term_runway_check": true,
       "min_target_upside_multiple": 10.0,
       "min_holding_horizon_years": 5,
       "require_human_approval": true,
@@ -2137,16 +2140,22 @@
         "company_name": "TransMedics Group, Inc.",
         "cik": "0001756262",
         "industry_slug": "initial_calibration_cohort",
-        "status": "PENDING_HUMAN_REVIEW",
+        "status": "APPROVED_FOR_CAN",
         "created_at": "2026-11-23",
         "updated_at": "2026-11-25",
         "layer2_track_qualified": "profitable_compounder",
         "odds_check": {
-          "current_market_cap_usd_m": 2961.06,
+          "current_market_cap_usd_m": 3283.05,
           "conservative_10y_target_market_cap_usd_m": null,
           "implied_upside_multiple": null,
           "passed_10x_gate": null,
-          "assumptions_summary": ""
+          "assumptions_summary": "",
+          "valuation_horizon": "1-2y_forward",
+          "long_term_runway_intact": true,
+          "forward_1_2y_valuation_note": "入罐时股价 $94.52、市值 $3,283M（EV/S 5.0x、Trailing P/E 25.8x、Forward P/E 38.0x），最新季度营收同比 +41.1% 且 FY25 FCF 已转正；仅锚定 1–2 年前瞻估值与成长匹配度，不强行预测 10 年精确市值，确认全球器官灌注与自营航空物流天花板远未封死。",
+          "current_price_usd": 94.52,
+          "forward_pe": 38.04,
+          "ev_to_sales": 4.97
         },
         "dimensions": {
           "1_demand_fulfilling_innovation": {
@@ -2265,19 +2274,50 @@
                 "net_open_market_usd": -4383516.98
               }
             },
-            "human_subjective_score": null,
-            "human_notes": "",
-            "reviewed_by_human": false,
-            "reviewed_at": null
+            "human_subjective_score": 8,
+            "human_notes": "创始人兼 CEO 在 2025 年公开市场真金白银买入 $2.77M，过去 3 年专注自建航空物流机队与研发，无胡乱并购。",
+            "reviewed_by_human": true,
+            "reviewed_at": "2026-11-25"
           }
         },
         "decision": {
           "three_sentence_memo": [
-            "",
-            "",
-            ""
+            "用常温器官灌注（OCS）+ 自营航空物流网络（NOP）取代 50 年未变的冷存储冰盒，显著提升供体器官利用率与移植量。",
+            "硬件+一次性高频耗材+端到端物流形成高转换成本双边网络，已跨过盈利拐点并释放经营杠杆。",
+            "当前约 $32.8 亿市值、EV/S 约 5x，向心/肺/肝国际扩张与新器官管线打开长期复利空间。"
           ],
-          "falsification_lines": []
+          "falsification_lines": [
+            {
+              "id": "FL-1",
+              "description": "连续 2 季度营收同比增速跌破 15%",
+              "metric": "revenue_yoy_growth",
+              "operator": "<",
+              "threshold": 0.15,
+              "consecutive_quarters": 2,
+              "breach_streak": 0,
+              "severity": "RED"
+            },
+            {
+              "id": "FL-2",
+              "description": "连续 2 季度毛利率跌破 52%",
+              "metric": "gross_margin",
+              "operator": "<",
+              "threshold": 0.52,
+              "consecutive_quarters": 2,
+              "breach_streak": 0,
+              "severity": "RED"
+            },
+            {
+              "id": "FL-3",
+              "description": "任意 1 季度年化股本稀释率超过 5%",
+              "metric": "annual_share_dilution",
+              "operator": ">",
+              "threshold": 0.05,
+              "consecutive_quarters": 1,
+              "breach_streak": 0,
+              "severity": "RED"
+            }
+          ]
         }
       },
       "evidence_markdown": "# `TMDX` — 第三层五维客观投研证据档案\n\n- **公司名称**：TransMedics Group, Inc.\n- **CIK**：`0001756262` | **所属赛道**：`initial_calibration_cohort` | **二层轨道**：`profitable_compounder`\n- **当前市值**：`$2,961.1M` | **档案状态**：`PENDING_HUMAN_REVIEW` | **取证日期**：`2026-11-25`\n\n> [!IMPORTANT]\n> 本档案所有数字均提取自 SEC EDGAR 官方一手申报文件（10-K/10-Q XBRL 与 Form 4 XML）。\n> 依据 `AGENT_RULES.md`，**维度五（掌舵人）仅呈现客观事实，主观评分、三句话备忘录与最终入罐决策严格留给人类**。\n\n---\n\n## 1–3. 商业模式、Why Now 与竞争格局（待结合一手 10-K/MD&A 深度补全）\n- **维度 1（需求满足创新）**：请结合下方最新 10-K Item 1（Business）核查存量利润池规模、数量级效率提升与旧巨头困境。\n- **维度 2（市场正在形成 / Why Now）**：核查渗透率拐点与外部催化。\n- **维度 3（竞争格局与护城河雏形）**：核查下表近 3 年毛利率/营业利润率演变趋势，印证定价权与边际成本递减。\n\n---\n\n## 4. 公司财务底线与近 3 年复利轨迹（SEC 10-K XBRL）\n\n- 最新 TTM 营收：`$727.6M`（YoY `28.5%`） | 毛利率：`58.6%` | FCF：`$44.7M` | 短债/现金：`0.1072` | 商誉/总资产：`1.2%` | 年化稀释：`1.7%`\n\n| 财年 | 期末日 | 营收 | YoY | 毛利率 | 营业利润率 | OCF | CapEx | FCF | SBC/营收 | Accession |\n|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---|\n| FY2023 | 2023-12-31 | $241.6M | 158.5% | 63.8% | -11.9% | $-13.0M | $151.8M | $-164.9M | 8.2% | `0001193125-26-067032` |\n| FY2024 | 2024-12-31 | $441.5M | 82.7% | 59.4% | 8.5% | $48.8M | $129.7M | $-80.9M | 7.5% | `0001193125-26-067032` |\n| FY2025 | 2025-12-31 | $605.5M | 37.1% | 59.9% | 17.9% | $192.8M | $59.2M | $133.6M | 6.1% | `0001193125-26-067032` |\n\n---\n\n## 5. 掌舵人客观取证（严禁 Agent 打主观分）\n\n### 5.1 近 3 年资本配置记录（R&D / CapEx / 并购 / 回购 / 分红）\n| 财年 | R&D (占比) | CapEx | 现金并购 (M&A) | 股票回购 | 现金分红 | SBC 费用 |\n|---:|---:|---:|---:|---:|---:|---:|\n| FY2023 | $36.0M (14.9%) | $151.8M | $14.9M | $0.0M | $0.0M | $19.8M |\n| FY2024 | $56.0M (12.7%) | $129.7M | $0.0M | $0.0M | $0.0M | $33.2M |\n| FY2025 | $69.1M (11.4%) | $59.2M | $0.0M | $0.0M | $0.0M | $36.9M |\n\n### 5.2 SEC Form 4 内部人交易统计（近 24 个月，解析 40 份申报）\n- **公开市场真金白银买入 (`Code P`)**：`5` 笔，合计 **`$3.09M`**（买入人：Hassanein Waleed H, Weill David）\n- **计划外自主卖出 (`Code S`, 非 10b5-1)**：`16` 笔，合计 `$5.09M`\n- **10b5-1 预设减持计划 (`Code S`, 10b5-1)**：`4` 笔，合计 `$2.39M`\n- **常规股权激励授予/行权/代扣税 (`A/M/F/G`，不计入买卖)**：`32` 笔\n- **公开市场净买/卖额**：`$-4.38M`\n\n#### 重点公开市场内部人交易明细（按金额排序前 10 笔）\n| 交易日 | 内部人 | 职务 | 类型 | 10b5-1 | 股数 | 均价 | 金额 | Accession |\n|---|---|---|---|---|---:|---:|---:|---|\n| 2025-11-17 | Hassanein Waleed H | President & CEO / Director | 买入 (P) | 否 | 8,775 | $114.00 | $1.00M | `0001193125-25-286229` |\n| 2025-08-06 | Hassanein Waleed H | President & CEO / Director | 买入 (P) | 否 | 8,400 | $118.68 | $996.9K | `0000950170-25-105907` |\n| 2026-03-04 | Hernandez Gerardo | Chief Financial Officer | 卖出 (S) | 否 | 5,912 | $147.21 | $870.3K | `0001193125-26-092241` |\n| 2025-08-07 | Hassanein Waleed H | President & CEO / Director | 买入 (P) | 否 | 6,617 | $116.08 | $768.1K | `0000950170-25-105907` |\n| 2026-06-15 | Gunderson Thomas J. | Director | 卖出 (S) | 否 | 9,624 | $75.06 | $722.4K | `0001193125-26-274178` |\n| 2025-05-09 | Basile Edward M | Director | 卖出 (S) | 是 | 6,000 | $115.63 | $693.8K | `0000950170-25-070568` |\n| 2025-12-03 | Weill David | Director | 卖出 (S) | 否 | 5,000 | $138.64 | $693.2K | `0001193125-25-309751` |\n| 2025-05-27 | Basile Edward M | Director | 卖出 (S) | 是 | 5,000 | $126.45 | $632.2K | `0000950170-25-079022` |\n| 2025-10-29 | Basile Edward M | Director | 卖出 (S) | 是 | 4,142 | $130.45 | $540.3K | `0001193125-25-260849` |\n| 2026-03-04 | Weill David | Director | 卖出 (S) | 否 | 3,571 | $146.82 | $524.3K | `0001193125-26-097051` |\n\n### 5.3 一手公告索引（供核验过去 2–3 年管理层指引兑现率与 MD&A）\n- `2026-11-05` **10-Q** (Period `2026-09-30`) — [0001193125-26-449827](https://www.sec.gov/Archives/edgar/data/1756262/000119312526449827/tmdx-20260930.htm)\n- `2026-11-05` **8-K** (Period `2026-11-05`) (Items: 2.02,9.01) — [0001193125-26-449729](https://www.sec.gov/Archives/edgar/data/1756262/000119312526449729/tmdx-20261105.htm)\n- `2026-09-10` **8-K** (Period `2026-09-10`) (Items: 5.02,7.01,9.01) — [0001193125-26-387960](https://www.sec.gov/Archives/edgar/data/1756262/000119312526387960/d116447d8k.htm)\n- `2026-08-04` **10-Q** (Period `2026-06-30`) — [0001193125-26-332843](https://www.sec.gov/Archives/edgar/data/1756262/000119312526332843/tmdx-20260630.htm)\n- `2026-08-04` **8-K** (Period `2026-08-04`) (Items: 2.02,9.01) — [0001193125-26-332767](https://www.sec.gov/Archives/edgar/data/1756262/000119312526332767/tmdx-20260804.htm)\n- `2026-05-21` **8-K** (Period `2026-05-20`) (Items: 5.07,9.01) — [0001193125-26-234440](https://www.sec.gov/Archives/edgar/data/1756262/000119312526234440/d79022d8k.htm)\n- `2026-05-05` **10-Q** (Period `2026-03-31`) — [0001193125-26-206453](https://www.sec.gov/Archives/edgar/data/1756262/000119312526206453/tmdx-20260331.htm)\n- `2026-05-05` **8-K** (Period `2026-05-05`) (Items: 2.02,9.01) — [0001193125-26-206347](https://www.sec.gov/Archives/edgar/data/1756262/000119312526206347/tmdx-20260505.htm)\n- `2026-02-27` **8-K** (Period `2026-02-27`) (Items: 2.02,9.01) — [0001193125-26-079392](https://www.sec.gov/Archives/edgar/data/1756262/000119312526079392/d80286d8k.htm)\n- `2026-02-24` **10-K** (Period `2025-12-31`) — [0001193125-26-067032](https://www.sec.gov/Archives/edgar/data/1756262/000119312526067032/tmdx-20251231.htm)\n- `2026-02-24` **8-K** (Period `2026-02-24`) (Items: 2.02,9.01) — [0001193125-26-066953](https://www.sec.gov/Archives/edgar/data/1756262/000119312526066953/tmdx-20260224.htm)\n- `2026-02-04` **8-K** (Period `2026-02-01`) (Items: 5.02) — [0001193125-26-037615](https://www.sec.gov/Archives/edgar/data/1756262/000119312526037615/d50302d8k.htm)\n\n---\n\n## 6. 人类审阅与入罐区（请在 Web 工作台或 `scorecard.yaml` 中亲自完成）\n- [ ] 使用 Web 工作台 **10x 赔率沙盒** 压力测试 10 年终局市值（需 `>= 10x`）\n- [ ] 审阅上述资本配置与 Form 4 记录，亲手填写 `human_subjective_score (1–10)`\n- [ ] 写下三句话买入备忘录与 1–2 条可机读证伪线，决定是否装入 `coffee_can/`\n"
@@ -2353,7 +2393,139 @@
       }
     }
   ],
-  "coffee_can": [],
+  "coffee_can": [
+    {
+      "ticker": "TMDX",
+      "company_name": "TransMedics Group, Inc.",
+      "cik": "0001756262",
+      "industry_slug": "initial_calibration_cohort",
+      "status": "IN_CAN",
+      "entry": {
+        "entered_at": "2026-11-25",
+        "entry_price_usd": 94.52,
+        "entry_market_cap_usd_m": 3283.05,
+        "valuation_basis": "1-2y_forward",
+        "forward_pe_at_entry": 38.04,
+        "ev_to_sales_at_entry": 4.97,
+        "forward_1_2y_valuation_note": "入罐时股价 $94.52、市值 $3,283M（EV/S 5.0x、Trailing P/E 25.8x、Forward P/E 38.0x），最新季度营收同比 +41.1% 且 FY25 FCF 已转正；仅锚定 1–2 年前瞻估值与成长匹配度，不强行预测 10 年精确市值，确认全球器官灌注与自营航空物流天花板远未封死。",
+        "long_term_runway_intact": true,
+        "target_upside_multiple": null,
+        "management_human_score": 8
+      },
+      "three_sentence_memo": [
+        "用常温器官灌注（OCS）+ 自营航空物流网络（NOP）取代 50 年未变的冷存储冰盒，显著提升供体器官利用率与移植量。",
+        "硬件+一次性高频耗材+端到端物流形成高转换成本双边网络，已跨过盈利拐点并释放经营杠杆。",
+        "当前约 $32.8 亿市值、EV/S 约 5x，向心/肺/肝国际扩张与新器官管线打开长期复利空间。"
+      ],
+      "falsification_lines": [
+        {
+          "id": "FL-1",
+          "description": "连续 2 季度营收同比增速跌破 15%",
+          "metric": "revenue_yoy_growth",
+          "operator": "<",
+          "threshold": 0.15,
+          "consecutive_quarters": 2,
+          "breach_streak": 0,
+          "severity": "RED"
+        },
+        {
+          "id": "FL-2",
+          "description": "连续 2 季度毛利率跌破 52%",
+          "metric": "gross_margin",
+          "operator": "<",
+          "threshold": 0.52,
+          "consecutive_quarters": 2,
+          "breach_streak": 0,
+          "severity": "RED"
+        },
+        {
+          "id": "FL-3",
+          "description": "任意 1 季度年化股本稀释率超过 5%",
+          "metric": "annual_share_dilution",
+          "operator": ">",
+          "threshold": 0.05,
+          "consecutive_quarters": 1,
+          "breach_streak": 0,
+          "severity": "RED"
+        }
+      ],
+      "earnings_check_history": {
+        "last_checked_accession": "0001193125-26-449827",
+        "last_checked_period_end": "2026-09-30",
+        "last_traffic_light": "GREEN",
+        "checks": [
+          {
+            "checked_at": "2026-11-25",
+            "filing_form": "10-Q",
+            "filing_accession": "0001193125-26-449827",
+            "period_end": "2026-09-30",
+            "traffic_light": "GREEN",
+            "summary": "GREEN: All 3 falsification line(s) intact on 10-Q (2026-09-30).",
+            "metrics_snapshot": {
+              "ttm_revenue_usd_m": 727.65,
+              "revenue_yoy_growth": 0.2848,
+              "gross_margin": 0.586,
+              "gross_margin_yoy_change": -0.0168,
+              "ocf_usd_m": 112.36,
+              "fcf_usd_m": 44.7,
+              "cash_and_st_inv_usd_m": 511.4,
+              "total_debt_usd_m": 54.82,
+              "cash_runway_months": null,
+              "short_term_debt_to_cash": 0.1072,
+              "goodwill_to_total_assets": 0.0119,
+              "annual_share_dilution": 0.017,
+              "latest_period_end": "2026-09-30",
+              "filing_accession": "0001193125-26-449827",
+              "ocf_margin": 0.1544,
+              "fcf_margin": 0.0614
+            },
+            "line_results": [
+              {
+                "id": "FL-1",
+                "description": "连续 2 季度营收同比增速跌破 15%",
+                "metric": "revenue_yoy_growth",
+                "operator": "<",
+                "threshold": 0.15,
+                "actual_value": 0.2848,
+                "violated_this_quarter": false,
+                "breach_streak": 0,
+                "consecutive_quarters_required": 2,
+                "breached": false,
+                "severity": "RED"
+              },
+              {
+                "id": "FL-2",
+                "description": "连续 2 季度毛利率跌破 52%",
+                "metric": "gross_margin",
+                "operator": "<",
+                "threshold": 0.52,
+                "actual_value": 0.586,
+                "violated_this_quarter": false,
+                "breach_streak": 0,
+                "consecutive_quarters_required": 2,
+                "breached": false,
+                "severity": "RED"
+              },
+              {
+                "id": "FL-3",
+                "description": "任意 1 季度年化股本稀释率超过 5%",
+                "metric": "annual_share_dilution",
+                "operator": ">",
+                "threshold": 0.05,
+                "actual_value": 0.017,
+                "violated_this_quarter": false,
+                "breach_streak": 0,
+                "consecutive_quarters_required": 1,
+                "breached": false,
+                "severity": "RED"
+              }
+            ],
+            "yellow_warnings": []
+          }
+        ]
+      }
+    }
+  ],
   "rejected_log": [
     {
       "ticker": "NET",
@@ -3124,6 +3296,10 @@
     ]
   },
   "reports": [
+    {
+      "filename": "20261125_210641_earnings_diff.md",
+      "content": "# [GREEN] Quarterly Earnings Diff (1 holding(s))\n\n- **TMDX** [GREEN] (10-Q 2026-09-30 / `0001193125-26-449827`): GREEN: All 3 falsification line(s) intact on 10-Q (2026-09-30).\n"
+    },
     {
       "filename": "20261124_144308_post_mortem.md",
       "content": "# [INFO] Semi-Annual Post-Mortem (2026-11-24)\n\n- **复盘日期**：`2026-11-24`\n- **淘汰样本总数**：`12`（满 180 天：`0`，未满期：`12`）\n- **潜在误杀率（相对 SPY 超额 >= +30%）**：`0.0%`\n\n## 按淘汰规则归因\n| 规则键 | 样本数 | 误杀数 | 误杀率 | 平均超额 (vs SPY) | 状态 |\n|---|---:|---:|---:|---:|---|\n| `tracks.failed_both` | 9 | 0 | 0.0% | -0.5% | 保持严控 |\n| `common_floor.max_annual_share_dilution` | 5 | 0 | 0.0% | -1.0% | 保持严控 |\n| `market_cap_above_max_near_miss` | 3 | 0 | 0.0% | +1.4% | 保持严控 |\n| `common_floor.max_goodwill_to_total_assets` | 1 | 0 | 0.0% | +1.6% | 保持严控 |\n| `excluded_sector:Utilities` | 1 | 0 | 0.0% | -4.2% | 保持严控 |\n| `missing_gross_margin` | 1 | 0 | 0.0% | -4.2% | 保持严控 |\n| `missing_ttm_revenue` | 1 | 0 | 0.0% | -4.2% | 保持严控 |\n| `common_floor.min_cash_runway_months` | 1 | 0 | 0.0% | -4.0% | 保持严控 |\n| `common_floor.min_gross_margin` | 1 | 0 | 0.0% | -4.0% | 保持严控 |\n\n## 休眠行业 (DORMANT) 股价异动复查\n- **industrial_smr_nuclear**（微型模块化核电 (SMR) 与先进核能）：180 天均值超额 `-66.1%` — 正常休眠 \n\n## `config/rules.yaml` 调参提案（严禁自动修改，须人类审批）\n- 当前无触发校准红线的规则，保持现有 `config/rules.yaml` 参数不变。\n"

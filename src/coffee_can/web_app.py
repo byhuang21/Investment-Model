@@ -34,6 +34,13 @@ class FalsificationLineInput(BaseModel):
 
 
 class HumanReviewPayload(BaseModel):
+    valuation_horizon: str = "1-2y_forward"
+    forward_1_2y_valuation_note: str = ""
+    long_term_runway_intact: bool = True
+    current_price_usd: float | None = None
+    current_market_cap_usd_m: float | None = None
+    forward_pe: float | None = None
+    ev_to_sales: float | None = None
     conservative_10y_target_market_cap_usd_m: float | None = None
     implied_upside_multiple: float | None = None
     assumptions_summary: str = ""
@@ -93,6 +100,18 @@ def create_app(
         sc = read_yaml(sc_path)
 
         odds = dict(sc.get("odds_check") or {})
+        odds["valuation_horizon"] = payload.valuation_horizon
+        odds["long_term_runway_intact"] = payload.long_term_runway_intact
+        if payload.forward_1_2y_valuation_note:
+            odds["forward_1_2y_valuation_note"] = payload.forward_1_2y_valuation_note.strip()
+        if payload.current_price_usd is not None:
+            odds["current_price_usd"] = round(payload.current_price_usd, 2)
+        if payload.current_market_cap_usd_m is not None:
+            odds["current_market_cap_usd_m"] = round(payload.current_market_cap_usd_m, 2)
+        if payload.forward_pe is not None:
+            odds["forward_pe"] = round(payload.forward_pe, 2)
+        if payload.ev_to_sales is not None:
+            odds["ev_to_sales"] = round(payload.ev_to_sales, 2)
         if payload.conservative_10y_target_market_cap_usd_m is not None:
             odds["conservative_10y_target_market_cap_usd_m"] = round(
                 payload.conservative_10y_target_market_cap_usd_m, 2
@@ -149,8 +168,10 @@ def create_app(
             raise HTTPException(status_code=404, detail=f"Research dossier not found for {sym}")
 
         rules = load_rules(repo_root)
-        min_upside = float(rules["layer3_deep_dive"]["min_target_upside_multiple"])
-        min_fl = int(rules["layer3_deep_dive"].get("required_falsification_lines_min", 1))
+        l3_rules = rules["layer3_deep_dive"]
+        min_upside = float(l3_rules["min_target_upside_multiple"])
+        require_10y_veto = bool(l3_rules.get("require_10y_exact_multiple_veto", False))
+        min_fl = int(l3_rules.get("required_falsification_lines_min", 1))
         sc = read_yaml(sc_path)
 
         mgmt = sc.get("dimensions", {}).get("5_management", {})
@@ -165,11 +186,25 @@ def create_app(
 
         odds = sc.get("odds_check") or {}
         upside = odds.get("implied_upside_multiple")
-        if upside is None or float(upside) < min_upside:
-            raise HTTPException(
-                status_code=400,
-                detail=f"10x Odds Veto: implied_upside_multiple must be >= {min_upside:g}x.",
-            )
+        fwd_note = str(odds.get("forward_1_2y_valuation_note") or "").strip()
+        runway_intact = odds.get("long_term_runway_intact", True)
+        if require_10y_veto:
+            if upside is None or float(upside) < min_upside:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"10x Odds Veto: implied_upside_multiple must be >= {min_upside:g}x.",
+                )
+        else:
+            has_legacy_10x = upside is not None and float(upside) >= min_upside
+            has_forward_check = bool(fwd_note) and runway_intact is not False
+            if not (has_forward_check or has_legacy_10x):
+                raise HTTPException(
+                    status_code=400,
+                    detail=(
+                        "Valuation Gate: provide a 1-2Y forward valuation assessment "
+                        "(with long_term_runway_intact=true) before promotion."
+                    ),
+                )
 
         decision = sc.get("decision") or {}
         falsification_lines = list(decision.get("falsification_lines") or [])
@@ -188,19 +223,25 @@ def create_app(
 
         today_str = datetime.now(UTC).date().isoformat()
         pos_path = paths.coffee_can_dir / f"{sym}.yaml"
+        entry_blk: dict[str, Any] = {
+            "entered_at": today_str,
+            "entry_price_usd": odds.get("current_price_usd"),
+            "entry_market_cap_usd_m": odds.get("current_market_cap_usd_m"),
+            "valuation_basis": odds.get("valuation_horizon", "1-2y_forward"),
+            "forward_pe_at_entry": odds.get("forward_pe"),
+            "ev_to_sales_at_entry": odds.get("ev_to_sales"),
+            "forward_1_2y_valuation_note": fwd_note,
+            "long_term_runway_intact": bool(runway_intact),
+            "target_upside_multiple": float(upside) if upside is not None else None,
+            "management_human_score": int(human_score),
+        }
         position = {
             "ticker": sym,
             "company_name": sc.get("company_name", sym),
             "cik": sc.get("cik"),
             "industry_slug": sc.get("industry_slug"),
             "status": "IN_CAN",
-            "entry": {
-                "entered_at": today_str,
-                "entry_price_usd": None,
-                "entry_market_cap_usd_m": odds.get("current_market_cap_usd_m"),
-                "target_upside_multiple": float(upside),
-                "management_human_score": int(human_score),
-            },
+            "entry": entry_blk,
             "three_sentence_memo": memo,
             "falsification_lines": falsification_lines,
             "earnings_check_history": {

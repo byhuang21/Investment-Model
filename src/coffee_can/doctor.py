@@ -139,15 +139,34 @@ def run_doctor(root: Path) -> DoctorReport:
                     "AGENT_RULES violation: missing entry.management_human_score",
                 )
             )
+        require_10y_veto = bool(
+            rules["layer3_deep_dive"].get("require_10y_exact_multiple_veto", False)
+        )
         upside = entry_blk.get("target_upside_multiple")
-        if upside is None or float(upside) < min_upside:
-            report.findings.append(
-                DoctorFinding(
-                    "ERROR",
-                    f"coffee_can/{path.name}",
-                    f"10x Odds violation: target_upside_multiple ({upside}) < {min_upside:g}x",
+        fwd_note = str(entry_blk.get("forward_1_2y_valuation_note") or "").strip()
+        runway_intact = entry_blk.get("long_term_runway_intact", True)
+        if require_10y_veto:
+            if upside is None or float(upside) < min_upside:
+                report.findings.append(
+                    DoctorFinding(
+                        "ERROR",
+                        f"coffee_can/{path.name}",
+                        f"10x Odds violation: target_upside_multiple ({upside}) < {min_upside:g}x",
+                    )
                 )
-            )
+        else:
+            has_legacy_10x = upside is not None and float(upside) >= min_upside
+            has_forward_check = bool(fwd_note) and runway_intact is not False
+            if not (has_forward_check or has_legacy_10x):
+                report.findings.append(
+                    DoctorFinding(
+                        "ERROR",
+                        f"coffee_can/{path.name}",
+                        "Valuation gate violation: provide forward_1_2y_valuation_note "
+                        "(with long_term_runway_intact=true) or target_upside_multiple >= "
+                        f"{min_upside:g}x",
+                    )
+                )
         lines = list(pos.get("falsification_lines") or [])
         if not lines:
             report.findings.append(

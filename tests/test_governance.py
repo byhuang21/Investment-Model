@@ -75,5 +75,5 @@ def test_doctor_passes_on_real_repo_and_catches_agent_rules_violation(tmp_path: 
     assert bad_report.ok is False
     msgs = " ".join(f.message for f in bad_report.errors)
     assert "management_human_score" in msgs
-    assert "10x Odds violation" in msgs
+    assert "Valuation gate violation" in msgs
     assert "falsification_lines" in msgs

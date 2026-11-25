@@ -40,3 +40,17 @@
 ## ADR-005：四层隔离治理体系（Sandbox + Quarantine + CI + Doctor）
 - **日期**：2026-11-24
 - **决定**：引入 `sandbox/`（`.gitignore` 隔离的本地实验区 + `sandbox_tool.py`）、`memory/quarantine/`（异常数据/调参提案/未验证信号暂存区）、`.github/workflows/ci.yml` 与 `scripts/doctor.py`（自动校验 Schema 与 `AGENT_RULES` 永久红线）。
+
+---
+
+## ADR-006：第一层三通道主动盲扫发现引擎
+- **日期**：2026-11-25
+- **决定**：在 `scripts/1_topic_radar.py --discover` 中加入三通道主动发现引擎（USASpending 全门类 6 位 NAICS 同比暴增盲扫 + SEC EDGAR 近 180 天 S-1 IPO 剔除 SPAC 后按 4 位 SIC 聚类 + 跨行业新兴商业赛道探测网），发现结果统一落盘至 `memory/quarantine/signals/discovered_themes.yaml`，经人类在工作台确认后再晋升至 `memory/industries/`。
+
+---
+
+## ADR-007：`rules.yaml v0.3.0` 第三层估值门控升级为「1–2 年前瞻估值 + 长期空间不设限」
+- **日期**：2026-11-25
+- **背景**：在首只正式入罐标的 `TMDX` 的人类决策复核中，用户指出 10 年后的精确市值无法可靠预测，强行填写“10 年目标市值 `>= 10x`”容易演变为虚假的精确；实战中真正具备可见度的是 1–2 年的前瞻估值与成长匹配度，以及长期天花板是否尚未封死。
+- **决定（经人类明确批准）**：将 `config/rules.yaml` 升级至 `v0.3.0`，设置 `layer3_deep_dive.valuation_gate_mode: "forward_1_2y"` 与 `require_10y_exact_multiple_veto: false`。入罐时强制记录 **掌舵人主观评分 + 1–2 年前瞻估值评估 + 长期空间未封死确认 + 三句话备忘录 + 可机读证伪红线**；原 10x 赔率沙盒保留为可选参考推演工具。
+

@@ -1,0 +1,109 @@
+ticker: TMDX
+company_name: TransMedics Group, Inc.
+cik: '0001756262'
+industry_slug: initial_calibration_cohort
+status: IN_CAN
+entry:
+  entered_at: '2026-11-25'
+  entry_price_usd: 94.52
+  entry_market_cap_usd_m: 3283.05
+  valuation_basis: 1-2y_forward
+  forward_pe_at_entry: 38.04
+  ev_to_sales_at_entry: 4.97
+  forward_1_2y_valuation_note: 入罐时股价 $94.52、市值 $3,283M（EV/S 5.0x、Trailing P/E 25.8x、Forward
+    P/E 38.0x），最新季度营收同比 +41.1% 且 FY25 FCF 已转正；仅锚定 1–2 年前瞻估值与成长匹配度，不强行预测 10 年精确市值，确认全球器官灌注与自营航空物流天花板远未封死。
+  long_term_runway_intact: true
+  target_upside_multiple: null
+  management_human_score: 8
+three_sentence_memo:
+- 用常温器官灌注（OCS）+ 自营航空物流网络（NOP）取代 50 年未变的冷存储冰盒，显著提升供体器官利用率与移植量。
+- 硬件+一次性高频耗材+端到端物流形成高转换成本双边网络，已跨过盈利拐点并释放经营杠杆。
+- 当前约 $32.8 亿市值、EV/S 约 5x，向心/肺/肝国际扩张与新器官管线打开长期复利空间。
+falsification_lines:
+- id: FL-1
+  description: 连续 2 季度营收同比增速跌破 15%
+  metric: revenue_yoy_growth
+  operator: <
+  threshold: 0.15
+  consecutive_quarters: 2
+  breach_streak: 0
+  severity: RED
+- id: FL-2
+  description: 连续 2 季度毛利率跌破 52%
+  metric: gross_margin
+  operator: <
+  threshold: 0.52
+  consecutive_quarters: 2
+  breach_streak: 0
+  severity: RED
+- id: FL-3
+  description: 任意 1 季度年化股本稀释率超过 5%
+  metric: annual_share_dilution
+  operator: '>'
+  threshold: 0.05
+  consecutive_quarters: 1
+  breach_streak: 0
+  severity: RED
+earnings_check_history:
+  last_checked_accession: 0001193125-26-449827
+  last_checked_period_end: '2026-09-30'
+  last_traffic_light: GREEN
+  checks:
+  - checked_at: '2026-11-25'
+    filing_form: 10-Q
+    filing_accession: 0001193125-26-449827
+    period_end: '2026-09-30'
+    traffic_light: GREEN
+    summary: 'GREEN: All 3 falsification line(s) intact on 10-Q (2026-09-30).'
+    metrics_snapshot:
+      ttm_revenue_usd_m: 727.65
+      revenue_yoy_growth: 0.2848
+      gross_margin: 0.586
+      gross_margin_yoy_change: -0.0168
+      ocf_usd_m: 112.36
+      fcf_usd_m: 44.7
+      cash_and_st_inv_usd_m: 511.4
+      total_debt_usd_m: 54.82
+      cash_runway_months: null
+      short_term_debt_to_cash: 0.1072
+      goodwill_to_total_assets: 0.0119
+      annual_share_dilution: 0.017
+      latest_period_end: '2026-09-30'
+      filing_accession: 0001193125-26-449827
+      ocf_margin: 0.1544
+      fcf_margin: 0.0614
+    line_results:
+    - id: FL-1
+      description: 连续 2 季度营收同比增速跌破 15%
+      metric: revenue_yoy_growth
+      operator: <
+      threshold: 0.15
+      actual_value: 0.2848
+      violated_this_quarter: false
+      breach_streak: 0
+      consecutive_quarters_required: 2
+      breached: false
+      severity: RED
+    - id: FL-2
+      description: 连续 2 季度毛利率跌破 52%
+      metric: gross_margin
+      operator: <
+      threshold: 0.52
+      actual_value: 0.586
+      violated_this_quarter: false
+      breach_streak: 0
+      consecutive_quarters_required: 2
+      breached: false
+      severity: RED
+    - id: FL-3
+      description: 任意 1 季度年化股本稀释率超过 5%
+      metric: annual_share_dilution
+      operator: '>'
+      threshold: 0.05
+      actual_value: 0.017
+      violated_this_quarter: false
+      breach_streak: 0
+      consecutive_quarters_required: 1
+      breached: false
+      severity: RED
+    yellow_warnings: []
