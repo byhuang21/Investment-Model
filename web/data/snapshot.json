@@ -1,6 +1,6 @@
 {
   "env": "prod",
-  "generated_at": "2026-11-25T04:19:00.907402+00:00",
+  "generated_at": "2026-11-25T04:23:08.418964+00:00",
   "rules_version": "0.2.0",
   "rules": {
     "version": "0.2.0",
@@ -173,7 +173,8 @@
         "AIRJ",
         "CHRN",
         "CORZ",
-        "APLD"
+        "APLD",
+        "ECL"
       ],
       "history": [
         {
@@ -311,7 +312,8 @@
         "BHAI",
         "LASE",
         "AMPX",
-        "FAC"
+        "FAC",
+        "HLSQ"
       ],
       "history": [
         {
@@ -435,7 +437,8 @@
         "LEU",
         "LIS",
         "MESH",
-        "MRCO"
+        "MRCO",
+        "NSAI"
       ],
       "history": [
         {
@@ -770,13 +773,13 @@
         "BIVI",
         "RGBP",
         "APVO",
+        "BRBM",
         "SBFM",
         "RZRA",
         "GOVX",
         "NUOX",
         "IMNN",
-        "RGNA",
-        "TRAX"
+        "RGNA"
       ],
       "profit_pool_description": "一级市场资本密集涌入的 SIC 2834（Pharmaceutical Preparations）细分行业集群",
       "demand_innovation_hypothesis": "180 天内出现 15 家独立公司集中 IPO，往往映射细分赛道商业化拐点"
@@ -844,6 +847,7 @@
       ],
       "discovered_tickers": [
         "BKYI",
+        "ZENO",
         "GLOH",
         "ANT",
         "NSCL",

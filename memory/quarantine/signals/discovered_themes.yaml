@@ -179,13 +179,13 @@ signals:
   - BIVI
   - RGBP
   - APVO
+  - BRBM
   - SBFM
   - RZRA
   - GOVX
   - NUOX
   - IMNN
   - RGNA
-  - TRAX
   profit_pool_description: 一级市场资本密集涌入的 SIC 2834（Pharmaceutical Preparations）细分行业集群
   demand_innovation_hypothesis: 180 天内出现 15 家独立公司集中 IPO，往往映射细分赛道商业化拐点
 - slug: sic_2836
@@ -244,6 +244,7 @@ signals:
   - '7372'
   discovered_tickers:
   - BKYI
+  - ZENO
   - GLOH
   - ANT
   - NSCL

@@ -49,6 +49,7 @@ candidate_tickers:
 - LASE
 - AMPX
 - FAC
+- HLSQ
 history:
 - date: '2026-10-01'
   event: SEEDED
