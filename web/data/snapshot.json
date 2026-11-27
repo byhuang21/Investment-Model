@@ -1,6 +1,6 @@
 {
   "env": "prod",
-  "generated_at": "2026-11-26T04:02:38.746421+00:00",
+  "generated_at": "2026-11-27T04:00:03.336427+00:00",
   "rules_version": "0.3.0",
   "rules": {
     "version": "0.3.0",
@@ -2677,7 +2677,7 @@
       "monitor_state": {
         "status": "WATCHING",
         "consecutive_days_below_target": 0,
-        "last_checked_at": "2026-11-26",
+        "last_checked_at": "2026-11-27",
         "last_market_cap_usd_m": 27935.49,
         "last_price_usd": 343.05,
         "last_alert_at": null,
@@ -2711,7 +2711,7 @@
       "monitor_state": {
         "status": "WATCHING",
         "consecutive_days_below_target": 0,
-        "last_checked_at": "2026-11-26",
+        "last_checked_at": "2026-11-27",
         "last_market_cap_usd_m": 19585.51,
         "last_price_usd": 33.71,
         "last_alert_at": null,
