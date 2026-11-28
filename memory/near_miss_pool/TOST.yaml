@@ -14,9 +14,9 @@ targets:
 monitor_state:
   status: WATCHING
   consecutive_days_below_target: 0
-  last_checked_at: '2026-11-27'
-  last_market_cap_usd_m: 19585.51
-  last_price_usd: 33.71
+  last_checked_at: '2026-11-28'
+  last_market_cap_usd_m: 20143.27
+  last_price_usd: 34.67
   last_alert_at: null
   last_alert_market_cap_usd_m: null
 fundamentals_snapshot:
